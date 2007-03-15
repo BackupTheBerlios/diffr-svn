@@ -27,8 +27,7 @@ public class Init {
 			}
 		});
 		cont.setLayout(new BorderLayout());
-		TaskView taskView = new TaskView();
-		taskView.setTask(taskType.newTask());
+		TaskView taskView = new TaskView(taskType.newTask());
 		cont.add(taskView);
 		frame.setSize(500, 500);
 		frame.setVisible(true);

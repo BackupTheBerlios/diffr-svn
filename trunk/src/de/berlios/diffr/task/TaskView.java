@@ -12,14 +12,21 @@ import javax.swing.*;
 public class TaskView extends View {
 	
 	private Task task = null;
-	private SmallInputDataView smallInputDataView = new SmallInputDataView();
-	private InputDataView inputDataView = new InputDataView();
+	private SmallInputDataView smallInputDataView;
+	private InputDataView inputDataView;
 	private ResultView resultView = new ResultView();
 	private JLabel stateLabel = new JLabel("State:");
 	private JLabel state = new JLabel();
 	private JTabbedPane tabbedPane = new JTabbedPane();
 	
-	public TaskView() {
+	public TaskView(Task task) {
+		this.task = task;
+		task.addModelChangingListener(changingListener);
+		smallInputDataView = new SmallInputDataView(task.getInputData());
+		inputDataView = new InputDataView (task.getInputData());
+		resultView.setResult(task.getResult());
+		renewState();
+		
 		JPanel statePanel = new JPanel();
 		statePanel.setLayout(new BorderLayout());
 		statePanel.add(state, BorderLayout.SOUTH);
@@ -32,7 +39,6 @@ public class TaskView extends View {
 		this.add(statePanel, BorderLayout.SOUTH);
 		this.add(smallInputDataView, BorderLayout.NORTH);
 		this.add(tabbedPane, BorderLayout.CENTER);
-		renewState();
 	}
 	
 	private ModelChangingListener changingListener = new ModelChangingListener() {
@@ -40,20 +46,6 @@ public class TaskView extends View {
 			
 		}
 	};
-	public void setTask(Task newTask) {
-		if (task != null) {
-			task.removeModelChangingListener(changingListener);
-			try {
-				task.stop();
-			} catch (TaskIsnotSolvingException e) {}
-		}
-		task = newTask;
-		task.addModelChangingListener(changingListener);
-		smallInputDataView.setInputData(task.getInputData());
-		inputDataView.setInputData(task.getInputData());
-		resultView.setResult(task.getResult());
-		renewState();
-	}
 	private void renewState() {
 		if (task != null) {
 			switch (task.getState()) {

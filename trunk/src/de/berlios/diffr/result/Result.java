@@ -1,6 +1,8 @@
 package de.berlios.diffr.result;
 
-public class Result {
+import de.berlios.diffr.*;
+
+public class Result extends Model {
 	private ReflectedField reflectedField;
 	public Result(ReflectedField field) {
 		this.reflectedField = field;

@@ -1,13 +1,39 @@
 package de.berlios.diffr.inputData;
 
 import java.awt.*;
+
+import de.berlios.diffr.ViewFactory;
 import de.berlios.diffr.View;
+import de.berlios.diffr.inputData.InputDataPartView;
+import de.berlios.diffr.exceptions.WrongTypeException;
 
 public class SmallInputDataView extends View {
-	public SmallInputDataView() {
-		this.setMinimumSize(new Dimension(100, 100));
-		this.setSize(new Dimension(100, 100));
-		this.setBackground(new Color(255, 230, 230));
+	private InputDataPartView surfaceView;
+	private InputDataPartView impingingFieldView;
+	public SmallInputDataView(InputData inputData) {
+		ViewFactory viewFactory = new ViewFactory();
+		surfaceView = null;
+		try {
+			surfaceView = (InputDataPartView)viewFactory.makeView(inputData.getSurface());
+		} catch (WrongTypeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		impingingFieldView = null;
+		try {
+			impingingFieldView = (InputDataPartView)viewFactory.makeView(inputData.getImpingingField());
+		} catch (WrongTypeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
-	public void setInputData(InputData newInputData) {}
+	public void paintComponent(Graphics g) {
+		g.setColor(new Color(0, 0, 0));
+		int width = g.getClipBounds().width;
+		int height = g.getClipBounds().height;
+		g.fillRect(0, 0, width, height);
+		surfaceView.drawImage(g);
+		impingingFieldView.drawImage(g);
+	}
 }
