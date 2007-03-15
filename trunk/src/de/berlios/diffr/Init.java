@@ -4,6 +4,9 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import de.berlios.diffr.task.*;
+import de.berlios.diffr.inputData.inputDataForVerySimpleTask.*;
+import de.berlios.diffr.inputData.*;
+import de.berlios.diffr.algorithms.*;
 
 public class Init {
 	public static void main(String[] args) {
@@ -14,6 +17,10 @@ public class Init {
 	private Container cont = frame.getContentPane(); 
 	
 	public Init() {
+		
+		InputData inputData = new InputData(new PlaneMirrowSurface(), new VerySimpleWave());
+		TaskType taskType = new TaskType("Very simple task", inputData, new AlgorithmForVerySimpleTask());
+		
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				System.exit(0);
@@ -21,7 +28,7 @@ public class Init {
 		});
 		cont.setLayout(new BorderLayout());
 		TaskView taskView = new TaskView();
-		//taskView.setTask(new Task(new InputData()));
+		taskView.setTask(taskType.newTask());
 		cont.add(taskView);
 		frame.setSize(500, 500);
 		frame.setVisible(true);

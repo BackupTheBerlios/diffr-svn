@@ -32,6 +32,7 @@ public class TaskView extends View {
 		this.add(statePanel, BorderLayout.SOUTH);
 		this.add(smallInputDataView, BorderLayout.NORTH);
 		this.add(tabbedPane, BorderLayout.CENTER);
+		renewState();
 	}
 	
 	private ModelChangingListener changingListener = new ModelChangingListener() {
@@ -51,19 +52,23 @@ public class TaskView extends View {
 		smallInputDataView.setInputData(task.getInputData());
 		inputDataView.setInputData(task.getInputData());
 		resultView.setResult(task.getResult());
+		renewState();
 	}
 	private void renewState() {
-		switch (task.getState()) {
-			case Task.errorInAlgorithmState: state.setText("Error");
-			break;
-			case Task.resultIsCalculateState: state.setText("Result is calculate");
-			break;
-			case Task.resultIsnotCalculateState: state.setText("Result isn`t calculate");
-			break;
-			case Task.taskIsSolvingState: state.setText("Task is solving");
-			break;
-			case Task.taskStoppedState: state.setText("TaskStopped");
-			break;
-		}
+		if (task != null) {
+			switch (task.getState()) {
+				case Task.errorInAlgorithmState: state.setText("Error");
+				break;
+				case Task.resultIsCalculateState: state.setText("Result is calculate");
+				break;
+				case Task.resultIsnotCalculateState: state.setText("Result isn`t calculate");
+				break;
+				case Task.taskIsSolvingState: state.setText("Task is solving");
+				break;
+				case Task.taskStoppedState: state.setText("TaskStopped");
+				break;
+			}
+		} else
+			state.setText("Task isn`t choosed");
 	}
 }
