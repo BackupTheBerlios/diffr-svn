@@ -5,6 +5,7 @@ import de.berlios.diffr.task.*;
 import de.berlios.diffr.inputData.*;
 import de.berlios.diffr.inputData.inputDataForVerySimpleTask.*;
 import de.berlios.diffr.result.*;
+import de.berlios.diffr.result.resultForVerySimpleTask.*;
 
 public class ViewFactory {
 	public View makeView(Model model) throws WrongTypeException {
@@ -24,6 +25,9 @@ public class ViewFactory {
 		}
 		if (model.getClass() == VerySimpleWave.class) {
 			return new VerySimpleWaveView( (VerySimpleWave) model);
+		}
+		if (model.getClass() == ReflectedWave.class) {
+			return new ReflectedWaveView( (ReflectedWave) model);
 		}
 		throw new WrongTypeException();
 	}

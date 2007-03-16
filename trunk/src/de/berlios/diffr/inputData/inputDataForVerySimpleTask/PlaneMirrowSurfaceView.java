@@ -16,6 +16,6 @@ public class PlaneMirrowSurfaceView extends InputDataPartView {
 		int width = g.getClipBounds().width;
 		int height = g.getClipBounds().height;
 		g.setColor(new Color(0, 0, 255));
-		g.drawLine(0, height - 50, width, height - 50);
+		g.drawLine(0, height * 3 / 4, width, height * 3 / 4);
 	}
 }

@@ -54,15 +54,18 @@ public class Task extends Model {
 				} catch (ErrorInAlgorithmException e) {
 					state = errorInAlgorithmState;
 				}
+				taskIsSolving = false;
 				modelWasChangedEvent();
 			}
 		};
 		state = taskIsSolvingState;
 		solveThread.start();
+		modelWasChangedEvent();
 	}
 	public synchronized void stop() throws TaskIsnotSolvingException {
 		if (!taskIsSolving) throw new TaskIsnotSolvingException();
 		solveThread.stop();
+		taskIsSolving = false;
 		state = taskStoppedState;
 		modelWasChangedEvent();
 	}

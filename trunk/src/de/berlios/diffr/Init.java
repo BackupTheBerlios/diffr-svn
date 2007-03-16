@@ -14,7 +14,8 @@ public class Init {
 	}
 	
 	private JFrame frame = new JFrame("Diffr");
-	private Container cont = frame.getContentPane(); 
+	private Container cont = frame.getContentPane();
+	private JMenuBar menuBar = new JMenuBar();
 	
 	public Init() {
 		
@@ -29,6 +30,8 @@ public class Init {
 		cont.setLayout(new BorderLayout());
 		TaskView taskView = new TaskView(taskType.newTask());
 		cont.add(taskView);
+		menuBar.add(taskView.getTaskMenu());
+		frame.setJMenuBar(menuBar);
 		frame.setSize(500, 500);
 		frame.setVisible(true);
 	}

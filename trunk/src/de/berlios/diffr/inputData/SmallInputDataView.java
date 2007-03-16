@@ -1,9 +1,7 @@
 package de.berlios.diffr.inputData;
 
 import java.awt.*;
-
-import de.berlios.diffr.ViewFactory;
-import de.berlios.diffr.View;
+import de.berlios.diffr.*;
 import de.berlios.diffr.inputData.InputDataPartView;
 import de.berlios.diffr.exceptions.WrongTypeException;
 
@@ -26,7 +24,16 @@ public class SmallInputDataView extends View {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		inputData.getSurface().addModelChangingListener(new ModelChangingListener() {
+			public void modelWasChanged(Model m) {
+				repaint();
+			}
+		});
+		inputData.getImpingingField().addModelChangingListener(new ModelChangingListener() {
+			public void modelWasChanged(Model m) {
+				repaint();
+			}
+		});
 	}
 	public void paintComponent(Graphics g) {
 		g.setColor(new Color(0, 0, 0));
