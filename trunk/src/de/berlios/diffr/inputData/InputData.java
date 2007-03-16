@@ -25,4 +25,9 @@ public class InputData extends Model {
 	public ImpingingField getImpingingField() {
 		return impingingField;
 	}
+	public void setEditable(boolean b) {
+		super.setEditable(b);
+		surface.setEditable(b);
+		impingingField.setEditable(b);
+	}
 }

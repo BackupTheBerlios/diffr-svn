@@ -10,6 +10,7 @@ public class Task extends Model {
 	private InputData inputData;
 	private Result result = null;
 	private Algorithm algorithm;
+	private TaskType taskType;
 	
 	private boolean taskIsSolving = false;
 	private Thread solveThread = null;
@@ -21,7 +22,8 @@ public class Task extends Model {
 	public static final int errorInAlgorithmState = 3;
 	public static final int resultIsCalculateState = 4;
 	
-	public Task(InputData initialInputData, Algorithm initialAlgorithm) {
+	public Task(TaskType taskType, InputData initialInputData, Algorithm initialAlgorithm) {
+		this.taskType = taskType;
 		ModelChangingListener changingListener = new ModelChangingListener() {
 			public void modelWasChanged(Model model) {
 				nullResult();
@@ -30,6 +32,10 @@ public class Task extends Model {
 		inputData = initialInputData;
 		algorithm = initialAlgorithm;
 		inputData.addModelChangingListener(changingListener);
+	}
+	
+	public TaskType getTaskType() {
+		return taskType;
 	}
 	
 	public InputData getInputData() {
@@ -43,7 +49,7 @@ public class Task extends Model {
 		return state;
 	}
 	
-	public synchronized void start() throws TaskIsSolvingException {
+	public void start() throws TaskIsSolvingException {
 		if (taskIsSolving) throw new TaskIsSolvingException();
 		solveThread = new Thread() {
 			public void run() {
@@ -55,22 +61,25 @@ public class Task extends Model {
 					state = errorInAlgorithmState;
 				}
 				taskIsSolving = false;
+				inputData.setEditable(true);
 				modelWasChangedEvent();
 			}
 		};
 		state = taskIsSolvingState;
+		inputData.setEditable(false);
 		solveThread.start();
 		modelWasChangedEvent();
 	}
-	public synchronized void stop() throws TaskIsnotSolvingException {
+	public void stop() throws TaskIsnotSolvingException {
 		if (!taskIsSolving) throw new TaskIsnotSolvingException();
 		solveThread.stop();
 		taskIsSolving = false;
+		inputData.setEditable(true);
 		state = taskStoppedState;
 		modelWasChangedEvent();
 	}
 	
-	public synchronized void setAlgorithm(Algorithm algorithm) throws TaskIsSolvingException {
+	public void setAlgorithm(Algorithm algorithm) throws TaskIsSolvingException {
 		if (taskIsSolving) throw new TaskIsSolvingException();
 		this.algorithm = algorithm;
 		nullResult();

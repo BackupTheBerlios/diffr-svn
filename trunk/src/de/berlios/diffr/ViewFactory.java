@@ -5,6 +5,7 @@ import de.berlios.diffr.task.*;
 import de.berlios.diffr.inputData.*;
 import de.berlios.diffr.inputData.inputDataForVerySimpleTask.*;
 import de.berlios.diffr.result.*;
+import de.berlios.diffr.algorithms.*;
 import de.berlios.diffr.result.resultForVerySimpleTask.*;
 
 public class ViewFactory {
@@ -28,6 +29,9 @@ public class ViewFactory {
 		}
 		if (model.getClass() == ReflectedWave.class) {
 			return new ReflectedWaveView( (ReflectedWave) model);
+		}
+		if (model.getClass() == AlgorithmParameter.class) {
+			return new AlgorithmParameterView( (AlgorithmParameter) model);
 		}
 		throw new WrongTypeException();
 	}

@@ -6,6 +6,7 @@ import de.berlios.diffr.*;
 import de.berlios.diffr.inputData.*;
 import de.berlios.diffr.result.*;
 import de.berlios.diffr.exceptions.*;
+import de.berlios.diffr.algorithms.*;
 
 import javax.swing.*;
 
@@ -14,16 +15,32 @@ public class TaskView extends View {
 	private Task task = null;
 	private SmallInputDataView smallInputDataView;
 	private InputDataView inputDataView;
+	private AlgorithmChooser algorithmChooser;
 	private ResultView resultView = new ResultView();
 	private JLabel stateLabel = new JLabel("State:");
 	private JLabel state = new JLabel();
 	private JTabbedPane tabbedPane = new JTabbedPane();
+	
+	private void tryChangeAlgorithm(Algorithm algorithm) {
+		try {
+			task.setAlgorithm(algorithm);
+			algorithmChooser.setAlgorithm(algorithm);
+		} catch (TaskIsSolvingException e) {
+			JOptionPane.showMessageDialog(this, "You can`t change algorithm while task running");
+		}
+	}
 	
 	public TaskView(Task task) {
 		this.task = task;
 		task.addModelChangingListener(changingListener);
 		smallInputDataView = new SmallInputDataView(task.getInputData());
 		inputDataView = new InputDataView (task.getInputData());
+		algorithmChooser = new AlgorithmChooser(task.getTaskType());
+		algorithmChooser.addAlgorithmChooserListener(new AlgorithmChooserListener() {
+			public void newAlgorithmWasChoosed(Algorithm algorithm) {
+				tryChangeAlgorithm(algorithm);
+			}
+		});
 		resultView.setResult(task.getResult());
 		renewState();
 		
@@ -34,6 +51,7 @@ public class TaskView extends View {
 		
 		tabbedPane.add("Input data", inputDataView);
 		tabbedPane.add("Result", resultView);
+		tabbedPane.add("Algorithm", algorithmChooser);
 		
 		this.setLayout(new BorderLayout());
 		this.add(statePanel, BorderLayout.SOUTH);
@@ -120,7 +138,7 @@ public class TaskView extends View {
 			break;
 			case Task.resultIsnotCalculateState: state.setText("Result isn`t calculate");
 			break;
-			case Task.taskIsSolvingState: state.setText("Task is solving");
+			case Task.taskIsSolvingState: state.setText("Task is solving...");
 			break;
 			case Task.taskStoppedState: state.setText("Task stopped");
 			break;

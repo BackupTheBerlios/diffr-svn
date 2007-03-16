@@ -7,6 +7,8 @@ import de.berlios.diffr.task.*;
 import de.berlios.diffr.inputData.inputDataForVerySimpleTask.*;
 import de.berlios.diffr.inputData.*;
 import de.berlios.diffr.algorithms.*;
+import de.berlios.diffr.algorithms.addedAlgorithms.AlgorithmForVerySimpleTask;
+import de.berlios.diffr.algorithms.addedAlgorithms.AlgorithmForVerySimpleTask2;
 
 public class Init {
 	public static void main(String[] args) {
@@ -20,7 +22,13 @@ public class Init {
 	public Init() {
 		
 		InputData inputData = new InputData(new PlaneMirrowSurface(), new VerySimpleWave());
-		TaskType taskType = new TaskType("Very simple task", inputData, new AlgorithmForVerySimpleTask());
+		AlgorithmType algorithmType =
+			new AlgorithmType("Algorithm for very simple task",
+					"petr_mikheev", "1.0", AlgorithmForVerySimpleTask.class);
+		Algorithm algorithm = new AlgorithmForVerySimpleTask(algorithmType);
+		TaskType taskType = new TaskType("Very simple task", inputData, algorithm);
+		taskType.addAlgorithmType(new AlgorithmType("Algorithm for very simple task",
+					"petr_mikheev", "2.0", AlgorithmForVerySimpleTask2.class));
 		
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
