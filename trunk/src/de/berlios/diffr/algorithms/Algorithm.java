@@ -19,5 +19,12 @@ public abstract class Algorithm extends Model {
 		return algorithmType;
 	}
 	
+	public void setEditable(boolean b) {
+		super.setEditable(b);
+		for (int n = 0; n < parameters.length; n++) {
+			parameters[n].setEditable(b);
+		}
+	}
+	
 	public abstract Result run(InputData inputData) throws ErrorInAlgorithmException;
 }

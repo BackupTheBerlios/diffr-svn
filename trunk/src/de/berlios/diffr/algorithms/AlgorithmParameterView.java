@@ -27,10 +27,16 @@ public class AlgorithmParameterView extends View {
 					  newValue = new Integer(Integer.parseInt(text.getText()));
 				  if (algorithmParameter.getValue().getClass() == Double.class)
 					  newValue = new Double(Double.parseDouble(text.getText()));
-				  algorithmParameter.setValue(newValue);
+				  if (!algorithmParameter.setValue(newValue)) {
+					  text.setText(algorithmParameter.getValue().toString());
+					  cannotSetError();
+				  }
 			} catch (NumberFormatException e1) {}
 			catch (WrongTypeException e1) {}
 	      }
 	    });
+	}
+	private void cannotSetError() {
+		JOptionPane.showMessageDialog(this, "You can`t change this while task running");
 	}
 }

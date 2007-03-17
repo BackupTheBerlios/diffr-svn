@@ -54,12 +54,14 @@ public class Task extends Model {
 		solveThread = new Thread() {
 			public void run() {
 				taskIsSolving = true;
+				algorithm.setEditable(false);
 				try {
 					result = algorithm.run(inputData);
 					state = resultIsCalculateState;
 				} catch (ErrorInAlgorithmException e) {
 					state = errorInAlgorithmState;
 				}
+				algorithm.setEditable(true);
 				taskIsSolving = false;
 				inputData.setEditable(true);
 				modelWasChangedEvent();
@@ -75,6 +77,7 @@ public class Task extends Model {
 		solveThread.stop();
 		taskIsSolving = false;
 		inputData.setEditable(true);
+		algorithm.setEditable(true);
 		state = taskStoppedState;
 		modelWasChangedEvent();
 	}

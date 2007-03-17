@@ -134,13 +134,13 @@ public class TaskView extends View {
 		switch (task.getState()) {
 			case Task.errorInAlgorithmState: state.setText("Error");
 			break;
-			case Task.resultIsCalculateState: state.setText("Result is calculate");
+			case Task.resultIsCalculateState: state.setText("Result is calculated");
 			break;
-			case Task.resultIsnotCalculateState: state.setText("Result isn`t calculate");
+			case Task.resultIsnotCalculateState: state.setText("Result isn`t calculated");
 			break;
 			case Task.taskIsSolvingState: state.setText("Task is solving...");
 			break;
-			case Task.taskStoppedState: state.setText("Task stopped");
+			case Task.taskStoppedState: state.setText("Task is stopped");
 			break;
 		}
 	}

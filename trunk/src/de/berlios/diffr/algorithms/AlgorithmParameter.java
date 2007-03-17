@@ -20,10 +20,12 @@ public class AlgorithmParameter extends Model {
 		return value;
 	}
 	
-	public void setValue(Object newValue) throws WrongTypeException {
-		if (value.getClass().isInstance(newValue))
-			value = newValue;
-		else
-			throw new WrongTypeException();
+	public boolean setValue(Object newValue) throws WrongTypeException {
+		if (isEditable())
+			if (value.getClass().isInstance(newValue))
+				value = newValue;
+			else
+				throw new WrongTypeException();
+		return isEditable();
 	}
 }
