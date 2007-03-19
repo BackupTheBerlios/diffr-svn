@@ -6,12 +6,12 @@ import de.berlios.diffr.exceptions.*;
 import de.berlios.diffr.*;
 
 public abstract class Algorithm extends Model {
-	protected AlgorithmParameter[] parameters = new AlgorithmParameter[0];
+	protected DataString[] parameters = new DataString[0];
 	private AlgorithmType algorithmType;
 	public Algorithm(AlgorithmType algorithmType) {
 		this.algorithmType = algorithmType;
 	}
-	public AlgorithmParameter[] getAlgorithmParameters() {
+	public DataString[] getAlgorithmParameters() {
 		return parameters;
 	}
 	

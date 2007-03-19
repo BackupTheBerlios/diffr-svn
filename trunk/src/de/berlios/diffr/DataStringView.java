@@ -1,6 +1,5 @@
-package de.berlios.diffr.algorithms;
+package de.berlios.diffr;
 
-import de.berlios.diffr.View;
 import de.berlios.diffr.exceptions.ObjectIsnotEditableException;
 import de.berlios.diffr.exceptions.WrongTypeException;
 
@@ -8,10 +7,10 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class AlgorithmParameterView extends View {
-	private AlgorithmParameter algorithmParameter;
+public class DataStringView extends View {
+	private DataString algorithmParameter;
 	private JTextField text = new JTextField();
-	public AlgorithmParameterView(AlgorithmParameter p) {
+	public DataStringView(DataString p) {
 		this.algorithmParameter = p;
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 	    this.add(new JLabel(p.getDescription()));

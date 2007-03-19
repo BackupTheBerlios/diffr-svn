@@ -1,14 +1,13 @@
-package de.berlios.diffr.algorithms;
+package de.berlios.diffr;
 
-import de.berlios.diffr.Model;
 import de.berlios.diffr.exceptions.ObjectIsnotEditableException;
 import de.berlios.diffr.exceptions.WrongTypeException;
 
-public class AlgorithmParameter extends Model {
+public class DataString extends Model {
 	private String description;
 	private Object value;
 	
-	public AlgorithmParameter(String description, Object value) {
+	public DataString(String description, Object value) {
 		this.description = description;
 		this.value = value;
 	}
