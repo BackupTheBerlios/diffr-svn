@@ -5,6 +5,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.event.*;
 import de.berlios.diffr.*;
+import de.berlios.diffr.exceptions.ObjectIsnotEditableException;
 import de.berlios.diffr.inputData.InputDataPartView;
 
 public class VerySimpleWaveView extends InputDataPartView {
@@ -33,7 +34,11 @@ public class VerySimpleWaveView extends InputDataPartView {
 		} catch (NumberFormatException e1) {
 			angle = wave.getAngle();
 		}
-		wave.setAngle(angle);
+		try {
+			wave.setAngle(angle);
+		} catch (ObjectIsnotEditableException e) {
+			JOptionPane.showMessageDialog(this, "You can`t change this while task solving");
+		}
 	}
 	public void paintComponent(Graphics g) {
 		g.setColor(new Color(0, 0, 0));

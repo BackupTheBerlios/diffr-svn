@@ -21,12 +21,11 @@ public class TaskView extends View {
 	private JLabel state = new JLabel();
 	private JTabbedPane tabbedPane = new JTabbedPane();
 	
-	private void tryChangeAlgorithm(Algorithm algorithm) {
+	private void changeAlgorithm(Algorithm algorithm) {
 		try {
 			task.setAlgorithm(algorithm);
-			algorithmChooser.setAlgorithm(algorithm);
 		} catch (TaskIsSolvingException e) {
-			JOptionPane.showMessageDialog(this, "You can`t change algorithm while task running");
+			e.printStackTrace();
 		}
 	}
 	
@@ -38,7 +37,7 @@ public class TaskView extends View {
 		algorithmChooser = new AlgorithmChooser(task.getTaskType());
 		algorithmChooser.addAlgorithmChooserListener(new AlgorithmChooserListener() {
 			public void newAlgorithmWasChoosed(Algorithm algorithm) {
-				tryChangeAlgorithm(algorithm);
+				changeAlgorithm(algorithm);
 			}
 		});
 		resultView.setResult(task.getResult());
@@ -53,10 +52,13 @@ public class TaskView extends View {
 		tabbedPane.add("Result", resultView);
 		tabbedPane.add("Algorithm", algorithmChooser);
 		
+		Box taskBox = Box.createVerticalBox();
+		taskBox.add(smallInputDataView);
+		taskBox.add(tabbedPane);
+		
 		this.setLayout(new BorderLayout());
 		this.add(statePanel, BorderLayout.SOUTH);
-		this.add(smallInputDataView, BorderLayout.NORTH);
-		this.add(tabbedPane, BorderLayout.CENTER);
+		this.add(taskBox, BorderLayout.CENTER);
 		
 		startItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

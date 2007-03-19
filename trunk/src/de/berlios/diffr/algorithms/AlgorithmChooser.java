@@ -22,12 +22,17 @@ public class AlgorithmChooser extends JPanel {
 		algorithmChooserListeners.remove(l);
 	}
 	protected void tryChangeAlgorithm(Algorithm newAlgorithm) {
-		Iterator i = algorithmChooserListeners.iterator();
-		while (i.hasNext()) {
-			AlgorithmChooserListener l = ( AlgorithmChooserListener )i.next();
-			l.newAlgorithmWasChoosed(newAlgorithm);
-		}
-		algorithmTypes.setSelectedItem(currentAlgorithm.getAlgorithmType());
+		if (currentAlgorithm.isEditable()) {
+			Iterator i = algorithmChooserListeners.iterator();
+			while (i.hasNext()) {
+				AlgorithmChooserListener l = ( AlgorithmChooserListener )i.next();
+				l.newAlgorithmWasChoosed(newAlgorithm);
+			}
+			setAlgorithm(newAlgorithm);
+			algorithmTypes.setSelectedItem(currentAlgorithm.getAlgorithmType());
+		} else
+			JOptionPane.showMessageDialog(this, "You can`t change algorithm while task running");
+		if (currentAlgorithm != null) algorithmTypes.setSelectedItem(currentAlgorithm.getAlgorithmType());
 	}
 	public void setAlgorithm(Algorithm algorithm) {
 		currentAlgorithm = algorithm;

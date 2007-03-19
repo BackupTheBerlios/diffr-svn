@@ -1,6 +1,7 @@
 package de.berlios.diffr.algorithms;
 
 import de.berlios.diffr.View;
+import de.berlios.diffr.exceptions.ObjectIsnotEditableException;
 import de.berlios.diffr.exceptions.WrongTypeException;
 
 import java.awt.*;
@@ -27,10 +28,12 @@ public class AlgorithmParameterView extends View {
 					  newValue = new Integer(Integer.parseInt(text.getText()));
 				  if (algorithmParameter.getValue().getClass() == Double.class)
 					  newValue = new Double(Double.parseDouble(text.getText()));
-				  if (!algorithmParameter.setValue(newValue)) {
-					  text.setText(algorithmParameter.getValue().toString());
-					  cannotSetError();
-				  }
+				  try {
+					algorithmParameter.setValue(newValue);
+				} catch (ObjectIsnotEditableException e1) {
+					text.setText(algorithmParameter.getValue().toString());
+					cannotSetError();
+				}
 			} catch (NumberFormatException e1) {}
 			catch (WrongTypeException e1) {}
 	      }

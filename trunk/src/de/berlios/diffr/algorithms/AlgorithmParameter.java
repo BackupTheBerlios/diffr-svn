@@ -1,6 +1,7 @@
 package de.berlios.diffr.algorithms;
 
 import de.berlios.diffr.Model;
+import de.berlios.diffr.exceptions.ObjectIsnotEditableException;
 import de.berlios.diffr.exceptions.WrongTypeException;
 
 public class AlgorithmParameter extends Model {
@@ -20,12 +21,13 @@ public class AlgorithmParameter extends Model {
 		return value;
 	}
 	
-	public boolean setValue(Object newValue) throws WrongTypeException {
+	public void setValue(Object newValue) throws WrongTypeException, ObjectIsnotEditableException {
 		if (isEditable())
 			if (value.getClass().isInstance(newValue))
 				value = newValue;
 			else
 				throw new WrongTypeException();
-		return isEditable();
+		else
+			throw new ObjectIsnotEditableException();
 	}
 }
