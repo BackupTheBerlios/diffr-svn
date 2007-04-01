@@ -6,27 +6,12 @@ import java.util.*;
 
 public class SurfaceShape extends Model {
 	public SurfaceShape() {
-		fourierCoefficients.add(new FourierCoefficient(0.1, 0.05));
+		fourierCoefficients.add(new FourierCoefficient(this, 0.1, 0.05));
 	}
 	public SurfaceShape(double period, double shift, ArrayList fourierCoefficients) {
 		this.period = period;
 	    this.shift = shift;
 	    this.fourierCoefficients = fourierCoefficients;
-	}
-	
-	public class FourierCoefficient {
-		private double coefficientOfCosinus;
-		private double coefficientOfSinus;
-		public FourierCoefficient(double coefficientOfCosinus, double coefficientOfSinus) {
-			this.coefficientOfCosinus = coefficientOfCosinus;
-			this.coefficientOfSinus = coefficientOfSinus;
-		}
-		public double getCoefficientOfCosinis() {
-			return coefficientOfCosinus;
-		}
-		public double getCoefficientOfSinis() {
-			return coefficientOfSinus;
-		}
 	}
 	
 	private double period = 1;

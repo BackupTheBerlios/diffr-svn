@@ -1,9 +1,10 @@
 package de.berlios.diffr.inputData.inputDataForDiffractionOfPlaneWaveOnPeriodicSurface.periodicSurface;
 
 import de.berlios.diffr.*;
+import de.berlios.diffr.inputData.*;
 import de.berlios.diffr.exceptions.ObjectIsnotEditableException;
 
-public class PeriodicSurface extends Model {
+public class PeriodicSurface extends Surface {
 	public PeriodicSurface() {
 		addListenerToShape();
 	}
