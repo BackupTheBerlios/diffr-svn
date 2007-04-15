@@ -1,6 +1,9 @@
 package de.berlios.diffr.algorithms.addedAlgorithms;
 
 import Org.netlib.math.complex.Complex;
+import de.berlios.diffr.inputData.*;
+import de.berlios.diffr.inputData.inputDataForDiffractionOfPlaneWaveOnPeriodicSurface.*;
+import de.berlios.diffr.inputData.inputDataForDiffractionOfPlaneWaveOnPeriodicSurface.periodicSurface.*;
 
 public class AlgorithmBase {
 
@@ -20,8 +23,10 @@ public class AlgorithmBase {
 	private int gam_min;
 	private int gam_max;
 	
-	public void initialize (){
-		
+	public void initialize (InputData inputData){
+		PeriodicSurface surface = (PeriodicSurface) inputData.getSurface();
+		ImpingingPlaneWave wave = (ImpingingPlaneWave) inputData.getImpingingField();
+		( (FourierCoefficient) surface.getShape().getFourierCoefficients().get(1)).getCoefficientOfSinis();// pattern
 	}
 	
 	protected Complex gam(int n){
