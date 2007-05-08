@@ -13,6 +13,8 @@ public class ImpingingPlaneWaveView extends InputDataPartView {
 	public ImpingingPlaneWaveView(ImpingingPlaneWave wave) {
 		angleData = new DataString("angle", new Double(wave.getAngle()));
 		angleView = new DataStringView(angleData);
+		lengthData = new DataString("length", new Double(wave.getAngle()));
+		lengthView = new DataStringView(lengthData);
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.add(angleView);
 		this.add(Box.createVerticalStrut(10));

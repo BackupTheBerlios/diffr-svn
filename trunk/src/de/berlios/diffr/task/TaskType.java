@@ -22,6 +22,10 @@ public class TaskType extends Model {
 		return taskName;
 	}
 	
+	public String toString() {
+		return taskName;
+	}
+	
 	public void addAlgorithmType(AlgorithmType algorithmType) {
 		algorithmTypes.add(algorithmType);
 		modelWasChangedEvent();
