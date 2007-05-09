@@ -4,7 +4,6 @@ import Org.netlib.math.complex.Complex;
 import de.berlios.diffr.inputData.*;
 import de.berlios.diffr.inputData.inputDataForDiffractionOfPlaneWaveOnPeriodicSurface.*;
 import de.berlios.diffr.inputData.inputDataForDiffractionOfPlaneWaveOnPeriodicSurface.periodicSurface.*;
-import de.berlios.diffr.result.resultForDiffractionOfPlaneWaveOnPriodicSurface.ReflectedPlaneWave;
 
 public abstract class AlgorithmBase {
 
@@ -19,30 +18,28 @@ public abstract class AlgorithmBase {
 	protected int f_size;
 	
 	public void initialize (InputData inputData){
-		System.out.println("initialization started");
+				System.out.println("initialization started");
 		PeriodicSurface surface = (PeriodicSurface) inputData.getSurface();
 		ImpingingPlaneWave wave = (ImpingingPlaneWave) inputData.getImpingingField();
 		polarization = wave.getPolarization();
-		System.out.println("polarization = " + polarization);
+				System.out.println("polarization = " + polarization);
 		amplitude = wave.getAmplitude();
-		System.out.println("amplitude re = " + amplitude.re() + "amplitude re = " + amplitude.im());
+				System.out.println("amplitude re = " + amplitude.re() + "   amplitude im = " + amplitude.im());
 		waveLength = wave.getLength();
-		System.out.println("waveLength = " + waveLength);
+				System.out.println("waveLength = " + waveLength);
 		k = surface.getShape().getPeriod() / waveLength; 
-		System.out.println("k = " + k);
+				System.out.println("k = " + k);
 		alpha = wave.getAngle();
-		System.out.println("alpha = " + alpha);
+				System.out.println("alpha = " + alpha);
 		lamNull = k * Math.sin(alpha);
-		System.out.println("lamNull = " + lamNull);
+				System.out.println("lamNull = " + lamNull);
  		f_size = ( surface.getShape().getFourierCoefficients()).size()-1;
-		System.out.println("f_size = " + f_size);
+ 				System.out.println("f_size = " + f_size);
  		f_negative_index = new Complex[f_size + 1];
-		System.out.println("f_negative_index = " + f_negative_index);
  		f_positive_and_0_index = new Complex[f_size + 1];
-		System.out.println("f_positive_and_0_index = " + f_positive_and_0_index);
  		double shiftDimension = surface.getShape().getShift();
  		double shiftDimensionless = shiftDimension * 2.0 * Math.PI / surface.getShape().getPeriod(); 
-		System.out.println("shiftDimensionless = " + shiftDimensionless);
+ 				System.out.println("shiftDimensionless = " + shiftDimensionless);
  		f_positive_and_0_index[0] = new Complex(shiftDimensionless,0.0);
  		
  		if ( f_size > 0){
