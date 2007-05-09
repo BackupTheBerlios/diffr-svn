@@ -5,8 +5,10 @@ import de.berlios.diffr.*;
 public class Result extends Model {
 	private ReflectedField reflectedField;
 	private SurfaceCurrent surfaceCurrent;
-	public Result(ReflectedField field, SurfaceCurrent surfaceCurrent) {
-		this.reflectedField = field;
+	private PassedField passedField;
+	public Result(ReflectedField reflectedField, PassedField passedField, SurfaceCurrent surfaceCurrent) {
+		this.reflectedField = reflectedField;
+		this.passedField = passedField;
 		this.surfaceCurrent = surfaceCurrent;
 	}
 	public ReflectedField getReflectedField() {
@@ -14,5 +16,8 @@ public class Result extends Model {
 	}
 	public SurfaceCurrent getSurfaceCurrent() {
 		return surfaceCurrent;
+	}
+	public PassedField getPassedField() {
+		return passedField;
 	}
 }

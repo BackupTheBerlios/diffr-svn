@@ -16,6 +16,7 @@ public class ResultView extends View {
 			tabbedPane = new JTabbedPane();
 			ViewFactory viewFactory = new ViewFactory();
 			View reflectedFieldView = null;
+			View passedFieldView = null;
 			View surfaceCurrentView = null;
 			try {
 				reflectedFieldView = viewFactory.makeView(newResult.getReflectedField());
@@ -27,11 +28,20 @@ public class ResultView extends View {
 				// Algorithm can`t calculate this
 			}
 			try {
+				passedFieldView = viewFactory.makeView(newResult.getPassedField());
+				tabbedPane.add("Passed field", passedFieldView);
+			} catch (WrongTypeException e) {
+				e.printStackTrace();
+				JOptionPane.showMessageDialog(null, "Unknown type of passed field");
+			} catch (NullPointerException e) {
+				// Algorithm can`t calculate this
+			}
+			try {
 				surfaceCurrentView = viewFactory.makeView(newResult.getSurfaceCurrent());
 				tabbedPane.add("Surface current", surfaceCurrentView);
 			} catch (WrongTypeException e) {
 				e.printStackTrace();
-				JOptionPane.showMessageDialog(null, "Unknown type of reflected field");
+				JOptionPane.showMessageDialog(null, "Unknown type of surface current");
 			} catch (NullPointerException e) {
 				// Algorithm can`t calculate this
 			}
