@@ -900,6 +900,15 @@ Complex implements Cloneable, Serializable {
     }//end add(Complex)
 
 
+    /**
+     * Added by A. Mikheev
+     **/
+
+     public Complex
+     add (double scalar) {
+         return new Complex(re + scalar, im + scalar);
+     }
+
 
     /**
     * To perform z1 - z2, you write <tt>z1.sub(z2)</tt> .
@@ -934,6 +943,16 @@ Complex implements Cloneable, Serializable {
         return  cart( (re*z.re) - (im*z.im), (re*z.im) + (im*z.re) );
         // return  cart( (re*z.re) - (im*z.im), (re + im)*(z.re + z.im) - re*z.re - im*z.im);
     }//end mul(Complex)
+
+    /**
+     * added by A. Mikheev
+     **/
+
+     public Complex
+     mul (double scalar) {
+         return  new Complex( re*scalar, im*scalar );
+     }
+
 
 
 
