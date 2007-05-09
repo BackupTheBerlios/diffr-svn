@@ -24,6 +24,6 @@ public class AlgorithmForVerySimpleTask2 extends Algorithm {
 			e.printStackTrace();
 		}
 		double angle = ((VerySimpleWave) inputData.getImpingingField()).getAngle();
-		return new Result(new ReflectedWave(0 - angle));
+		return new Result(new ReflectedWave(0 - angle), null);
 	}
 }

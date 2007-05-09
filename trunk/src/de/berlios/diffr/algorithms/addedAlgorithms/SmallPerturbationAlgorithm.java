@@ -2,7 +2,6 @@ package de.berlios.diffr.algorithms.addedAlgorithms;
 
 import de.berlios.diffr.DataString;
 import de.berlios.diffr.result.*;
-import de.berlios.diffr.result.resultForDiffractionOfPlaneWaveOnPriodicSurface.ReflectedWavesAndCurrent;
 import de.berlios.diffr.result.resultForVerySimpleTask.*;
 import de.berlios.diffr.inputData.*;
 import de.berlios.diffr.inputData.inputDataForVerySimpleTask.*;
@@ -20,8 +19,8 @@ public class SmallPerturbationAlgorithm extends Algorithm {
 	public Result run(InputData inputData) throws ErrorInAlgorithmException {
 		SmallPerturbationAlgorithmSolver solver = new SmallPerturbationAlgorithmSolver();
 		solver.initialize(inputData);
-		ReflectedWavesAndCurrent reflectedField = solver.solve();
-		return new Result(reflectedField);
+		Result result = solver.solve();
+		return result;
 	}
 }
 

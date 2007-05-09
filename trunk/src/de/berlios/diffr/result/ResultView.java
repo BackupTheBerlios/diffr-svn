@@ -16,14 +16,26 @@ public class ResultView extends View {
 			tabbedPane = new JTabbedPane();
 			ViewFactory viewFactory = new ViewFactory();
 			View reflectedFieldView = null;
+			View surfaceCurrentView = null;
 			try {
 				reflectedFieldView = viewFactory.makeView(newResult.getReflectedField());
 				tabbedPane.add("Reflected field", reflectedFieldView);
-				this.add(tabbedPane);
 			} catch (WrongTypeException e) {
 				e.printStackTrace();
 				JOptionPane.showMessageDialog(null, "Unknown type of reflected field");
+			} catch (NullPointerException e) {
+				// Algorithm can`t calculate this
 			}
+			try {
+				surfaceCurrentView = viewFactory.makeView(newResult.getSurfaceCurrent());
+				tabbedPane.add("Surface current", surfaceCurrentView);
+			} catch (WrongTypeException e) {
+				e.printStackTrace();
+				JOptionPane.showMessageDialog(null, "Unknown type of reflected field");
+			} catch (NullPointerException e) {
+				// Algorithm can`t calculate this
+			}
+			this.add(tabbedPane);
 		}
 		validate();
 	}

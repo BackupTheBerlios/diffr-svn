@@ -13,6 +13,9 @@ import de.berlios.diffr.result.resultForDiffractionOfPlaneWaveOnPriodicSurface.*
 
 public class ViewFactory {
 	public View makeView(Model model) throws WrongTypeException {
+		if (model == null) {
+			throw new NullPointerException();
+		}
 		if (model.getClass() == Task.class) {
 			return new TaskView((Task)model);
 		}
