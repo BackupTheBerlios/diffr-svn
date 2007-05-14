@@ -12,6 +12,7 @@ public abstract class AlgorithmBase {
 	protected double waveLength;
 	protected double lamNull;
 	protected boolean polarization;
+	protected Complex h;
 	private Complex amplitude;
 	private Complex [] f_negative_index;
 	private Complex [] f_positive_and_0_index;
@@ -23,6 +24,7 @@ public abstract class AlgorithmBase {
 		ImpingingPlaneWave wave = (ImpingingPlaneWave) inputData.getImpingingField();
 		polarization = wave.getPolarization();
 				System.out.println("polarization = " + polarization);
+//		h = surface.getConductivity()
 		amplitude = wave.getAmplitude();
 				System.out.println("amplitude re = " + amplitude.re() + "   amplitude im = " + amplitude.im());
 		waveLength = wave.getLength();
@@ -80,9 +82,17 @@ public abstract class AlgorithmBase {
 
 	protected Complex f(int n){
 		if ( n >= 0 ){
-			return f_positive_and_0_index[n];
+			if ( n <= f_size ){
+				return f_positive_and_0_index[n];
+			} else {
+				return new Complex (0.0, 0.0);
+			}
 		} else {
-			return f_negative_index[-n];
+			if ( n >= -f_size ){
+				return f_negative_index[-n];
+			} else {
+				return new Complex (0.0, 0.0);
+			}
 		}
 	}
 
