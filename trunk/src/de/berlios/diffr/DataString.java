@@ -21,10 +21,12 @@ public class DataString extends Model {
 	}
 	
 	public void setValue(Object newValue) throws WrongTypeException, ObjectIsnotEditableException {
+		if (value.equals(newValue)) return;
 		if (isEditable())
-			if (value.getClass().isInstance(newValue))
+			if (value.getClass().isInstance(newValue)) {
 				value = newValue;
-			else
+				this.modelWasChangedEvent();
+			} else
 				throw new WrongTypeException();
 		else
 			throw new ObjectIsnotEditableException();
