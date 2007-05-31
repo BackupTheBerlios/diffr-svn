@@ -73,7 +73,7 @@ public class Init {
 	
 	private Task loadLastSavedTask() {
 		// This code is temporarily
-		return ((TaskType)taskTypes.get(0)).newTask();
+		return ((TaskType)taskTypes.get(1)).newTask();
 	}
 	
 	private void saveCurrentTask() {

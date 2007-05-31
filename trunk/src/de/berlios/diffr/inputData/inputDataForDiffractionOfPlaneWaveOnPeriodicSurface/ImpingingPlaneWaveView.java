@@ -4,6 +4,7 @@ import de.berlios.diffr.exceptions.ObjectIsnotEditableException;
 import de.berlios.diffr.exceptions.WrongTypeException;
 import de.berlios.diffr.inputData.InputDataPartView;
 import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 import Org.netlib.math.complex.*;
 import de.berlios.diffr.*;
@@ -16,6 +17,9 @@ public class ImpingingPlaneWaveView extends InputDataPartView {
 	private DataString amplitudeData;
 	private DataStringView amplitudeView;
 	private ImpingingPlaneWave planeWave;
+	private JRadioButton HPolarization = new JRadioButton("H polarization");
+	private JRadioButton EPolarization = new JRadioButton("E polarization");
+	private ButtonGroup polarization = new ButtonGroup();
 	public ImpingingPlaneWaveView(ImpingingPlaneWave wave) {
 		this.planeWave = wave;
 		angleData = new DataString("angle", new Double(wave.getAngle()));
@@ -60,12 +64,45 @@ public class ImpingingPlaneWaveView extends InputDataPartView {
 				}
 			}
 		});
+		polarization.add(HPolarization);
+		polarization.add(EPolarization);
+		if(ImpingingPlaneWave.polarizationH == wave.getPolarization())
+			HPolarization.doClick();
+		else
+			EPolarization.doClick();
+		HPolarization.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					planeWave.setPolarization(ImpingingPlaneWave.polarizationH);
+				} catch (ObjectIsnotEditableException e1) {
+					if (planeWave.getPolarization() != ImpingingPlaneWave.polarizationH) {
+						JOptionPane.showMessageDialog(null, "You can`t change this now");
+						EPolarization.doClick();
+					}
+				}
+			}
+		});
+		EPolarization.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					planeWave.setPolarization(ImpingingPlaneWave.polarizationE);
+				} catch (ObjectIsnotEditableException e1) {
+					if (planeWave.getPolarization() != ImpingingPlaneWave.polarizationE) {
+						JOptionPane.showMessageDialog(null, "You can`t change this now");
+						HPolarization.doClick();
+					}
+				}
+			}
+		});
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.add(angleView);
 		this.add(Box.createVerticalStrut(10));
 		this.add(lengthView);
 		this.add(Box.createVerticalStrut(10));
 		this.add(amplitudeView);
+		this.add(Box.createVerticalStrut(10));
+		this.add(HPolarization);
+		this.add(EPolarization);
 	}
 	public void drawImage(Graphics g) {
 		

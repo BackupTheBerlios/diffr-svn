@@ -48,7 +48,7 @@ public class ViewFactory {
 			};
 		}
 		if (model.getClass() == ReflectedFieldOfPlaneWaves.class) {
-			return new View() {};
+			return new ReflectedFieldOfPlaneWavesView((ReflectedFieldOfPlaneWaves)model);
 		}
 		throw new WrongTypeException();
 	}
