@@ -36,7 +36,7 @@ public class ImpingingPlaneWaveView extends InputDataPartView {
 				}
 			}
 		});
-		lengthData = new DataString("length", new Double(wave.getAngle()));
+		lengthData = new DataString("length", new Double(wave.getLength()));
 		lengthView = new DataStringView(lengthData);
 		lengthData.addModelChangingListener(new ModelChangingListener() {
 			public void modelWasChanged(Model model) {

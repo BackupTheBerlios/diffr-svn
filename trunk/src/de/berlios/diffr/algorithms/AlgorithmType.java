@@ -1,10 +1,11 @@
 package de.berlios.diffr.algorithms;
 
+import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 
 import de.berlios.diffr.exceptions.WrongTypeException;
 
-public class AlgorithmType {
+public class AlgorithmType implements Serializable {
 	private final String title;
 	private final String autor;
 	private final String version;

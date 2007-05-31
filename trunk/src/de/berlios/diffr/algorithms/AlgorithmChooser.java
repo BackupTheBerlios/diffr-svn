@@ -54,8 +54,9 @@ public class AlgorithmChooser extends JPanel {
 		}
 		this.validate();
 	}
-	public AlgorithmChooser(TaskType taskType) {
+	public AlgorithmChooser(TaskType taskType, Algorithm currentAlgorithm) {
 		this.taskType = taskType;
+		this.currentAlgorithm = currentAlgorithm;
 		taskType.addModelChangingListener(new ModelChangingListener() {
 			public void modelWasChanged(Model m) {
 				renewAlgorithmTypesList();
@@ -89,7 +90,7 @@ public class AlgorithmChooser extends JPanel {
 	      }
 	    });
 	    
-	    setAlgorithm(taskType.getInitialAlgorithm());
+	    setAlgorithm(currentAlgorithm);
 	}
 	private void renewAlgorithmTypesList() {
 		algorithmTypes.removeAllItems();

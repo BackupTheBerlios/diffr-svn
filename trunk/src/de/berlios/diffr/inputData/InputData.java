@@ -19,6 +19,20 @@ public class InputData extends Model {
 			}
 		});
 	}
+	public void restorationAfterSerialization() {
+		surface.restorationAfterSerialization();
+		impingingField.restorationAfterSerialization();
+		surface.addModelChangingListener(new ModelChangingListener() {
+			public void modelWasChanged(Model model) {
+				modelWasChangedEvent();
+			}
+		});
+		impingingField.addModelChangingListener(new ModelChangingListener() {
+			public void modelWasChanged(Model model) {
+				modelWasChangedEvent();
+			}
+		});
+	}
 	public Surface getSurface() {
 		return surface;
 	}

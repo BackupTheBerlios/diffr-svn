@@ -14,6 +14,10 @@ public class PeriodicSurface extends Surface {
 	    addListenerToShape();
 	}
 	
+	public void restorationAfterSerialization() {
+		addListenerToShape();
+	}
+	
 	private void addListenerToShape() {
 		shape.addModelChangingListener(new ModelChangingListener() {
 			public void modelWasChanged(Model m) {

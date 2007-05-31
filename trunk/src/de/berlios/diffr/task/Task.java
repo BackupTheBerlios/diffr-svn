@@ -1,5 +1,6 @@
 package de.berlios.diffr.task;
 
+import java.io.*;
 import de.berlios.diffr.*;
 import de.berlios.diffr.inputData.*;
 import de.berlios.diffr.result.*;
@@ -12,26 +13,34 @@ public class Task extends Model {
 	private Algorithm algorithm;
 	private TaskType taskType;
 	
-	private boolean taskIsSolving = false;
-	private Thread solveThread = null;
+	private transient boolean taskIsSolving = false;
+	private transient Thread solveThread = null;
 	
 	private int state = 0;
 	public static final int resultIsnotCalculateState = 0;
 	public static final int taskIsSolvingState = 1;
 	public static final int taskStoppedState = 2;
 	public static final int errorInAlgorithmState = 3;
-	public static final int resultIsCalculateState = 4;
+	public static final int resultIsCalculateState = 4; 
 	
 	public Task(TaskType taskType, InputData initialInputData, Algorithm initialAlgorithm) {
 		this.taskType = taskType;
-		ModelChangingListener changingListener = new ModelChangingListener() {
+		inputData = initialInputData;
+		algorithm = initialAlgorithm;
+		inputData.addModelChangingListener(new ModelChangingListener() {
 			public void modelWasChanged(Model model) {
 				nullResult();
 			}
-		};
-		inputData = initialInputData;
-		algorithm = initialAlgorithm;
-		inputData.addModelChangingListener(changingListener);
+		});
+	}
+	
+	public void restorationAfterSerialization() {
+		inputData.restorationAfterSerialization();
+		inputData.addModelChangingListener(new ModelChangingListener() {
+			public void modelWasChanged(Model model) {
+				nullResult();
+			}
+		});
 	}
 	
 	public TaskType getTaskType() {
@@ -43,6 +52,9 @@ public class Task extends Model {
 	}
 	public Result getResult() {
 		return result;
+	}
+	public Algorithm getAlgorithm() {
+		return algorithm;
 	}
 	
 	public int getState() {

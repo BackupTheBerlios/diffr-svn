@@ -1,14 +1,17 @@
 package de.berlios.diffr;
 
+import java.io.Serializable;
 import java.util.*;
 
-public abstract class Model {
+public abstract class Model implements Serializable {
 	private boolean editable = true;
-	private ArrayList modelChangingListeners = new ArrayList();
+	private transient ArrayList modelChangingListeners = new ArrayList();
 	public void addModelChangingListener(ModelChangingListener l) {
+		if (modelChangingListeners == null) modelChangingListeners = new ArrayList(); 
 		modelChangingListeners.add(l);
 	}
 	public void removeModelChangingListener(ModelChangingListener l) {
+		if (modelChangingListeners == null) modelChangingListeners = new ArrayList();
 		modelChangingListeners.remove(l);
 	}
 	protected void modelWasChangedEvent() {
@@ -24,4 +27,5 @@ public abstract class Model {
 	public boolean isEditable() {
 		return editable;
 	}
+	public void restorationAfterSerialization() {}
 }

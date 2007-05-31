@@ -34,7 +34,7 @@ public class TaskView extends View {
 		task.addModelChangingListener(changingListener);
 		smallInputDataView = new SmallInputDataView(task.getInputData());
 		inputDataView = new InputDataView (task.getInputData());
-		algorithmChooser = new AlgorithmChooser(task.getTaskType());
+		algorithmChooser = new AlgorithmChooser(task.getTaskType(), task.getAlgorithm());
 		algorithmChooser.addAlgorithmChooserListener(new AlgorithmChooserListener() {
 			public void newAlgorithmWasChoosed(Algorithm algorithm) {
 				changeAlgorithm(algorithm);

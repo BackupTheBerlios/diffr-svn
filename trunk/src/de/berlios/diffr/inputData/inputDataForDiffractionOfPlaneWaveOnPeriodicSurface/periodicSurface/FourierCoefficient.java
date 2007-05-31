@@ -3,7 +3,9 @@
  */
 package de.berlios.diffr.inputData.inputDataForDiffractionOfPlaneWaveOnPeriodicSurface.periodicSurface;
 
-public class FourierCoefficient {
+import java.io.Serializable;
+
+public class FourierCoefficient implements Serializable {
 	/**
 	 * 
 	 */
