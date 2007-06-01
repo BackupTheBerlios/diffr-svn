@@ -45,16 +45,22 @@ public class VerySimpleWaveView extends InputDataPartView {
 		int width = g.getClipBounds().width;
 		int height = g.getClipBounds().height;
 		g.fillRect(0, 0, width, height);
-		drawImage(g);
+		drawImage(g, Math.min(height, width) / 2);
 	}
-	public void drawImage(Graphics g) {
+	public double getModelSizeX() {
+		return Math.abs(2 * Math.sin(wave.getAngle()));
+	}
+	public double getModelSizeY() {
+		return Math.abs(2 * Math.cos(wave.getAngle()));
+	}
+	public void drawImage(Graphics g, double scale) {
 		int width = g.getClipBounds().width;
 		int height = g.getClipBounds().height;
 		g.setColor(new Color(255, 0, 0));
 		int x = width / 2;
 		int y = height / 2;
-		int x1 = (int) (x - 100 * Math.sin(wave.getAngle()));
-		int y1 = (int) (y - 100 * Math.cos(wave.getAngle()));
+		int x1 = (int) (x - scale * Math.sin(wave.getAngle()));
+		int y1 = (int) (y - scale * Math.cos(wave.getAngle()));
 		int x2 = (int) (x - 10 * Math.sin(wave.getAngle() + 0.3));
 		int y2 = (int) (y - 10 * Math.cos(wave.getAngle() + 0.3));
 		int x3 = (int) (x - 10 * Math.sin(wave.getAngle() - 0.3));

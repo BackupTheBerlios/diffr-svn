@@ -30,7 +30,7 @@ public class DataStringView extends View {
 						cannotSetError();
 					}
 				} catch (NumberFormatException e1) {
-					if (!text1.getText().equals(""))
+					if (!text1.getText().equals("") && !text1.getText().equals("-"))
 						text1.setText(dataString.getValue().toString());
 				}
 				catch (WrongTypeException e1) {e1.printStackTrace();}
@@ -56,7 +56,7 @@ public class DataStringView extends View {
 						cannotSetError();
 					}
 				} catch (NumberFormatException e1) {
-					if (!text1.getText().equals("") && !text2.getText().equals("")) {
+					if (!text1.getText().equals("") && !text2.getText().equals("") && !text1.getText().equals("-") && !text2.getText().equals("-")) {
 						text1.setText(Double.toString(((Complex)dataString.getValue()).re()));
 						text2.setText(Double.toString(((Complex)dataString.getValue()).im()));
 					}

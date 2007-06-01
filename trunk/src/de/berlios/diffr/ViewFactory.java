@@ -43,9 +43,7 @@ public class ViewFactory {
 			return new ImpingingPlaneWaveView( (ImpingingPlaneWave) model);
 		}
 		if (model.getClass() == PeriodicSurface.class) {
-			return new InputDataPartView() {
-				public void drawImage(Graphics g) {}
-			};
+			return new PeriodicSurfaceView((PeriodicSurface)model);
 		}
 		if (model.getClass() == ReflectedFieldOfPlaneWaves.class) {
 			return new ReflectedFieldOfPlaneWavesView((ReflectedFieldOfPlaneWaves)model);

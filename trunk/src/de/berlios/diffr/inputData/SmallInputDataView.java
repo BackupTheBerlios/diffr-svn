@@ -1,6 +1,7 @@
 package de.berlios.diffr.inputData;
 
 import java.awt.*;
+import javax.swing.*;
 import de.berlios.diffr.*;
 import de.berlios.diffr.inputData.InputDataPartView;
 import de.berlios.diffr.exceptions.WrongTypeException;
@@ -40,7 +41,12 @@ public class SmallInputDataView extends View {
 		int width = g.getClipBounds().width;
 		int height = g.getClipBounds().height;
 		g.fillRect(0, 0, width, height);
-		surfaceView.drawImage(g);
-		impingingFieldView.drawImage(g);
+		double scaleX = this.getWidth() / Math.max(surfaceView.getModelSizeX(), impingingFieldView.getModelSizeX());
+		double scaleY = this.getHeight() / Math.max(surfaceView.getModelSizeY(), impingingFieldView.getModelSizeY());
+		double scale = Math.min(scaleX, scaleY);
+		g.setColor(new Color(100, 120, 100));
+		g.drawString("Scale:" + (int)scale, 0, 20);
+		surfaceView.drawImage(g, scale);
+		impingingFieldView.drawImage(g, scale);
 	}
 }

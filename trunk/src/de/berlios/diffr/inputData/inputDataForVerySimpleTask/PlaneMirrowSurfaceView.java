@@ -10,9 +10,9 @@ public class PlaneMirrowSurfaceView extends InputDataPartView {
 		int width = g.getClipBounds().width;
 		int height = g.getClipBounds().height;
 		g.fillRect(0, 0, width, height);
-		drawImage(g);
+		drawImage(g, Math.min(height, width) / this.getModelSizeX());
 	}
-	public void drawImage(Graphics g) {
+	public void drawImage(Graphics g, double scale) {
 		int width = g.getClipBounds().width;
 		int height = g.getClipBounds().height;
 		g.setColor(new Color(0, 0, 255));
