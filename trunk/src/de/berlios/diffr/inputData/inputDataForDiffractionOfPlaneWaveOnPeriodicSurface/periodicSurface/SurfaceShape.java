@@ -6,7 +6,7 @@ import java.util.*;
 
 public class SurfaceShape extends Model {
 	public SurfaceShape() {
-		fourierCoefficients.add(new FourierCoefficient(this, 0.1, 0.05));
+		fourierCoefficients.add(new FourierCoefficient(0.1, 0.05));
 	}
 	public SurfaceShape(double period, double shift, ArrayList fourierCoefficients) {
 		this.period = period;
@@ -41,14 +41,10 @@ public class SurfaceShape extends Model {
 	public ArrayList getFourierCoefficients() {
 	    return (ArrayList)fourierCoefficients.clone();
 	}
-	public void removeFourierCoefficient(FourierCoefficient c) throws ObjectIsnotEditableException {
+	
+	public void setFourierCoefficients(ArrayList c) throws ObjectIsnotEditableException {
 		if (!isEditable()) throw new ObjectIsnotEditableException();
-		fourierCoefficients.remove(c);
-		modelWasChangedEvent();
-	}
-	public void addFourierCoefficient(int index, FourierCoefficient c) throws ObjectIsnotEditableException {
-		if (!isEditable()) throw new ObjectIsnotEditableException();
-		fourierCoefficients.add(index, c);
-		modelWasChangedEvent();
+	    fourierCoefficients = (ArrayList)c.clone();
+	    modelWasChangedEvent();
 	}
 }

@@ -15,6 +15,7 @@ public abstract class Model implements Serializable {
 		modelChangingListeners.remove(l);
 	}
 	protected void modelWasChangedEvent() {
+		if (modelChangingListeners == null) modelChangingListeners = new ArrayList();
 		Iterator i = modelChangingListeners.iterator();
 		while (i.hasNext()) {
 			ModelChangingListener l = ( ModelChangingListener )i.next();

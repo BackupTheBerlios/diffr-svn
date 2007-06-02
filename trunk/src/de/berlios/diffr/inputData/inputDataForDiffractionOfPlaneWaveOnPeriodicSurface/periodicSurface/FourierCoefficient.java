@@ -6,14 +6,9 @@ package de.berlios.diffr.inputData.inputDataForDiffractionOfPlaneWaveOnPeriodicS
 import java.io.Serializable;
 
 public class FourierCoefficient implements Serializable {
-	/**
-	 * 
-	 */
-	private final SurfaceShape FourierCoefficient;
 	private double coefficientOfCosinus;
 	private double coefficientOfSinus;
-	public FourierCoefficient(SurfaceShape shape, double coefficientOfCosinus, double coefficientOfSinus) {
-		FourierCoefficient = shape;
+	public FourierCoefficient(double coefficientOfCosinus, double coefficientOfSinus) {
 		this.coefficientOfCosinus = coefficientOfCosinus;
 		this.coefficientOfSinus = coefficientOfSinus;
 	}

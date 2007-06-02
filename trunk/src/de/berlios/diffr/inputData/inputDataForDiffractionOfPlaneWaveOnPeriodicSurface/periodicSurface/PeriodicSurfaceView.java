@@ -21,6 +21,36 @@ public class PeriodicSurfaceView extends InputDataPartView {
 	private DataStringView epsilonView = null;
 	private SurfaceShapeView shapeView;
 	private ModelChangingListener epsilonListener;
+	private ActionListener perfectConductivityListener = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			try {
+				if (surface.getConductivity().getClass() != PerfectConductivity.class) surface.setConductivity(new PerfectConductivity());
+			} catch (ObjectIsnotEditableException e1) {
+				JOptionPane.showMessageDialog(null, "You can`t change this now");
+			}
+			renewConductivity();
+		}
+	};
+	private ActionListener heightConductivityListener = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			try {
+				if (surface.getConductivity().getClass() != HeightConductivity.class) surface.setConductivity(new HeightConductivity());
+			} catch (ObjectIsnotEditableException e1) {
+				JOptionPane.showMessageDialog(null, "You can`t change this now");
+			}
+			renewConductivity();
+		}
+	};
+	private ActionListener realConductivityListener = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			try {
+				if (surface.getConductivity().getClass() != RealConductivity.class) surface.setConductivity(new RealConductivity());
+			} catch (ObjectIsnotEditableException e1) {
+				JOptionPane.showMessageDialog(null, "You can`t change this now");
+			}
+			renewConductivity();
+		}
+	};
 	public PeriodicSurfaceView(PeriodicSurface s) {
 		surface = s;
 		conductivityType.add(perfectConductivity);
@@ -34,30 +64,6 @@ public class PeriodicSurfaceView extends InputDataPartView {
 		conductivityBox.add(realConductivity);
 		conductivityBox.add(Box.createVerticalStrut(20));
 		renewConductivity();
-		perfectConductivity.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					surface.setConductivity(new PerfectConductivity());
-				} catch (ObjectIsnotEditableException e1) {}
-				renewConductivity();
-			}
-		});
-		heightConductivity.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					surface.setConductivity(new HeightConductivity());
-				} catch (ObjectIsnotEditableException e1) {}
-				renewConductivity();
-			}
-		});
-		realConductivity.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					surface.setConductivity(new RealConductivity());
-				} catch (ObjectIsnotEditableException e1) {}
-				renewConductivity();
-			}
-		});
 		epsilonListener = new ModelChangingListener() {
 			public void modelWasChanged(Model m) {
 				try {
@@ -78,7 +84,18 @@ public class PeriodicSurfaceView extends InputDataPartView {
 		this.setLayout(new BorderLayout());
 		this.add(tabbedPane);
 	}
+	private void removeListeners() {
+		perfectConductivity.removeActionListener(perfectConductivityListener);
+		heightConductivity.removeActionListener(heightConductivityListener);
+		realConductivity.removeActionListener(realConductivityListener);
+	}
+	private void addListeners() {
+		perfectConductivity.addActionListener(perfectConductivityListener);
+		heightConductivity.addActionListener(heightConductivityListener);
+		realConductivity.addActionListener(realConductivityListener);
+	}
 	private void renewConductivity() {
+		removeListeners();
 		if (epsilonView != null) conductivityBox.remove(epsilonView);
 		if (surface.getConductivity().getClass() == PerfectConductivity.class) {
 			if (!perfectConductivity.isSelected()) perfectConductivity.doClick();
@@ -101,6 +118,7 @@ public class PeriodicSurfaceView extends InputDataPartView {
 		}
 		conductivityBox.validate();
 		conductivityBox.repaint();
+		addListeners();
 	}
 	public double getModelSizeX() {
 		return shapeView.getModelSizeX();
