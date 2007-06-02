@@ -52,9 +52,10 @@ public class TaskView extends View {
 		tabbedPane.add("Result", resultView);
 		tabbedPane.add("Algorithm", algorithmChooser);
 		
-		Box taskBox = Box.createVerticalBox();
-		taskBox.add(smallInputDataView);
+		JPanel taskBox = new JPanel();
+		taskBox.setLayout(new GridLayout(1, 2));
 		taskBox.add(tabbedPane);
+		taskBox.add(smallInputDataView);
 		
 		this.setLayout(new BorderLayout());
 		this.add(statePanel, BorderLayout.SOUTH);

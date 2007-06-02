@@ -11,6 +11,16 @@ public class TaskType extends Model {
 	private Algorithm initialAlgorithm;
 	private ArrayList algorithmTypes = new ArrayList();
 	
+	public boolean equals(Object o) {
+		if (o == null) return false;
+		if (o.getClass() == this.getClass()) {
+			TaskType t = (TaskType)o;
+			if (t.taskName.equals(taskName) && t.initialInputData.equals(initialInputData));
+				return true;
+		}
+		return false;
+	}
+	
 	public TaskType(String taskName, InputData initialInputData, Algorithm initialAlgorithm) {
 		this.taskName = taskName;
 		this.initialInputData = initialInputData;
@@ -46,5 +56,9 @@ public class TaskType extends Model {
 	
 	public Algorithm getInitialAlgorithm() {
 		return initialAlgorithm;
+	}
+	
+	public InputData getInitialInputData() {
+		return initialInputData;
 	}
 }

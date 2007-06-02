@@ -1,6 +1,6 @@
 package de.berlios.diffr.task;
 
-import java.io.*;
+import java.util.*;
 import de.berlios.diffr.*;
 import de.berlios.diffr.inputData.*;
 import de.berlios.diffr.result.*;
@@ -41,6 +41,19 @@ public class Task extends Model {
 				nullResult();
 			}
 		});
+	}
+	
+	public void restorationAfterSerialization(ArrayList taskTypes) throws UnknownTaskTypeException {
+		restorationAfterSerialization();
+		Iterator i = taskTypes.iterator();
+		while (i.hasNext()) {
+			TaskType t = (TaskType)i.next();
+			if (this.taskType.equals(t) &&
+					t.getAlgorithmTypes().contains(this.algorithm.getAlgorithmType()))
+				this.taskType = t;
+				return;
+		}
+		throw new UnknownTaskTypeException();
 	}
 	
 	public TaskType getTaskType() {
