@@ -22,15 +22,17 @@ public class ImpingingPlaneWaveView extends InputDataPartView {
 	private ButtonGroup polarization = new ButtonGroup();
 	public ImpingingPlaneWaveView(ImpingingPlaneWave wave) {
 		this.planeWave = wave;
-		angleData = new DataString("angle", new Double(wave.getAngle()));
+		angleData = new DataString("angle", new Double(wave.getAngle() / Math.PI * 180));
 		angleView = new DataStringView(angleData);
 		angleData.addModelChangingListener(new ModelChangingListener() {
 			public void modelWasChanged(Model model) {
 				try {
-					planeWave.setAngle(((Double)angleData.getValue()).doubleValue());
+					if (planeWave.getAngle() != ((Double)angleData.getValue()).doubleValue() * Math.PI / 180) planeWave.setAngle(((Double)angleData.getValue()).doubleValue() * Math.PI / 180);
 				} catch (ObjectIsnotEditableException e) {
+					JOptionPane.showMessageDialog(null, "You can`t change this now");
 					try {
-						angleData.setValue(new Double(planeWave.getAngle()));
+						angleData.setValue(new Double(planeWave.getAngle() / Math.PI * 180));
+						angleView.renew();
 					} catch (WrongTypeException e1) {e1.printStackTrace();
 					} catch (ObjectIsnotEditableException e1) {e1.printStackTrace();}
 				}
@@ -41,10 +43,12 @@ public class ImpingingPlaneWaveView extends InputDataPartView {
 		lengthData.addModelChangingListener(new ModelChangingListener() {
 			public void modelWasChanged(Model model) {
 				try {
-					planeWave.setLength(((Double)lengthData.getValue()).doubleValue());
+					if (planeWave.getLength() != ((Double)lengthData.getValue()).doubleValue()) planeWave.setLength(((Double)lengthData.getValue()).doubleValue());
 				} catch (ObjectIsnotEditableException e) {
+					JOptionPane.showMessageDialog(null, "You can`t change this now");
 					try {
 						lengthData.setValue(new Double(planeWave.getLength()));
+						lengthView.renew();
 					} catch (WrongTypeException e1) {e1.printStackTrace();
 					} catch (ObjectIsnotEditableException e1) {e1.printStackTrace();}
 				}
@@ -55,10 +59,12 @@ public class ImpingingPlaneWaveView extends InputDataPartView {
 		amplitudeData.addModelChangingListener(new ModelChangingListener() {
 			public void modelWasChanged(Model model) {
 				try {
-					planeWave.setAmplitude((Complex)amplitudeData.getValue());
+					if (!planeWave.getAmplitude().equals(amplitudeData.getValue())) planeWave.setAmplitude((Complex)amplitudeData.getValue());
 				} catch (ObjectIsnotEditableException e) {
+					JOptionPane.showMessageDialog(null, "You can`t change this now");
 					try {
 						amplitudeData.setValue(planeWave.getAmplitude());
+						amplitudeView.renew();
 					} catch (WrongTypeException e1) {e1.printStackTrace();
 					} catch (ObjectIsnotEditableException e1) {e1.printStackTrace();}
 				}
