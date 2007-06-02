@@ -82,4 +82,12 @@ public class DataStringView extends View {
 	private void cannotSetError() {
 		JOptionPane.showMessageDialog(this, "You can`t change this now");
 	}
+	public void renew() {
+		if (dataString.getValue().getClass() != Complex.class) {
+		    text1.setText(dataString.getValue().toString());
+		} else {
+			text1.setText("" + ((Complex)dataString.getValue()).re());
+			text2.setText("" + ((Complex)dataString.getValue()).im());
+		}
+	}
 }

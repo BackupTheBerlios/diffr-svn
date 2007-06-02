@@ -80,9 +80,11 @@ public class AlgorithmChooser extends JPanel {
 	    algorithmTypes.addActionListener(new ActionListener() {
 	      public void actionPerformed(ActionEvent e) {
 			try {
-				AlgorithmType type = (AlgorithmType)algorithmTypes.getSelectedItem();
-				Algorithm newAlgorithm = type.newInstance();
-				tryChangeAlgorithm(newAlgorithm);
+				if (algorithmTypes.getSelectedItem() != null) {
+					AlgorithmType type = (AlgorithmType)algorithmTypes.getSelectedItem();
+					Algorithm newAlgorithm = type.newInstance();
+					tryChangeAlgorithm(newAlgorithm);
+				}
 			} catch (WrongTypeException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
