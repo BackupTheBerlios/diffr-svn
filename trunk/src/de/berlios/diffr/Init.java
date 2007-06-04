@@ -165,7 +165,7 @@ public class Init {
 			taskType1.addAlgorithmType(new AlgorithmType("Algorithm for very simple task",
 						"petr_mikheev", "2.0", AlgorithmForVerySimpleTask2.class));
 			
-			InputData inputData2 = new InputData(new PeriodicSurface(), new ImpingingPlaneWave());
+			InputData inputData2 = new InputDataForDiffractionOfPlaneWaveOnPeriodicSurface(new PeriodicSurface(), new ImpingingPlaneWave());
 			AlgorithmType algorithmType2 =
 				new AlgorithmType("Small perturbation algorithm",
 						"andrmikheev", "0.01", SmallPerturbationAlgorithm.class);

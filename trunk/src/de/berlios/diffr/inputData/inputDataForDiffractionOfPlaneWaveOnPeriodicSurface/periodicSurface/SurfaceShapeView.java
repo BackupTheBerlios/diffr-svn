@@ -63,8 +63,12 @@ public class SurfaceShapeView extends View {
 			public void modelWasChanged(Model model) {
 				try {
 					ArrayList newCoefs = new ArrayList();
-					for (int a=0;a<((Integer)coefNumberData.getValue()).intValue();a++)
-						newCoefs.add(new FourierCoefficient(0, 0));
+					for (int a=0;a<((Integer)coefNumberData.getValue()).intValue();a++) {
+						if (a<surfaceShape.getFourierCoefficients().size())
+							newCoefs.add(surfaceShape.getFourierCoefficients().get(a));
+						else
+							newCoefs.add(new FourierCoefficient(0, 0));
+					}
 					surfaceShape.setFourierCoefficients(newCoefs);
 				} catch (ObjectIsnotEditableException e) {
 					JOptionPane.showMessageDialog(null, "You can`t change this now");
@@ -76,8 +80,7 @@ public class SurfaceShapeView extends View {
 					} catch (WrongTypeException e1) {e1.printStackTrace();
 					} catch (ObjectIsnotEditableException e1) {e1.printStackTrace();}
 				}
-				validateTree();
-				repaint();
+				table.addNotify();
 			}
 		});
 		makeFourierCoefficientsTable();
@@ -96,13 +99,65 @@ public class SurfaceShapeView extends View {
 		return surfaceShape.getPeriod();
 	}
 	public double getModelSizeY() {
-		return 0;
+		return (maxHeight - minHeight)*2;
 	}
+	private double maxHeight = 0;
+	private double minHeight = 0;
 	public void drawImage(Graphics g, double scale) {
-		g.setColor(new Color(50, 50, 50));
+		g.setColor(new Color(0, 0, 255));
 		int centerX = g.getClipBounds().width / 2;
 		int centerY = g.getClipBounds().height / 2;
-		g.drawLine((int)(centerX - surfaceShape.getPeriod() / 2 * scale), centerY, (int)(centerX + surfaceShape.getPeriod() / 2 * scale), centerY);
+		double newMaxHeight = Double.MIN_VALUE;
+		double newMinHeight = Double.MAX_VALUE;
+		double x=0;
+		double lastX = 0;
+		double lastY = 0;
+		while (x<surfaceShape.getPeriod()) {
+			double y = 0;
+			Iterator i = surfaceShape.getFourierCoefficients().iterator();
+			int n = 0;
+			while (i.hasNext()) {
+				FourierCoefficient c = (FourierCoefficient) i.next();
+				n++;
+				y += c.getCoefficientOfCosinis() * Math.cos(n * x * 2 * Math.PI / surfaceShape.getPeriod());
+				y += c.getCoefficientOfSinis() * Math.sin(n * x * 2 * Math.PI / surfaceShape.getPeriod());
+			}
+			if (y<newMinHeight) newMinHeight = y;
+			if (y>newMaxHeight) newMaxHeight = y;
+			int x1 = (int)(centerX - surfaceShape.getPeriod() / 2 * scale + lastX * scale);
+			int x2 = (int)(centerX - surfaceShape.getPeriod() / 2 * scale + x * scale);
+			int y1 = (int)(centerY - lastY * scale + maxHeight * scale);
+			int y2 = (int)(centerY - y * scale + maxHeight * scale);
+			lastX = x;
+			lastY = y;
+			x += 1 / scale;
+		}
+		if ((maxHeight != newMaxHeight) || (minHeight != newMinHeight)) {
+			maxHeight = newMaxHeight;
+			minHeight = newMinHeight;
+		}
+		x=0;
+		lastX = 0;
+		lastY = 0;
+		while (x<surfaceShape.getPeriod()) {
+			double y = 0;
+			Iterator i = surfaceShape.getFourierCoefficients().iterator();
+			int n = 0;
+			while (i.hasNext()) {
+				FourierCoefficient c = (FourierCoefficient) i.next();
+				n++;
+				y += c.getCoefficientOfCosinis() * Math.cos(n * x * 2 * Math.PI / surfaceShape.getPeriod());
+				y += c.getCoefficientOfSinis() * Math.sin(n * x * 2 * Math.PI / surfaceShape.getPeriod());
+			}
+			int x1 = (int)(centerX - surfaceShape.getPeriod() / 2 * scale + lastX * scale);
+			int x2 = (int)(centerX - surfaceShape.getPeriod() / 2 * scale + x * scale);
+			int y1 = (int)(centerY - lastY * scale + maxHeight * scale);
+			int y2 = (int)(centerY - y * scale + maxHeight * scale);
+			if (x>0) g.drawLine(x1, y1, x2, y2);
+			lastX = x;
+			lastY = y;
+			x += 1 / scale;
+		}
 	}
 	private void makeFourierCoefficientsTable() {
 		TableModel model = new AbstractTableModel() {

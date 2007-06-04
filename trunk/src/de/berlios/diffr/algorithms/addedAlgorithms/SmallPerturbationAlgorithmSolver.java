@@ -21,7 +21,8 @@ public class SmallPerturbationAlgorithmSolver extends AlgorithmBase {
 		for (int j = -gam_min; j<= gam_max; j++){
 				System.out.println("j =  " + j);
 			waves[counter] = new ReflectedPlaneWave(polarization, calculateAngle(j), waveLength, calculateAmplitude(j));
-				Complex r = calculateAmplitude(j);
+			counter++;
+			Complex r = calculateAmplitude(j);
 				System.out.println("Amplitude re =  " + r.re() + "   im = " + r.im());
 		}
 			System.out.println("waves.length =  " + waves.length);

@@ -20,7 +20,7 @@ public class ImpingingPlaneWave extends ImpingingField {
 	private boolean polarization = ImpingingPlaneWave.polarizationE;
 	private double angle = 1;
 	private Complex amplitude = new Complex(1, 1);
-	private double waveLength = 10;
+	private double waveLength = 1;
 
 	public double getLength() {
 	    return waveLength;

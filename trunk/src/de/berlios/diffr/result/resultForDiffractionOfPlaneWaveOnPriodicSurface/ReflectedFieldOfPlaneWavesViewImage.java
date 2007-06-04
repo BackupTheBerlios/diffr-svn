@@ -14,12 +14,12 @@ public class ReflectedFieldOfPlaneWavesViewImage extends View {
 		int height = g.getClipBounds().height;
 		g.fillRect(0, 0, width, height);
 		ReflectedPlaneWave[] waves = field.getWaves();
-		int maxX = 0;
-		int maxY = 0;
+		double maxX = 0;
+		double maxY = 0;
 		for (int a=0;a<waves.length;a++) {
 			if (waves[a] != null) {
-				int sizeX = (int)Math.abs(waves[a].getAmplitude().abs()*Math.sin(waves[a].getAngle())*2.5);
-				int sizeY = (int)Math.abs(waves[a].getAmplitude().abs()*Math.cos(waves[a].getAngle())*2.5);
+				double sizeX = Math.abs(waves[a].getAmplitude().abs()*Math.sin(waves[a].getAngle())*3);
+				double sizeY = Math.abs(waves[a].getAmplitude().abs()*Math.cos(waves[a].getAngle())*3);
 				if (sizeX > maxX) maxX = sizeX;
 				if (sizeY > maxY) maxY = sizeY;
 			}
@@ -28,21 +28,21 @@ public class ReflectedFieldOfPlaneWavesViewImage extends View {
 		if (maxX !=0) scaleX = this.getWidth() / maxX;
 		else scaleX = Double.MAX_VALUE;
 		double scaleY;
-		if (maxY !=0) scaleY = this.getWidth() / maxY;
+		if (maxY !=0) scaleY = this.getHeight() / maxY;
 		else scaleY = Double.MAX_VALUE;
 		double scale = Math.min(scaleX, scaleY);
 		g.setColor(new Color(100, 120, 100));
 		g.drawString("Scale:" + (int)scale, 0, 20);
 		for (int a=0;a<waves.length;a++) {
 			g.setColor(new Color(0, 255, 0));
-			if (waves[a] != null) {
+			if ((waves[a] != null) && (waves[a].getAmplitude().abs() > 0)) {
 				int x = width / 2;
 				int y = height / 2;
-				int x1 = (int) (x - waves[a].getAmplitude().abs() * scale * Math.sin(waves[a].getAngle()));
+				int x1 = (int) (x + waves[a].getAmplitude().abs() * scale * Math.sin(waves[a].getAngle()));
 				int y1 = (int) (y - waves[a].getAmplitude().abs() * scale * Math.cos(waves[a].getAngle()));
-				int x2 = (int) (x1 - 10 * Math.sin(waves[a].getAngle() + Math.PI + 0.3));
+				int x2 = (int) (x1 + 10 * Math.sin(waves[a].getAngle() + Math.PI + 0.3));
 				int y2 = (int) (y1 - 10 * Math.cos(waves[a].getAngle() + Math.PI + 0.3));
-				int x3 = (int) (x1 - 10 * Math.sin(waves[a].getAngle() + Math.PI - 0.3));
+				int x3 = (int) (x1 + 10 * Math.sin(waves[a].getAngle() + Math.PI - 0.3));
 				int y3 = (int) (y1 - 10 * Math.cos(waves[a].getAngle() + Math.PI - 0.3));
 				g.drawLine(x, y, x1, y1);
 				g.drawLine(x1, y1, x2, y2);

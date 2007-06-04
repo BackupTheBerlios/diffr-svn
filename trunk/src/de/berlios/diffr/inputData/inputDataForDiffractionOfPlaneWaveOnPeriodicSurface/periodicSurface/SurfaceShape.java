@@ -14,7 +14,7 @@ public class SurfaceShape extends Model {
 	    this.fourierCoefficients = fourierCoefficients;
 	}
 	
-	private double period = 1;
+	private double period = Math.PI * 2;
 	private double shift = 0;
 	private ArrayList fourierCoefficients = new ArrayList();
 	

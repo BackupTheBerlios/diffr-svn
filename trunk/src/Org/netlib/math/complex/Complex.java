@@ -906,7 +906,7 @@ Complex implements Cloneable, Serializable {
 
      public Complex
      add (double scalar) {
-         return new Complex(re + scalar, im + scalar);
+         return new Complex(re + scalar, im );
      }
 
 

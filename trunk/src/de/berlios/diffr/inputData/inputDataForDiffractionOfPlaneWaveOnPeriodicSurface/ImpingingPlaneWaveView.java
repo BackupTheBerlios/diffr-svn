@@ -111,10 +111,10 @@ public class ImpingingPlaneWaveView extends InputDataPartView {
 		this.add(EPolarization);
 	}
 	public double getModelSizeX() {
-		return Math.abs(planeWave.getAmplitude().abs() * Math.sin(planeWave.getAngle()) * 2.5);
+		return Math.abs(planeWave.getLength() * Math.sin(planeWave.getAngle()) * 2.5);
 	}
 	public double getModelSizeY() {
-		return Math.abs(planeWave.getAmplitude().abs() * Math.cos(planeWave.getAngle()) * 2.5);
+		return Math.abs(planeWave.getLength() * Math.cos(planeWave.getAngle()) * 2.5);
 	}
 	public void drawImage(Graphics g, double scale) {
 		int width = g.getClipBounds().width;
@@ -122,8 +122,8 @@ public class ImpingingPlaneWaveView extends InputDataPartView {
 		g.setColor(new Color(255, 0, 0));
 		int x = width / 2;
 		int y = height / 2;
-		int x1 = (int) (x - planeWave.getAmplitude().abs() * scale * Math.sin(planeWave.getAngle()));
-		int y1 = (int) (y - planeWave.getAmplitude().abs() * scale * Math.cos(planeWave.getAngle()));
+		int x1 = (int) (x - planeWave.getLength() * scale * Math.sin(planeWave.getAngle()));
+		int y1 = (int) (y - planeWave.getLength() * scale * Math.cos(planeWave.getAngle()));
 		int x2 = (int) (x - 10 * Math.sin(planeWave.getAngle() + 0.3));
 		int y2 = (int) (y - 10 * Math.cos(planeWave.getAngle() + 0.3));
 		int x3 = (int) (x - 10 * Math.sin(planeWave.getAngle() - 0.3));
