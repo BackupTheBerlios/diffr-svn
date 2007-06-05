@@ -156,14 +156,6 @@ public class Init {
 			e.printStackTrace();
 			
 			taskTypes = new ArrayList();
-			InputData inputData1 = new InputData(new PlaneMirrowSurface(), new VerySimpleWave());
-			AlgorithmType algorithmType1 =
-				new AlgorithmType("Algorithm for very simple task",
-						"petr_mikheev", "1.0", AlgorithmForVerySimpleTask.class);
-			Algorithm algorithm1 = new AlgorithmForVerySimpleTask(algorithmType1);
-			TaskType taskType1 = new TaskType("Very simple task", inputData1, algorithm1);
-			taskType1.addAlgorithmType(new AlgorithmType("Algorithm for very simple task",
-						"petr_mikheev", "2.0", AlgorithmForVerySimpleTask2.class));
 			
 			InputData inputData2 = new InputDataForDiffractionOfPlaneWaveOnPeriodicSurface(new PeriodicSurface(), new ImpingingPlaneWave());
 			AlgorithmType algorithmType2 =
@@ -173,7 +165,6 @@ public class Init {
 			TaskType taskType2 = new TaskType("Diffraction of plane wave on periodic surface", inputData2, algorithm2);
 			
 			taskTypes.add(taskType2);
-			taskTypes.add(taskType1);			
 		}
 	}
 	

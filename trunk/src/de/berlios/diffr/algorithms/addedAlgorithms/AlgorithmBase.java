@@ -13,7 +13,7 @@ public abstract class AlgorithmBase {
 	protected double lamNull;
 	protected boolean polarization;
 	protected Complex h;
-	private Complex amplitude;
+	protected Complex amplitude;
 	private Complex [] f_negative_index;
 	private Complex [] f_positive_and_0_index;
 	protected int f_size;

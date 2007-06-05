@@ -27,15 +27,6 @@ public class ViewFactory {
 			view.setResult((Result)model);
 			return view;
 		}
-		if (model.getClass() == PlaneMirrowSurface.class) {
-			return new PlaneMirrowSurfaceView( (PlaneMirrowSurface) model);
-		}
-		if (model.getClass() == VerySimpleWave.class) {
-			return new VerySimpleWaveView( (VerySimpleWave) model);
-		}
-		if (model.getClass() == ReflectedWave.class) {
-			return new ReflectedWaveView( (ReflectedWave) model);
-		}
 		if (model.getClass() == DataString.class) {
 			return new DataStringView( (DataString) model);
 		}
