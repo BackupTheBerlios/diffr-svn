@@ -4,11 +4,9 @@ import java.awt.*;
 import de.berlios.diffr.exceptions.*;
 import de.berlios.diffr.task.*;
 import de.berlios.diffr.inputData.*;
-import de.berlios.diffr.inputData.inputDataForVerySimpleTask.*;
 import de.berlios.diffr.inputData.inputDataForDiffractionOfPlaneWaveOnPeriodicSurface.*;
 import de.berlios.diffr.inputData.inputDataForDiffractionOfPlaneWaveOnPeriodicSurface.periodicSurface.*;
 import de.berlios.diffr.result.*;
-import de.berlios.diffr.result.resultForVerySimpleTask.*;
 import de.berlios.diffr.result.resultForDiffractionOfPlaneWaveOnPriodicSurface.*;
 
 public class ViewFactory {

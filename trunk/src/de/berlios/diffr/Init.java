@@ -8,7 +8,6 @@ import de.berlios.diffr.task.*;
 import de.berlios.diffr.exceptions.TaskIsSolvingException;
 import de.berlios.diffr.exceptions.TaskIsnotSolvingException;
 import de.berlios.diffr.exceptions.UnknownTaskTypeException;
-import de.berlios.diffr.inputData.inputDataForVerySimpleTask.*;
 import de.berlios.diffr.inputData.inputDataForDiffractionOfPlaneWaveOnPeriodicSurface.*;
 import de.berlios.diffr.inputData.inputDataForDiffractionOfPlaneWaveOnPeriodicSurface.periodicSurface.*;
 import de.berlios.diffr.inputData.*;
