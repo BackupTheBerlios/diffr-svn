@@ -16,7 +16,10 @@ import de.berlios.diffr.algorithms.addedAlgorithms.*;
 import java.util.*;
 
 public class Init {
+	public static String path = "";
 	public static void main(String[] args) {
+		if (args.length > 0)
+			path = args[0];
 		new Init();
 	}
 	
@@ -124,7 +127,7 @@ public class Init {
 	
 	private Task loadLastSavedTask() {
 		try {
-			return readTask("autosave.task");
+			return readTask(path + "autosave.task");
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ((TaskType)taskTypes.get(0)).newTask();
@@ -133,7 +136,7 @@ public class Init {
 	
 	private void saveCurrentTask() {
 		try {
-			writeTask("autosave.task", currentTask);
+			writeTask(path + "autosave.task", currentTask);
 		} catch (TaskIsSolvingException e) {
 			try {
 				currentTask.stop();
@@ -146,7 +149,7 @@ public class Init {
 	
 	private void loadTaskTypes() {
 		try {
-			ObjectInputStream in = new ObjectInputStream(new FileInputStream("taskTypes.d6"));
+			ObjectInputStream in = new ObjectInputStream(new FileInputStream(path + "taskTypes.d6"));
 			taskTypes = (ArrayList)in.readObject();
 			Iterator i = taskTypes.iterator();
 			while (i.hasNext())
@@ -169,7 +172,7 @@ public class Init {
 	
 	private void saveTaskTypes() {
 		try {
-			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("taskTypes.d6"));
+			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(path + "taskTypes.d6"));
 			out.writeObject(taskTypes);
 			out.close();
 		} catch (Exception e) {
@@ -280,7 +283,17 @@ public class Init {
 	private JMenu newHelpMenu() {
 		JMenu menu = new JMenu("Help");
 		menu.addSeparator();
-		JMenuItem aboutItem = new JMenuItem("About Diffr6");
+		JMenuItem aboutItem = new JMenuItem("User manual");
+		aboutItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Runtime.getRuntime().exec(path + "userManual.bat "+path);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		menu.add(aboutItem);
 		return menu;
 	}

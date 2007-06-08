@@ -25,7 +25,7 @@ public class InputDataView extends View {
 			e.printStackTrace();
 		}
 		tabbedPane.add("Surface", surfaceView);
-		tabbedPane.add("ImpingingField", impingingFieldView);
+		tabbedPane.add("Impinging field", impingingFieldView);
 		this.setLayout(new BorderLayout());
 		this.add(tabbedPane);
 	}
