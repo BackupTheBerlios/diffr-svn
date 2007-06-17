@@ -47,4 +47,10 @@ public class PeriodicSurface extends Surface {
 
 	private SurfaceShape shape = new SurfaceShape();
 	private SurfaceConductivity conductivity = new PerfectConductivity();
+
+	public PeriodicSurface nonDimensioning() {
+		SurfaceShape nonDimensionalShape = shape.nonDimensioning(); 
+		SurfaceConductivity nonDimensionalConductivity = conductivity.nonDimensioning(); 
+		return new PeriodicSurface(nonDimensionalShape, nonDimensionalConductivity);
+	}
 }

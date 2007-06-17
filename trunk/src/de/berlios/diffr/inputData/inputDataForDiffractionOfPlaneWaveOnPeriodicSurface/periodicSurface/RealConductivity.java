@@ -13,4 +13,7 @@ public class RealConductivity extends SurfaceConductivity {
 	public Complex getEpsilon() {
 		return epsilon;
 	}
+	public SurfaceConductivity nonDimensioning() {
+		return new RealConductivity(epsilon) ;
+	}
 }

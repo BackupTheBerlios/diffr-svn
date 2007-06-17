@@ -1,6 +1,8 @@
 package de.berlios.diffr.result;
 
 import de.berlios.diffr.*;
+import de.berlios.diffr.inputData.InputData;
+import de.berlios.diffr.result.resultForDiffractionOfPlaneWaveOnPriodicSurface.ReflectedFieldOfPlaneWaves;
 
 public class Result extends Model {
 	private ReflectedField reflectedField;
@@ -19,5 +21,15 @@ public class Result extends Model {
 	}
 	public PassedField getPassedField() {
 		return passedField;
+	}
+	public Result dimensioning(InputData inputData) {
+		ReflectedFieldOfPlaneWaves dimensionalReflectedField = ((ReflectedFieldOfPlaneWaves)reflectedField).dimensioning(inputData);
+		SurfaceCurrent dimensionalSurfaceCurrent = null;
+		PassedField dimensionalPassedField = null;
+		if ( surfaceCurrent != null)
+			dimensionalSurfaceCurrent = surfaceCurrent.dimensioning(inputData);
+		if ( passedField != null)
+			dimensionalPassedField = passedField.dimensioning(inputData);
+		return 	new Result(dimensionalReflectedField, dimensionalPassedField, dimensionalSurfaceCurrent);
 	}
 }

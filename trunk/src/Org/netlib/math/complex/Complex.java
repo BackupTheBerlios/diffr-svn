@@ -153,7 +153,7 @@ Complex implements Cloneable, Serializable {
     * radians is the same thing as 360 degrees.
     * <p>
     **/
-    protected static final double          TWO_PI              =  2.0 * Math.PI;
+    public static final double          TWO_PI              =  2.0 * Math.PI;
 
     /**
     * A constant representing <i><b>i</b></i>, the famous square root of
@@ -162,7 +162,7 @@ Complex implements Cloneable, Serializable {
     * The other square root of <i>-1</i> is - <i><b>i</b></i>.
     * <p>
     **/
-    public    static final Complex         i                   =  new Complex(0.0, 1.0);
+    public static final Complex         i                   =  new Complex(0.0, 1.0);
 
     // private   static       long            objectCount;                        // !!!
 

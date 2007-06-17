@@ -1,8 +1,14 @@
 package de.berlios.diffr.inputData;
 
 import de.berlios.diffr.*;
+import de.berlios.diffr.inputData.inputDataForDiffractionOfPlaneWaveOnPeriodicSurface.ImpingingPlaneWave;
+import de.berlios.diffr.inputData.inputDataForDiffractionOfPlaneWaveOnPeriodicSurface.NonDimensionInputData;
+import de.berlios.diffr.inputData.inputDataForDiffractionOfPlaneWaveOnPeriodicSurface.periodicSurface.PeriodicSurface;
 
 public class InputData extends Model {
+	/**
+	 * 
+	 */
 	private Surface surface;
 	private ImpingingField impingingField;
 	public InputData(Surface surface, ImpingingField field) {
@@ -43,5 +49,13 @@ public class InputData extends Model {
 		super.setEditable(b);
 		surface.setEditable(b);
 		impingingField.setEditable(b);
+	}
+
+	public NonDimensionInputData nonDimensioning(){
+
+		PeriodicSurface nonDimensionalSurface = ((PeriodicSurface)surface).nonDimensioning(); 
+		ImpingingPlaneWave nonDimensionalWave = ((ImpingingPlaneWave) impingingField).nonDimensioning(((PeriodicSurface)surface).getShape().getPeriod());
+		
+		return new NonDimensionInputData(nonDimensionalSurface, nonDimensionalWave);
 	}
 }

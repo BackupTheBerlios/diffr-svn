@@ -19,7 +19,7 @@ public class ImpingingPlaneWave extends ImpingingField {
 
 	private boolean polarization = ImpingingPlaneWave.polarizationE;
 	private double angle = 1;
-	private Complex amplitude = new Complex(1, 1);
+	private Complex amplitude = new Complex(1.0, 0.0);
 	private double waveLength = 1;
 
 	public double getLength() {
@@ -59,5 +59,12 @@ public class ImpingingPlaneWave extends ImpingingField {
 		if (!isEditable()) throw new ObjectIsnotEditableException();
 		this.polarization = polarization;
 		modelWasChangedEvent();
+	}
+	public ImpingingPlaneWave nonDimensioning(double period) {
+	    Complex nonDimensionalAmplitude = new Complex(1.0,0.0);
+	    double nonDimensionalAngle = angle;
+	    boolean nonDimensionalPolarization = polarization;
+	    double nonDimensionalWaveLength = waveLength*Complex.TWO_PI/period;
+		return new ImpingingPlaneWave(nonDimensionalPolarization, nonDimensionalAngle, nonDimensionalWaveLength, nonDimensionalAmplitude) ;
 	}
 }

@@ -13,4 +13,7 @@ public class HeightConductivity extends SurfaceConductivity {
 	public Complex getEpsilon() {
 		return epsilon;
 	}
+	public SurfaceConductivity nonDimensioning() {
+		return new HeightConductivity(epsilon);
+	}
 }

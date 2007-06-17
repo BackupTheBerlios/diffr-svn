@@ -5,7 +5,7 @@ import de.berlios.diffr.inputData.*;
 import de.berlios.diffr.inputData.inputDataForDiffractionOfPlaneWaveOnPeriodicSurface.*;
 import de.berlios.diffr.inputData.inputDataForDiffractionOfPlaneWaveOnPeriodicSurface.periodicSurface.*;
 
-public abstract class AlgorithmBase {
+public abstract class AlgorithmBase  {
 
 	protected double k;
 	protected double alpha;
@@ -18,7 +18,7 @@ public abstract class AlgorithmBase {
 	private Complex [] f_positive_and_0_index;
 	protected int f_size;
 	
-	public void initialize (InputData inputData){
+	public void initialize (NonDimensionInputData inputData){
 				System.out.println("initialization started");
 		PeriodicSurface surface = (PeriodicSurface) inputData.getSurface();
 		ImpingingPlaneWave wave = (ImpingingPlaneWave) inputData.getImpingingField();
@@ -39,19 +39,16 @@ public abstract class AlgorithmBase {
  				System.out.println("f_size = " + f_size);
  		f_negative_index = new Complex[f_size + 1];
  		f_positive_and_0_index = new Complex[f_size + 1];
- 		double shiftDimension = surface.getShape().getShift();
- 		double shiftDimensionless = shiftDimension * 2.0 * Math.PI / surface.getShape().getPeriod(); 
+ 		double shiftDimensionless = surface.getShape().getShift();
  				System.out.println("shiftDimensionless = " + shiftDimensionless);
  		f_positive_and_0_index[0] = new Complex(shiftDimensionless,0.0);
  		
  		if ( f_size > 0){
  			for (int i = 1; i <= f_size; i++) {
  				System.out.println("f_size cycle " );
- 				double reDimension = ( (FourierCoefficient) surface.getShape().getFourierCoefficients().get(i)).getCoefficientOfCosinis() / 2.0;
- 				double reDimensionless = reDimension * 2.0 * Math.PI / surface.getShape().getPeriod();
+ 				double reDimensionless = ( (FourierCoefficient) surface.getShape().getFourierCoefficients().get(i)).getCoefficientOfCosinus() / 2.0;
  			
- 				double imDimension = - ( (FourierCoefficient) surface.getShape().getFourierCoefficients().get(i)).getCoefficientOfSinis() / 2.0;
- 				double imDimensionless = imDimension * 2.0 * Math.PI / surface.getShape().getPeriod();
+ 				double imDimensionless = - ( (FourierCoefficient) surface.getShape().getFourierCoefficients().get(i)).getCoefficientOfSinus() / 2.0;
  			
  				f_negative_index[i] = new Complex(reDimensionless,-imDimensionless);
  				f_positive_and_0_index[i] = new Complex(reDimensionless,imDimensionless);
@@ -105,6 +102,6 @@ public abstract class AlgorithmBase {
 	protected abstract Complex calculateNonDimensionalAmplitude(int n);
 
 	protected Complex calculateAmplitude(int n){
-		return calculateNonDimensionalAmplitude(n).mul(amplitude);
+		return calculateNonDimensionalAmplitude(n);
 	}
 }

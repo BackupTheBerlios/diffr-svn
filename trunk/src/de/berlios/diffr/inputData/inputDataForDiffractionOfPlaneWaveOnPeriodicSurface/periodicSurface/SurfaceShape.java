@@ -4,6 +4,8 @@ import de.berlios.diffr.Model;
 import de.berlios.diffr.exceptions.ObjectIsnotEditableException; 
 import java.util.*;
 
+import Org.netlib.math.complex.Complex;
+
 public class SurfaceShape extends Model {
 	public SurfaceShape() {
 		fourierCoefficients.add(new FourierCoefficient(0.1, 0.05));
@@ -14,7 +16,7 @@ public class SurfaceShape extends Model {
 	    this.fourierCoefficients = fourierCoefficients;
 	}
 	
-	private double period = Math.PI * 2;
+	private double period = Complex.TWO_PI;
 	private double shift = 0;
 	private ArrayList fourierCoefficients = new ArrayList();
 	
@@ -46,5 +48,19 @@ public class SurfaceShape extends Model {
 		if (!isEditable()) throw new ObjectIsnotEditableException();
 	    fourierCoefficients = (ArrayList)c.clone();
 	    modelWasChangedEvent();
+	}
+	
+	public SurfaceShape nonDimensioning(){
+		double nonDimensionalPeriod = Complex.TWO_PI;
+		double nonDimensionalShift = shift*Complex.TWO_PI/period;
+		ArrayList nonDimensionalFourierCoefficients = (ArrayList) fourierCoefficients.clone();
+		for (int j=0;j<fourierCoefficients.size();j++){
+			FourierCoefficient coef = (FourierCoefficient) fourierCoefficients.get(j);
+			double nonDimenisonalCosCoef = coef.getCoefficientOfCosinus()*Complex.TWO_PI/period;
+			double nonDimenisonalSinCoef = coef.getCoefficientOfSinus()*Complex.TWO_PI/period;
+			FourierCoefficient nonDimensionCoef = new FourierCoefficient( nonDimenisonalCosCoef,  nonDimenisonalSinCoef); 
+			nonDimensionalFourierCoefficients.set(j,nonDimensionCoef);
+		}
+		return new SurfaceShape(nonDimensionalPeriod, nonDimensionalShift, nonDimensionalFourierCoefficients);
 	}
 }

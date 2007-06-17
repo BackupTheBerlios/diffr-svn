@@ -9,4 +9,10 @@ public class NonDimensionInputData {
 		this.surface = surface;
 		this.wave = wave;
 	}
+	public PeriodicSurface getSurface() {
+		return surface;
+	}
+	public ImpingingPlaneWave getImpingingField() {
+		return wave;
+	}
 }

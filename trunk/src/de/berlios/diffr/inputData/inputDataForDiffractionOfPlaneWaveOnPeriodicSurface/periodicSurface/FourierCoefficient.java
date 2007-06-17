@@ -12,10 +12,10 @@ public class FourierCoefficient implements Serializable {
 		this.coefficientOfCosinus = coefficientOfCosinus;
 		this.coefficientOfSinus = coefficientOfSinus;
 	}
-	public double getCoefficientOfCosinis() {
+	public double getCoefficientOfCosinus() {
 		return coefficientOfCosinus;
 	}
-	public double getCoefficientOfSinis() {
+	public double getCoefficientOfSinus() {
 		return coefficientOfSinus;
 	}
 }

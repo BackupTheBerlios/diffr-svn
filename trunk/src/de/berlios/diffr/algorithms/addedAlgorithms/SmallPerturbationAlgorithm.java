@@ -2,19 +2,20 @@ package de.berlios.diffr.algorithms.addedAlgorithms;
 
 import de.berlios.diffr.result.*;
 import de.berlios.diffr.inputData.*;
+import de.berlios.diffr.inputData.inputDataForDiffractionOfPlaneWaveOnPeriodicSurface.NonDimensionInputData;
 import de.berlios.diffr.DataString;
 import de.berlios.diffr.algorithms.Algorithm;
 import de.berlios.diffr.algorithms.AlgorithmType;
 import de.berlios.diffr.exceptions.*;
 
-public class SmallPerturbationAlgorithm extends Algorithm {
+public class SmallPerturbationAlgorithm extends AbstractAlgorithmForDiffrractionOfPlaneWaveOnPeriodicSurface {
 	public SmallPerturbationAlgorithm(AlgorithmType algorithmType) {
 		super(algorithmType);
 		parameters = new DataString[1];
 		parameters[0] = new DataString("Order", new Integer(1));
 	}
 	
-	public Result run(InputData inputData) throws ErrorInAlgorithmException {
+	public Result calculate(NonDimensionInputData inputData) throws ErrorInAlgorithmException {
 		SmallPerturbationAlgorithmSolver solver = new SmallPerturbationAlgorithmSolver();
 		solver.initialize(inputData);
 			System.out.println("solver initialization ends");

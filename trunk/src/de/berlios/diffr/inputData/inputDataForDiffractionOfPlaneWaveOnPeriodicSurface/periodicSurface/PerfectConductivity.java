@@ -2,4 +2,7 @@ package de.berlios.diffr.inputData.inputDataForDiffractionOfPlaneWaveOnPeriodicS
 
 public class PerfectConductivity extends SurfaceConductivity {
 
+	public SurfaceConductivity nonDimensioning() {
+		return new PerfectConductivity();
+	}
 }

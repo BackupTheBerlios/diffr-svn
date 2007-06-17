@@ -119,8 +119,8 @@ public class SurfaceShapeView extends View {
 			while (i.hasNext()) {
 				FourierCoefficient c = (FourierCoefficient) i.next();
 				n++;
-				y += c.getCoefficientOfCosinis() * Math.cos(n * x * 2 * Math.PI / surfaceShape.getPeriod());
-				y += c.getCoefficientOfSinis() * Math.sin(n * x * 2 * Math.PI / surfaceShape.getPeriod());
+				y += c.getCoefficientOfCosinus() * Math.cos(n * x * 2 * Math.PI / surfaceShape.getPeriod());
+				y += c.getCoefficientOfSinus() * Math.sin(n * x * 2 * Math.PI / surfaceShape.getPeriod());
 			}
 			if (y<newMinHeight) newMinHeight = y;
 			if (y>newMaxHeight) newMaxHeight = y;
@@ -146,8 +146,8 @@ public class SurfaceShapeView extends View {
 			while (i.hasNext()) {
 				FourierCoefficient c = (FourierCoefficient) i.next();
 				n++;
-				y += c.getCoefficientOfCosinis() * Math.cos(n * x * 2 * Math.PI / surfaceShape.getPeriod());
-				y += c.getCoefficientOfSinis() * Math.sin(n * x * 2 * Math.PI / surfaceShape.getPeriod());
+				y += c.getCoefficientOfCosinus() * Math.cos(n * x * 2 * Math.PI / surfaceShape.getPeriod());
+				y += c.getCoefficientOfSinus() * Math.sin(n * x * 2 * Math.PI / surfaceShape.getPeriod());
 			}
 			int x1 = (int)(centerX - surfaceShape.getPeriod() / 2 * scale + lastX * scale);
 			int x2 = (int)(centerX - surfaceShape.getPeriod() / 2 * scale + x * scale);
@@ -167,8 +167,8 @@ public class SurfaceShapeView extends View {
 	        	if (col==0)
 					return new Integer(row);
 	        	if (col==1)
-					return new Double(((FourierCoefficient)surfaceShape.getFourierCoefficients().get(row)).getCoefficientOfCosinis());
-	        	return new Double(((FourierCoefficient)surfaceShape.getFourierCoefficients().get(row)).getCoefficientOfSinis());
+					return new Double(((FourierCoefficient)surfaceShape.getFourierCoefficients().get(row)).getCoefficientOfCosinus());
+	        	return new Double(((FourierCoefficient)surfaceShape.getFourierCoefficients().get(row)).getCoefficientOfSinus());
 	        }
 	        public String getColumnName(int n) {
 	        	switch (n) {
@@ -190,10 +190,10 @@ public class SurfaceShapeView extends View {
 					double sinVal;
 					if (table.getSelectedColumn() == 1) {
 						cosVal = Double.parseDouble((String)table.getCellEditor().getCellEditorValue());
-						sinVal = ((FourierCoefficient)surfaceShape.getFourierCoefficients().get(table.getSelectedRow())).getCoefficientOfSinis();
+						sinVal = ((FourierCoefficient)surfaceShape.getFourierCoefficients().get(table.getSelectedRow())).getCoefficientOfSinus();
 					} else {
 						sinVal = Double.parseDouble((String)table.getCellEditor().getCellEditorValue());
-						cosVal = ((FourierCoefficient)surfaceShape.getFourierCoefficients().get(table.getSelectedRow())).getCoefficientOfCosinis();
+						cosVal = ((FourierCoefficient)surfaceShape.getFourierCoefficients().get(table.getSelectedRow())).getCoefficientOfCosinus();
 					}
 					ArrayList newCoef = surfaceShape.getFourierCoefficients();
 					newCoef.set(table.getSelectedRow(), new FourierCoefficient(cosVal, sinVal));

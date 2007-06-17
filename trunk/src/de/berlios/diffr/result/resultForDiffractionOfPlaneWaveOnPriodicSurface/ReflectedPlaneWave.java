@@ -36,4 +36,12 @@ public class ReflectedPlaneWave extends Model {
 	public boolean getPolarization() {
 	    return polarization;
 	}
+
+	public ReflectedPlaneWave dimensioning(double period, Complex impingingWaveAmplitude) {
+	    Complex dimensionalAmplitude = amplitude.mul(impingingWaveAmplitude);
+	    double dimensionalAngle = angle;
+	    boolean dimensionalPolarization = polarization;
+	    double dimensionalWaveLength = waveLength/Complex.TWO_PI*period;
+		return new ReflectedPlaneWave(dimensionalPolarization, dimensionalAngle, dimensionalWaveLength, dimensionalAmplitude);
+	}
 }

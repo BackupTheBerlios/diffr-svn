@@ -19,7 +19,7 @@ public class AlgorithmPattern extends Algorithm {
 	public Result run(InputData inputData) throws ErrorInAlgorithmException {
 		PeriodicSurface surface = (PeriodicSurface)inputData.getSurface();
 		ImpingingPlaneWave impingingField = (ImpingingPlaneWave)inputData.getImpingingField();
-		double k = ((FourierCoefficient)surface.getShape().getFourierCoefficients().get(0)).getCoefficientOfCosinis();
+		double k = ((FourierCoefficient)surface.getShape().getFourierCoefficients().get(0)).getCoefficientOfCosinus();
 		return null;//temporary
 	}
 }
