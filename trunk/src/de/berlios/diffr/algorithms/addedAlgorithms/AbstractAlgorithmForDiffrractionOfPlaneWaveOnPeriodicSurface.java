@@ -3,7 +3,7 @@ package de.berlios.diffr.algorithms.addedAlgorithms;
 import de.berlios.diffr.DataString;
 import de.berlios.diffr.algorithms.Algorithm;
 import de.berlios.diffr.algorithms.AlgorithmType;
-import de.berlios.diffr.exceptions.ErrorInAlgorithmException;
+import de.berlios.diffr.exceptions.InputDataNotSupportedException;
 import de.berlios.diffr.inputData.ImpingingField;
 import de.berlios.diffr.inputData.InputData;
 import de.berlios.diffr.inputData.Surface;
@@ -19,7 +19,7 @@ public abstract class AbstractAlgorithmForDiffrractionOfPlaneWaveOnPeriodicSurfa
 		super(algorithmType);
 	}
 
-	public Result run(InputData inputData) throws ErrorInAlgorithmException {
+	public Result run(InputData inputData) throws InputDataNotSupportedException {
 		NonDimensionInputData data = nonDimensioning(inputData);
 		Result result = calculate(data);
 		return dimensioning(result, inputData);
@@ -32,5 +32,5 @@ public abstract class AbstractAlgorithmForDiffrractionOfPlaneWaveOnPeriodicSurfa
 		return inputData.nonDimensioning();
 	}
 
-	public abstract Result calculate(NonDimensionInputData inputData) throws ErrorInAlgorithmException;
+	public abstract Result calculate(NonDimensionInputData inputData) throws InputDataNotSupportedException;
 }
