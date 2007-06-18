@@ -20,7 +20,7 @@ public class Task extends Model {
 	public static final int resultIsnotCalculateState = 0;
 	public static final int taskIsSolvingState = 1;
 	public static final int taskStoppedState = 2;
-	public static final int errorInAlgorithmState = 3;
+	public static final int inputDataNotSupportedState = 3;
 	public static final int resultIsCalculateState = 4; 
 	
 	public Task(TaskType taskType, InputData initialInputData, Algorithm initialAlgorithm) {
@@ -83,8 +83,8 @@ public class Task extends Model {
 				try {
 					result = algorithm.run(inputData);
 					state = resultIsCalculateState;
-				} catch (ErrorInAlgorithmException e) {
-					state = errorInAlgorithmState;
+				} catch (InputDataNotSupportedException e) {
+					state = inputDataNotSupportedState;
 				}
 				algorithm.setEditable(true);
 				taskIsSolving = false;

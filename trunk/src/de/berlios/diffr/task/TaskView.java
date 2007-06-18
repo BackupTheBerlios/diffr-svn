@@ -135,7 +135,7 @@ public class TaskView extends View {
 	
 	private void renewState() {
 		switch (task.getState()) {
-			case Task.errorInAlgorithmState: state.setText("Error");
+			case Task.inputDataNotSupportedState: state.setText("Input data not supported");
 			break;
 			case Task.resultIsCalculateState: state.setText("Result is calculated");
 			break;
