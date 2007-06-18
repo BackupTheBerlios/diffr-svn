@@ -1,7 +1,7 @@
 package de.berlios.diffr.algorithms.addedAlgorithms;
 
 import de.berlios.diffr.algorithms.*;
-import de.berlios.diffr.exceptions.ErrorInAlgorithmException;
+import de.berlios.diffr.exceptions.InputDataNotSupportedException;
 import de.berlios.diffr.inputData.*;
 import de.berlios.diffr.inputData.inputDataForDiffractionOfPlaneWaveOnPeriodicSurface.ImpingingPlaneWave;
 import de.berlios.diffr.inputData.inputDataForDiffractionOfPlaneWaveOnPeriodicSurface.periodicSurface.*;
@@ -16,7 +16,7 @@ public class AlgorithmPattern extends Algorithm {
 		parameters[1] = new DataString("parameter2", new Double(0.2));
 	}
 	
-	public Result run(InputData inputData) throws ErrorInAlgorithmException {
+	public Result run(InputData inputData) throws InputDataNotSupportedException {
 		PeriodicSurface surface = (PeriodicSurface)inputData.getSurface();
 		ImpingingPlaneWave impingingField = (ImpingingPlaneWave)inputData.getImpingingField();
 		double k = ((FourierCoefficient)surface.getShape().getFourierCoefficients().get(0)).getCoefficientOfCosinus();
