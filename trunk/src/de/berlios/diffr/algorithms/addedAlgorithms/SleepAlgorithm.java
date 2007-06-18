@@ -2,7 +2,7 @@ package de.berlios.diffr.algorithms.addedAlgorithms;
 
 import de.berlios.diffr.*;
 import de.berlios.diffr.algorithms.*;
-import de.berlios.diffr.exceptions.ErrorInAlgorithmException;
+import de.berlios.diffr.exceptions.InputDataNotSupportedException;
 import de.berlios.diffr.inputData.InputData;
 import de.berlios.diffr.result.Result;
 
@@ -13,7 +13,7 @@ public class SleepAlgorithm extends Algorithm {
 		parameters[0] = new DataString("delay", new Long(5000));
 	}
 	
-	public Result run(InputData inputData) throws ErrorInAlgorithmException {
+	public Result run(InputData inputData) throws InputDataNotSupportedException {
 		try {
 			Thread.sleep(( (Long) parameters[0].getValue()).longValue());
 		} catch (InterruptedException e) {
