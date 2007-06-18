@@ -15,7 +15,7 @@ public class SmallPerturbationAlgorithm extends AbstractAlgorithmForDiffrraction
 		parameters[0] = new DataString("Order", new Integer(1));
 	}
 	
-	public Result calculate(NonDimensionInputData inputData) throws ErrorInAlgorithmException {
+	public Result calculate(NonDimensionInputData inputData)  {
 		SmallPerturbationAlgorithmSolver solver = new SmallPerturbationAlgorithmSolver();
 		solver.initialize(inputData);
 			System.out.println("solver initialization ends");
