@@ -8,10 +8,12 @@ public class Result extends Model {
 	private ReflectedField reflectedField;
 	private SurfaceCurrent surfaceCurrent;
 	private PassedField passedField;
-	public Result(ReflectedField reflectedField, PassedField passedField, SurfaceCurrent surfaceCurrent) {
+	private double energeticImperfection;
+	public Result(ReflectedField reflectedField, PassedField passedField, SurfaceCurrent surfaceCurrent, double energeticImperfection) {
 		this.reflectedField = reflectedField;
 		this.passedField = passedField;
 		this.surfaceCurrent = surfaceCurrent;
+		this.energeticImperfection = energeticImperfection;
 	}
 	public ReflectedField getReflectedField() {
 		return reflectedField;
@@ -22,6 +24,9 @@ public class Result extends Model {
 	public PassedField getPassedField() {
 		return passedField;
 	}
+	public double getEenergeticImperfection() {
+		return energeticImperfection;
+	}
 	public Result dimensioning(InputData inputData) {
 		ReflectedFieldOfPlaneWaves dimensionalReflectedField = ((ReflectedFieldOfPlaneWaves)reflectedField).dimensioning(inputData);
 		SurfaceCurrent dimensionalSurfaceCurrent = null;
@@ -30,6 +35,6 @@ public class Result extends Model {
 			dimensionalSurfaceCurrent = surfaceCurrent.dimensioning(inputData);
 		if ( passedField != null)
 			dimensionalPassedField = passedField.dimensioning(inputData);
-		return 	new Result(dimensionalReflectedField, dimensionalPassedField, dimensionalSurfaceCurrent);
+		return 	new Result(dimensionalReflectedField, dimensionalPassedField, dimensionalSurfaceCurrent, energeticImperfection);
 	}
 }

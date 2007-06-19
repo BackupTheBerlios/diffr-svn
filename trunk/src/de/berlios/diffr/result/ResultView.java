@@ -45,6 +45,7 @@ public class ResultView extends View {
 			} catch (NullPointerException e) {
 				// Algorithm can`t calculate this
 			}
+			tabbedPane.add("Energetic imperfection", new JLabel("Energetic imperfection " + newResult.getEenergeticImperfection()*100 + "%"));
 			this.add(tabbedPane);
 		}
 		validate();

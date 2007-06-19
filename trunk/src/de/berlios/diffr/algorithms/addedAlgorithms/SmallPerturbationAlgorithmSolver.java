@@ -29,7 +29,7 @@ public class SmallPerturbationAlgorithmSolver extends AlgorithmBase {
 			System.out.println("waves.length =  " + waves.length);
 		ReflectedFieldOfPlaneWaves reflectedField = new ReflectedFieldOfPlaneWaves(waves, new ImpingingPlaneWave(polarization, alpha, waveLength, amplitude));
 			System.out.println("solver end");
-		return new Result(reflectedField, null, null);
+		return new Result(reflectedField, null, null, 0);
 	}
 
 	protected Complex calculateNonDimensionalAmplitude(int n) {
