@@ -3,6 +3,8 @@ package de.berlios.diffr.algorithms.addedAlgorithms;
 import de.berlios.diffr.result.*;
 import de.berlios.diffr.inputData.*;
 import de.berlios.diffr.inputData.inputDataForDiffractionOfPlaneWaveOnPeriodicSurface.NonDimensionInputData;
+import de.berlios.diffr.inputData.inputDataForDiffractionOfPlaneWaveOnPeriodicSurface.periodicSurface.HeightConductivity;
+import de.berlios.diffr.inputData.inputDataForDiffractionOfPlaneWaveOnPeriodicSurface.periodicSurface.PerfectConductivity;
 import de.berlios.diffr.DataString;
 import de.berlios.diffr.algorithms.Algorithm;
 import de.berlios.diffr.algorithms.AlgorithmType;
@@ -16,7 +18,16 @@ public class SmallPerturbationAlgorithm extends AbstractAlgorithmForDiffrraction
 	}
 	
 	public Result calculate(NonDimensionInputData inputData)  {
-		SmallPerturbationAlgorithmSolver solver = new SmallPerturbationAlgorithmSolver();
+		SmallPerturbationAlgorithmSolver solver = null;
+		
+		if (inputData.getSurface().getConductivity() instanceof PerfectConductivity)
+			solver = new SmallPerturbationAlgorithmSolverPerfectConductivity();
+		
+		if (inputData.getSurface().getConductivity() instanceof HeightConductivity)
+			solver = new SmallPerturbationAlgorithmSolverHeightConductivity();
+		
+		
+		
 		solver.initialize(inputData);
 			System.out.println("solver initialization ends");
 		Result result = solver.solve();

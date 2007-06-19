@@ -6,7 +6,7 @@ import de.berlios.diffr.result.resultForDiffractionOfPlaneWaveOnPriodicSurface.R
 import de.berlios.diffr.result.resultForDiffractionOfPlaneWaveOnPriodicSurface.ReflectedPlaneWave;
 import de.berlios.diffr.result.*;
 
-public class SmallPerturbationAlgorithmSolver extends AlgorithmBase {
+public abstract class SmallPerturbationAlgorithmSolver extends AlgorithmBase {
 
 	private int gam_min;
 	private int gam_max;
@@ -32,35 +32,7 @@ public class SmallPerturbationAlgorithmSolver extends AlgorithmBase {
 		return new Result(reflectedField, null, null, 0);
 	}
 
-	protected Complex calculateNonDimensionalAmplitude(int n) {
-		if ( polarization == ReflectedPlaneWave.polarizationE ) {
-			return term1(n).add(-delta(n,0));
-		} else {
-			return term1(n).add(delta(n,0));
-		}
-	}
-
-	private Complex term1(int n) {
-		if ( polarization == ReflectedPlaneWave.polarizationE ) {
-			return Complex.i.mul(-2.0).mul(gam(0)).mul(f(n));
-		} else {
-			return ( Complex.i.mul(2.0).mul( gam0sqweared()-lamNull*n ).div(gam(n)) ).mul(f(n));
-		}
-	}
-
-	private Complex term2(int n) {
-		Complex s = new Complex(0.0, 0.0);
-		for (int m = -f_size; m <= f_size; m++){
-			if ( polarization == ReflectedPlaneWave.polarizationE ) {
-				s = s.add( gam(m).mul(f(m)).mul(f(n-m)) );
-			} else {
-				s = s.add((f(m).mul(f(n-m)).mul(-2*(gam0sqweared()-lamNull*n)).div(gam(m).mul(gam(n)))).mul(gam0sqweared()-lamNull*m-lam(m)*n)  );  //  ( Complex.i.mul(2.0).mul( gam0sqweared()-lamNull*n ).div(gam(n)) ).mul(f(n));
-			}
-		}
-		if ( polarization == ReflectedPlaneWave.polarizationE ) {
-			s = s.mul(2.0).mul(gam(0));
-		}
-		return s;
-	}
-
+	public abstract Complex calculateNonDimensionalAmplitude(int n);
+	public abstract Complex term1(int n);
+	public abstract Complex term2(int n);
 }
