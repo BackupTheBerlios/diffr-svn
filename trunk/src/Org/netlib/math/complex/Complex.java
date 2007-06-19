@@ -926,6 +926,15 @@ Complex implements Cloneable, Serializable {
     }//end sub(Complex)
 
 
+    /**
+     * Added by A. Mikheev
+     **/
+
+     public Complex
+     sub (double scalar) {
+         return new Complex(re - scalar, im );
+     }
+
 
     /**
     * To perform z1 * z2, you write <tt>z1.mul(z2)</tt> .
@@ -985,7 +994,19 @@ Complex implements Cloneable, Serializable {
     }//end div(Complex)
 
 
+    /**
+     * added by A. Mikheev
+     **/
 
+     public Complex
+     div (double scalar) {
+         return  new Complex( re/scalar, im/scalar );
+     }
+
+    
+    
+    
+    
     static private void
     div (Complex z, double x, double y) {
         // Adapted from
