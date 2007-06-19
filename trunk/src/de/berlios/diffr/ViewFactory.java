@@ -1,6 +1,5 @@
 package de.berlios.diffr;
 
-import java.awt.*;
 import de.berlios.diffr.exceptions.*;
 import de.berlios.diffr.task.*;
 import de.berlios.diffr.inputData.*;
@@ -36,6 +35,9 @@ public class ViewFactory {
 		}
 		if (model.getClass() == ReflectedFieldOfPlaneWaves.class) {
 			return new ReflectedFieldOfPlaneWavesView((ReflectedFieldOfPlaneWaves)model);
+		}
+		if (model.getClass() == PeriodicSurfaceCurrent.class) {
+			return new PeriodicSurfaceCurrentView((PeriodicSurfaceCurrent)model);
 		}
 		throw new WrongTypeException();
 	}

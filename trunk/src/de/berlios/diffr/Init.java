@@ -60,7 +60,7 @@ public class Init {
 	}
 	
 	private void newTask() {
-		cont.removeAll();
+/*		cont.removeAll();
 		Box chooseBox = Box.createVerticalBox();
 		JComboBox comboBox = new JComboBox();
 		Iterator it = taskTypes.iterator();
@@ -78,7 +78,8 @@ public class Init {
 				setTask(((TaskType)((JComboBox)e.getSource()).getSelectedItem()).newTask());
 			}
 		});
-		cont.validate();
+		cont.validate();*/
+		setTask(((TaskType)taskTypes.get(0)).newTask());
 	}
 	
 	private void saveTask() {
