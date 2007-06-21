@@ -80,6 +80,7 @@ public class Init {
 		});
 		cont.validate();*/
 		setTask(((TaskType)taskTypes.get(0)).newTask());
+		cont.validate();
 	}
 	
 	private void saveTask() {

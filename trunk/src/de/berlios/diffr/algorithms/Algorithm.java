@@ -11,6 +11,11 @@ public abstract class Algorithm extends Model {
 	public Algorithm(AlgorithmType algorithmType) {
 		this.algorithmType = algorithmType;
 	}
+	public abstract Algorithm clone();
+	public Algorithm(AlgorithmType algorithmType, DataString[] parameters) {
+		this.algorithmType = algorithmType;
+		this.parameters = parameters;
+	}
 	public DataString[] getAlgorithmParameters() {
 		return parameters;
 	}

@@ -16,7 +16,11 @@ public class SmallPerturbationAlgorithm extends AbstractAlgorithmForDiffrraction
 		parameters = new DataString[1];
 		parameters[0] = new DataString("Order", new Integer(1));
 	}
-	
+	public Algorithm clone() {
+		SmallPerturbationAlgorithm r = new SmallPerturbationAlgorithm(super.getAlgorithmType());
+		r.parameters = parameters.clone();
+		return r;
+	}
 	public Result calculate(NonDimensionInputData inputData)  {
 		SmallPerturbationAlgorithmSolver solver = null;
 		

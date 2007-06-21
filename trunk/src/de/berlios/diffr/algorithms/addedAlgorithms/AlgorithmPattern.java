@@ -15,6 +15,11 @@ public class AlgorithmPattern extends Algorithm {
 		parameters[0] = new DataString("parameter1", new Long(2));
 		parameters[1] = new DataString("parameter2", new Double(0.2));
 	}
+	public Algorithm clone() {
+		AlgorithmPattern r = new AlgorithmPattern(super.getAlgorithmType());
+		r.parameters = parameters.clone();
+		return r;
+	}
 	
 	public Result run(InputData inputData) throws InputDataNotSupportedException {
 		PeriodicSurface surface = (PeriodicSurface)inputData.getSurface();
