@@ -14,6 +14,10 @@ public class PeriodicSurface extends Surface {
 	    addListenerToShape();
 	}
 	
+	public Surface clone() {
+		return new PeriodicSurface(shape.clone(), conductivity);
+	}
+	
 	public void restorationAfterSerialization() {
 		addListenerToShape();
 	}

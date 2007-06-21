@@ -10,10 +10,15 @@ public class SurfaceShape extends Model {
 	public SurfaceShape() {
 		fourierCoefficients.add(new FourierCoefficient(0.1, 0.05));
 	}
+	
 	public SurfaceShape(double period, double shift, ArrayList fourierCoefficients) {
 		this.period = period;
 	    this.shift = shift;
 	    this.fourierCoefficients = fourierCoefficients;
+	}
+	
+	public SurfaceShape clone() {
+		return new SurfaceShape(period, shift, (ArrayList)fourierCoefficients.clone());
 	}
 	
 	private double period = Complex.TWO_PI;
