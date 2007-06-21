@@ -1,7 +1,8 @@
 package de.berlios.diffr.task;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
-import de.berlios.diffr.Model;
+import de.berlios.diffr.*;
 import de.berlios.diffr.inputData.*;
 import de.berlios.diffr.algorithms.*;
 
@@ -51,7 +52,7 @@ public class TaskType extends Model {
 	}
 	
 	public Task newTask() {
-		return new Task(this, initialInputData, initialAlgorithm);
+		return new Task(this, initialInputData.clone(), initialAlgorithm.clone());
 	}
 	
 	public Algorithm getInitialAlgorithm() {
