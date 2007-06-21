@@ -24,7 +24,7 @@ public class Result extends Model {
 	public PassedField getPassedField() {
 		return passedField;
 	}
-	public double getEenergeticImperfection() {
+	public double getEnergeticImperfection() {
 		return energeticImperfection;
 	}
 	public Result dimensioning(InputData inputData) {
