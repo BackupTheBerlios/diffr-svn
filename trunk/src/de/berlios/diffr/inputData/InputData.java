@@ -6,9 +6,6 @@ import de.berlios.diffr.inputData.inputDataForDiffractionOfPlaneWaveOnPeriodicSu
 import de.berlios.diffr.inputData.inputDataForDiffractionOfPlaneWaveOnPeriodicSurface.periodicSurface.PeriodicSurface;
 
 public class InputData extends Model {
-	/**
-	 * 
-	 */
 	private Surface surface;
 	private ImpingingField impingingField;
 	public InputData(Surface surface, ImpingingField field) {
@@ -24,6 +21,9 @@ public class InputData extends Model {
 				modelWasChangedEvent();
 			}
 		});
+	}
+	public InputData clone() {
+		return new InputData(surface.clone(), impingingField.clone());
 	}
 	public void restorationAfterSerialization() {
 		surface.restorationAfterSerialization();

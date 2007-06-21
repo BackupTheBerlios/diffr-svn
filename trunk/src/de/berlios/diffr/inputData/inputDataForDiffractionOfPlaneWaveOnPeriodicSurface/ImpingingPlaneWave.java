@@ -17,6 +17,10 @@ public class ImpingingPlaneWave extends ImpingingField {
 	    this.waveLength = waveLength;
 	}
 
+	public ImpingingField clone() {
+		return new ImpingingPlaneWave(polarization, angle, waveLength, (Complex)amplitude.clone());
+	}
+	
 	private boolean polarization = ImpingingPlaneWave.polarizationE;
 	private double angle = 1;
 	private Complex amplitude = new Complex(1.0, 0.0);
