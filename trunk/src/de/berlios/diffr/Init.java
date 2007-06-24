@@ -239,7 +239,7 @@ public class Init {
 		private JButton cancelButton = new JButton("Cancel");
 		AddAlgorithmDialog() {
 			super(frame, "Add algorithm", true);
-			this.setSize(200, 300);
+			this.setSize(400, 300);
 			Container c = this.getContentPane();
 			c.setLayout(new BoxLayout(c, BoxLayout.Y_AXIS));
 			c.add(Box.createVerticalStrut(10));
@@ -253,6 +253,7 @@ public class Init {
 			c.add(version);
 			c.add(Box.createVerticalStrut(10));
 			c.add(new JLabel("Class"));
+			c.add(new JLabel("de.berlios.diffr.algorithms.addedAlgorithms."));
 			c.add(className);
 			c.add(Box.createVerticalStrut(10));
 			c.add(okButton);
@@ -267,7 +268,7 @@ public class Init {
 				public void actionPerformed(ActionEvent e) {
 					try {
 						currentTask.getTaskType().addAlgorithmType(
-								new AlgorithmType(title.getText(), autor.getText(), version.getText(), Class.forName(className.getText()))
+								new AlgorithmType(title.getText(), autor.getText(), version.getText(), Class.forName("de.berlios.diffr.algorithms.addedAlgorithms." + className.getText()))
 						);
 						setVisible(false);
 					} catch (ClassNotFoundException e1) {
