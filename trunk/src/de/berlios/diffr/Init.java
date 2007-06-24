@@ -220,14 +220,60 @@ public class Init {
 	
 	private JMenu newAlgorithmMenu() {
 		JMenu menu = new JMenu("Algorithms");
-		JMenuItem addAlgorithmItem = new JMenuItem("Add algorithm for current task");
+		JMenuItem addAlgorithmItem = new JMenuItem("Add algorithm");
 		addAlgorithmItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				tryLoadAlgorithm();
 			}
 		});
 		menu.add(addAlgorithmItem);
+		JMenuItem removeAlgorithmItem = new JMenuItem("Remove algorithm");
+		removeAlgorithmItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tryRemoveAlgorithm();
+			}
+		});
+		menu.add(addAlgorithmItem);
+		menu.add(removeAlgorithmItem);
 		return menu;
+	}
+	
+	private class RemoveAlgorithmDialog extends JDialog {
+		private JButton okButton = new JButton("OK");
+		private JButton cancelButton = new JButton("Cancel");
+		private JComboBox comboBox = new JComboBox();
+		RemoveAlgorithmDialog() {
+			super(frame, "Remove algorithm", true);
+			this.setSize(400, 300);
+			Container c = this.getContentPane();
+			c.setLayout(new BoxLayout(c, BoxLayout.Y_AXIS));
+			c.add(Box.createVerticalStrut(30));
+			
+			Box chooseBox = Box.createVerticalBox();
+			
+			Iterator it = currentTask.getTaskType().getAlgorithmTypes().iterator();
+			while (it.hasNext()) {
+				comboBox.addItem(it.next());
+			}
+			comboBox.setMaximumSize(new Dimension(500, 30));
+			chooseBox.add(comboBox);
+			c.add(chooseBox);
+			c.add(Box.createVerticalStrut(20));
+			c.add(okButton);
+			c.add(Box.createVerticalStrut(10));
+			c.add(cancelButton);
+			cancelButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					setVisible(false);
+				}
+			});
+			okButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					currentTask.getTaskType().removeAlgorithmType((AlgorithmType)comboBox.getSelectedItem());
+					setVisible(false);
+				}
+			});
+		}
 	}
 	
 	private class AddAlgorithmDialog extends JDialog {
@@ -283,6 +329,10 @@ public class Init {
 		new AddAlgorithmDialog().setVisible(true);
 	}
 	
+	private void tryRemoveAlgorithm() {
+		new RemoveAlgorithmDialog().setVisible(true);
+	}
+	
 	private JMenu newHelpMenu() {
 		JMenu menu = new JMenu("Help");
 		menu.addSeparator();
@@ -290,6 +340,7 @@ public class Init {
 		aboutItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
+					// This string correctly only for OS Windows
 					Runtime.getRuntime().exec(path + "userManual.bat "+path);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
