@@ -6,7 +6,7 @@ import Org.netlib.math.complex.Complex;
 public class SmallPerturbationAlgorithmSolverHeightConductivity extends SmallPerturbationAlgorithmSolver {
 
 	public Complex calculateNonDimensionalAmplitude(int n) {
-			return term0().mul(delta(n,0)).add(term1(n));
+			return term0().mul(delta(n,0)).add(term1(n)).add(term2(n));
 	}
 
 	public Complex term0() {
@@ -62,25 +62,25 @@ public class SmallPerturbationAlgorithmSolverHeightConductivity extends SmallPer
 				Complex t10 = Complex.i.mul(gam(0)).mul(h).add(1.0);
 				Complex t11 = t3;
 				Complex t12 = Complex.i.mul(gam(n)).mul(h).add(1.0);
-				c_mn = Complex.i.mul(gam(0)).mul(-1.0).mul( t4.add(t14) ).div(t10).div(t11).div(t12);
+				c_mn = ( t4.add(t14) ).div(t10).div(t11).div(t12);
 				
 				s = s.add( c_mn.mul(f(m)).mul(f(n-m)) );
 			} else {
 				Complex t1 = gam(m).mul(gam(m)).sub( gam(0).mul(gam(0))  );
 				Complex t2 = t1.add(m*n);
-				Complex t3 = Complex.i.mul(gam(m)).mul(h).add(1.0);
+				Complex t3 = Complex.i.mul(gam(m)).add(h);
 				Complex t4 = h.mul(t2).mul(t3);
 				Complex t5 = gam(0).mul(gam(0)).sub( m*lam(0) );
-				Complex t6 = h.mul(h).mul( t5 ).add(1.0).mul(2.0);
-				Complex t7 = h.mul(lam(m)).mul(n-m);
+				Complex t6 = h.mul(h).add( t5 ).mul(2.0);
+				Complex t7 = new Complex (lam(m)*(n-m));
 				Complex t8 = t3;
 				Complex t9 = Complex.i.mul(gam(m)).mul(t8);
 				Complex t13 = t7.add(t9);
 				Complex t14 = t6.mul(t13);
-				Complex t10 = Complex.i.mul(gam(0)).mul(h).add(1.0);
+				Complex t10 = Complex.i.mul(gam(0)).add(h);
 				Complex t11 = t3;
-				Complex t12 = Complex.i.mul(gam(n)).mul(h).add(1.0);
-				c_mn = Complex.i.mul(gam(0)).mul(-1.0).mul( t4.add(t14) ).div(t10).div(t11).div(t12);
+				Complex t12 = Complex.i.mul(gam(n)).add(h);
+				c_mn = ( t4.add(t14) ).div(t10).div(t11).div(t12);
 				
 				s = s.add( c_mn.mul(f(m)).mul(f(n-m)) );
 			}
@@ -88,4 +88,8 @@ public class SmallPerturbationAlgorithmSolverHeightConductivity extends SmallPer
 			s = s.mul(-1.0).mul(Complex.i).mul(gam(0));
 		return s;
 	}
+
+	public double calculateEnergyError(){
+		return 1.0;//vremenno
 	}
+}

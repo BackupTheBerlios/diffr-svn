@@ -36,4 +36,16 @@ public class SmallPerturbationAlgorithmSolverPerfectConductivity extends SmallPe
 		return s;
 	}
 	
+	public double calculateEnergyError(){
+		double s = 0.0;
+		int counter = 0;
+		for (int j = -gam_min; j<= gam_max; j++){
+			double absAmplitude = waves[counter].getAmplitude().abs(); 
+			s = s + absAmplitude*absAmplitude * (gam(j).re());
+			counter++;
+		}
+		
+		return Math.abs(s/(gam(0).re()) - 1.0);
+	}
+	
 }
