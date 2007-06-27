@@ -12,7 +12,7 @@ public abstract class SmallPerturbationAlgorithmSolver extends AlgorithmBase {
 	protected int gam_max;
 	protected ReflectedPlaneWave[] waves = null;
 	
-	public Result solve() {
+	public Result solve(int order) {
 			System.out.println("SmallPerturbationAlgorithmSolver start");
 		gam_min = (int) Math.floor((k * (1 + Math.sin(alpha))));
 			System.out.println("gam_min = " + gam_min);
@@ -22,9 +22,9 @@ public abstract class SmallPerturbationAlgorithmSolver extends AlgorithmBase {
 		int counter = 0;
 		for (int j = -gam_min; j<= gam_max; j++){
 				System.out.println("j =  " + j);
-			waves[counter] = new ReflectedPlaneWave(polarization, calculateAngle(j), waveLength, calculateAmplitude(j));
+			waves[counter] = new ReflectedPlaneWave(polarization, calculateAngle(j), waveLength, calculateAmplitude(j,order));
 			counter++;
-			Complex r = calculateAmplitude(j);
+			Complex r = calculateAmplitude(j,order);
 				System.out.println("Amplitude re =  " + r.re() + "   im = " + r.im());
 		}
 			System.out.println("waves.length =  " + waves.length);
@@ -36,7 +36,7 @@ public abstract class SmallPerturbationAlgorithmSolver extends AlgorithmBase {
 		return new Result(reflectedField, null, null, energyError);
 	}
 
-	public abstract Complex calculateNonDimensionalAmplitude(int n);
+	public abstract Complex calculateNonDimensionalAmplitude(int n, int order);
 	public abstract double calculateEnergyError();
 	public abstract Complex term1(int n);
 	public abstract Complex term2(int n);

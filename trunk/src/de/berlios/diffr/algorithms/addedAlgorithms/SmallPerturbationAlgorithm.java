@@ -22,6 +22,7 @@ public class SmallPerturbationAlgorithm extends AbstractAlgorithmForDiffrraction
 		return r;
 	}
 	public Result calculate(NonDimensionInputData inputData)  {
+		int order = ((Integer)parameters[0].getValue()).intValue();
 		SmallPerturbationAlgorithmSolver solver = null;
 		
 		if (inputData.getSurface().getConductivity() instanceof PerfectConductivity)
@@ -34,7 +35,7 @@ public class SmallPerturbationAlgorithm extends AbstractAlgorithmForDiffrraction
 		
 		solver.initialize(inputData);
 			System.out.println("solver initialization ends");
-		Result result = solver.solve();
+		Result result = solver.solve(order);
 			System.out.println("SmallPerturbationAlgorithm result calculated");
 		return result;
 	}

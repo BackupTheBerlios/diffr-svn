@@ -5,11 +5,17 @@ import de.berlios.diffr.result.resultForDiffractionOfPlaneWaveOnPriodicSurface.R
 
 public class SmallPerturbationAlgorithmSolverPerfectConductivity extends SmallPerturbationAlgorithmSolver {
 
-	public Complex calculateNonDimensionalAmplitude(int n) {
+	public Complex calculateNonDimensionalAmplitude(int n, int order) {
 		if ( polarization == ReflectedPlaneWave.polarizationE ) {
-			return term1(n).add(-delta(n,0));
+			if (order == 1)	
+				return term1(n).add(-delta(n,0));
+			else
+				return term1(n).add(-delta(n,0)).add(term2(n));
 		} else {
-			return term1(n).add(delta(n,0));
+			if (order == 1)	
+				return term1(n).add(delta(n,0));
+			else
+				return term1(n).add(delta(n,0)).add(term2(n));
 		}
 	}
 

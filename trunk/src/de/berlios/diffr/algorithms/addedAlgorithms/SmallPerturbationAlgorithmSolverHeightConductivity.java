@@ -5,7 +5,10 @@ import Org.netlib.math.complex.Complex;
 
 public class SmallPerturbationAlgorithmSolverHeightConductivity extends SmallPerturbationAlgorithmSolver {
 
-	public Complex calculateNonDimensionalAmplitude(int n) {
+	public Complex calculateNonDimensionalAmplitude(int n, int order) {
+		if (order == 1)	
+			return term0().mul(delta(n,0)).add(term1(n));
+		else
 			return term0().mul(delta(n,0)).add(term1(n)).add(term2(n));
 	}
 

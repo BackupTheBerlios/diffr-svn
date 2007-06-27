@@ -109,9 +109,9 @@ public abstract class AlgorithmBase  {
 	}
 
 	
-	protected abstract Complex calculateNonDimensionalAmplitude(int n);
+	protected abstract Complex calculateNonDimensionalAmplitude(int n, int order);
 
-	protected Complex calculateAmplitude(int n){
-		return calculateNonDimensionalAmplitude(n);
+	protected Complex calculateAmplitude(int n, int order){
+		return calculateNonDimensionalAmplitude(n, order);
 	}
 }
