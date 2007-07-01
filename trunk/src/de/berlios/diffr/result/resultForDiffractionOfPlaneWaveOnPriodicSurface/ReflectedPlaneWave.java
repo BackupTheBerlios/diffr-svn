@@ -8,18 +8,20 @@ public class ReflectedPlaneWave extends Model {
 	public static final boolean polarizationE = false;
 	public static final boolean polarizationH = true;
 
-	public ReflectedPlaneWave(boolean polarization, double angle, double waveLength, Complex amplitude) {
+	public ReflectedPlaneWave(boolean polarization, double angle, double waveLength, Complex amplitude, int number) {
 	    if (amplitude == null) throw new NullPointerException();
 	    this.amplitude = amplitude;
 	    this.angle = angle;
 	    this.polarization = polarization;
 	    this.waveLength = waveLength;
+	    this.number = number;
 	}
 
 	private boolean polarization;
 	private double angle;
 	private Complex amplitude;
 	private double waveLength;
+	private int number;
 
 	public double getLength() {
 	    return waveLength;
@@ -33,6 +35,10 @@ public class ReflectedPlaneWave extends Model {
 	    return amplitude;
 	}
 
+	public int getNumber() {
+	    return number;
+	}
+	
 	public boolean getPolarization() {
 	    return polarization;
 	}
@@ -42,6 +48,6 @@ public class ReflectedPlaneWave extends Model {
 	    double dimensionalAngle = angle;
 	    boolean dimensionalPolarization = polarization;
 	    double dimensionalWaveLength = waveLength/Complex.TWO_PI*period;
-		return new ReflectedPlaneWave(dimensionalPolarization, dimensionalAngle, dimensionalWaveLength, dimensionalAmplitude);
+		return new ReflectedPlaneWave(dimensionalPolarization, dimensionalAngle, dimensionalWaveLength, dimensionalAmplitude, number);
 	}
 }

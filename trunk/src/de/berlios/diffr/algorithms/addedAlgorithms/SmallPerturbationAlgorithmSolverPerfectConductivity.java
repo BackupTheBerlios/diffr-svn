@@ -1,6 +1,9 @@
 package de.berlios.diffr.algorithms.addedAlgorithms;
 
 import Org.netlib.math.complex.Complex;
+import de.berlios.diffr.inputData.inputDataForDiffractionOfPlaneWaveOnPeriodicSurface.ImpingingPlaneWave;
+import de.berlios.diffr.result.SurfaceCurrent;
+import de.berlios.diffr.result.resultForDiffractionOfPlaneWaveOnPriodicSurface.ReflectedFieldOfPlaneWaves;
 import de.berlios.diffr.result.resultForDiffractionOfPlaneWaveOnPriodicSurface.ReflectedPlaneWave;
 
 public class SmallPerturbationAlgorithmSolverPerfectConductivity extends SmallPerturbationAlgorithmSolver {
@@ -52,6 +55,43 @@ public class SmallPerturbationAlgorithmSolverPerfectConductivity extends SmallPe
 		}
 		
 		return Math.abs(s/(gam(0).re()) - 1.0);
+	}
+
+	public SurfaceCurrent calculateSurfaceCurrent(int numberOfPoints) {
+		Complex s = new Complex(0.0);
+		double deltaX = Complex.TWO_PI / numberOfPoints;
+		double xCurrent = deltaX/2.0;
+		for (int j = 0; j< numberOfPoints; j++){
+			if (polarization == ImpingingPlaneWave.polarizationE) {
+				s = s.add(field(xCurrent,f_surface(xCurrent)));
+			} else {
+				s = s.add(normalDerivativeOfField(xCurrent,f_surface(xCurrent)));
+			}
+			xCurrent = xCurrent = deltaX; 
+		}
+		
+		
+		return null;
+	}
+
+	public Complex normalDerivativeOfField(double x, double z) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Complex field(double y, double x) {
+		Complex s = (Complex.i.mul(k).mul(x*Math.cos(alpha) + y*Math.sin(alpha))).exp();
+		for (int j = 0; j < waves.length; j++) {
+			int n = waves[j].getNumber();
+			s = s.add((waves[j].getAmplitude()).mul(     
+				(Complex.i.mul(-1.0).mul(gam(n)).mul(x)).exp().mul(
+						(Complex.i.mul(lam(n)).mul(y)).exp()	
+				)
+			));
+			
+		}
+		
+		return null;
 	}
 	
 }

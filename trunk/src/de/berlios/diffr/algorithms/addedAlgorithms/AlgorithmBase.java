@@ -1,5 +1,7 @@
 package de.berlios.diffr.algorithms.addedAlgorithms;
 
+import java.util.ArrayList;
+
 import Org.netlib.math.complex.Complex;
 import de.berlios.diffr.inputData.*;
 import de.berlios.diffr.inputData.inputDataForDiffractionOfPlaneWaveOnPeriodicSurface.*;
@@ -16,31 +18,36 @@ public abstract class AlgorithmBase  {
 	protected Complex amplitude;
 	private Complex [] f_negative_index;
 	private Complex [] f_positive_and_0_index;
+	private ArrayList f_coef;
+	private double shift;
 	protected int f_size;
+	protected ImpingingPlaneWave wave; 
 	
 	public void initialize (NonDimensionInputData inputData){
-				System.out.println("initialization started");
+//				System.out.println("initialization started");
 		PeriodicSurface surface = (PeriodicSurface) inputData.getSurface();
-		ImpingingPlaneWave wave = (ImpingingPlaneWave) inputData.getImpingingField();
+		wave = (ImpingingPlaneWave) inputData.getImpingingField();
 		polarization = wave.getPolarization();
-				System.out.println("polarization = " + polarization);
+//				System.out.println("polarization = " + polarization);
 		amplitude = wave.getAmplitude();
-				System.out.println("amplitude re = " + amplitude.re() + "   amplitude im = " + amplitude.im());
+//				System.out.println("amplitude re = " + amplitude.re() + "   amplitude im = " + amplitude.im());
 		waveLength = wave.getLength();
-				System.out.println("waveLength = " + waveLength);
+//				System.out.println("waveLength = " + waveLength);
 		k = surface.getShape().getPeriod() / waveLength; 
-				System.out.println("k = " + k);
+//				System.out.println("k = " + k);
 		alpha = wave.getAngle();
-				System.out.println("alpha = " + alpha);
+//				System.out.println("alpha = " + alpha);
 		lamNull = k * Math.sin(alpha);
-				System.out.println("lamNull = " + lamNull);
+//				System.out.println("lamNull = " + lamNull);
  		f_size = ( surface.getShape().getFourierCoefficients()).size()-1;
- 				System.out.println("f_size = " + f_size);
+// 				System.out.println("f_size = " + f_size);
  		f_negative_index = new Complex[f_size + 1];
  		f_positive_and_0_index = new Complex[f_size + 1];
  		double shiftDimensionless = surface.getShape().getShift();
- 				System.out.println("shiftDimensionless = " + shiftDimensionless);
+// 				System.out.println("shiftDimensionless = " + shiftDimensionless);
  		f_positive_and_0_index[0] = new Complex(shiftDimensionless,0.0);
+ 		f_coef = surface.getShape().getFourierCoefficients();
+ 		shift =  surface.getShape().getShift();
 
 		if ( surface.getConductivity() instanceof HeightConductivity ) {
 			Complex epsilon = ((HeightConductivity) surface.getConductivity()).getEpsilon();
@@ -55,7 +62,7 @@ public abstract class AlgorithmBase  {
  		
  		if ( f_size > 0){
  			for (int i = 1; i <= f_size; i++) {
- 				System.out.println("f_size cycle " );
+// 				System.out.println("f_size cycle " );
  				double reDimensionless = ( (FourierCoefficient) surface.getShape().getFourierCoefficients().get(i)).getCoefficientOfCosinus() / 2.0;
  			
  				double imDimensionless = - ( (FourierCoefficient) surface.getShape().getFourierCoefficients().get(i)).getCoefficientOfSinus() / 2.0;
@@ -113,5 +120,14 @@ public abstract class AlgorithmBase  {
 
 	protected Complex calculateAmplitude(int n, int order){
 		return calculateNonDimensionalAmplitude(n, order);
+	}
+
+	public double f_surface(double x){
+		double s = shift;
+		for (int j =0; j< f_coef.size(); j++){
+			s = s + ((FourierCoefficient)f_coef.get(j)).getCoefficientOfCosinus() * Math.cos(x);
+			s = s + ((FourierCoefficient)f_coef.get(j)).getCoefficientOfSinus() * Math.sin(x);
+		}
+		return 0.0;
 	}
 }

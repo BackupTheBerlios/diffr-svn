@@ -1,5 +1,7 @@
 package de.berlios.diffr.algorithms.addedAlgorithms;
 
+import de.berlios.diffr.result.SurfaceCurrent;
+import de.berlios.diffr.result.resultForDiffractionOfPlaneWaveOnPriodicSurface.ReflectedFieldOfPlaneWaves;
 import de.berlios.diffr.result.resultForDiffractionOfPlaneWaveOnPriodicSurface.ReflectedPlaneWave;
 import Org.netlib.math.complex.Complex;
 
@@ -94,5 +96,9 @@ public class SmallPerturbationAlgorithmSolverHeightConductivity extends SmallPer
 
 	public double calculateEnergyError(){
 		return 1.0;//vremenno
+	}
+
+	public SurfaceCurrent calculateSurfaceCurrent(int numberOfPoints) {
+		return null;
 	}
 }

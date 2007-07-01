@@ -12,29 +12,34 @@ public abstract class SmallPerturbationAlgorithmSolver extends AlgorithmBase {
 	protected int gam_max;
 	protected ReflectedPlaneWave[] waves = null;
 	
-	public Result solve(int order) {
-			System.out.println("SmallPerturbationAlgorithmSolver start");
+	public Result solve(int order, int numberOfPoints) {
+//			System.out.println("SmallPerturbationAlgorithmSolver start");
 		gam_min = (int) Math.floor((k * (1 + Math.sin(alpha))));
 			System.out.println("gam_min = " + gam_min);
 		gam_max =   (int) Math.floor( (k * (1 - Math.sin(alpha))));
-			System.out.println("gam_max =  " + gam_max);
+//			System.out.println("gam_max =  " + gam_max);
 		waves = new ReflectedPlaneWave[gam_min + gam_max + 1];
 		int counter = 0;
 		for (int j = -gam_min; j<= gam_max; j++){
-				System.out.println("j =  " + j);
-			waves[counter] = new ReflectedPlaneWave(polarization, calculateAngle(j), waveLength, calculateAmplitude(j,order));
+//				System.out.println("j =  " + j);
+			waves[counter] = new ReflectedPlaneWave(polarization, calculateAngle(j), waveLength, calculateAmplitude(j,order),j);
 			counter++;
-			Complex r = calculateAmplitude(j,order);
-				System.out.println("Amplitude re =  " + r.re() + "   im = " + r.im());
+/*			Complex r = calculateAmplitude(j,order);
+				System.out.println("Amplitude re =  " + r.re() + "   im = " + r.im());*/
 		}
-			System.out.println("waves.length =  " + waves.length);
+//			System.out.println("waves.length =  " + waves.length);
 		ReflectedFieldOfPlaneWaves reflectedField = new ReflectedFieldOfPlaneWaves(waves, new ImpingingPlaneWave(polarization, alpha, waveLength, amplitude));
-			System.out.println("solver end");
-			
+//			System.out.println("solver end");
+		
+		SurfaceCurrent surfaceCurrent = calculateSurfaceCurrent(numberOfPoints);
+
+		
 		double energyError = calculateEnergyError();
 			
-		return new Result(reflectedField, null, null, energyError);
+		return new Result(reflectedField, null, surfaceCurrent, energyError);
 	}
+
+	public abstract SurfaceCurrent calculateSurfaceCurrent(int numberOfPoints);
 
 	public abstract Complex calculateNonDimensionalAmplitude(int n, int order);
 	public abstract double calculateEnergyError();
