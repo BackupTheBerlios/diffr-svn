@@ -125,9 +125,30 @@ public abstract class AlgorithmBase  {
 	public double f_surface(double x){
 		double s = shift;
 		for (int j =0; j< f_coef.size(); j++){
-			s = s + ((FourierCoefficient)f_coef.get(j)).getCoefficientOfCosinus() * Math.cos(x);
-			s = s + ((FourierCoefficient)f_coef.get(j)).getCoefficientOfSinus() * Math.sin(x);
+			s = s + ((FourierCoefficient)f_coef.get(j)).getCoefficientOfCosinus() * Math.cos((j+1)*x);
+			s = s + ((FourierCoefficient)f_coef.get(j)).getCoefficientOfSinus() * Math.sin((j+1)*x);
 		}
-		return 0.0;
+		return s;
+	}
+
+	public double derivative_f_surface(double x){
+		double s = 0;
+		for (int j =0; j< f_coef.size(); j++){
+			s = s + (-((FourierCoefficient)f_coef.get(j)).getCoefficientOfCosinus()) * Math.sin((j+1)*x)*(j+1);
+			s = s + ((FourierCoefficient)f_coef.get(j)).getCoefficientOfSinus() * Math.cos((j+1)*x)*(j+1);
+		}
+		return s;
+	}
+
+	public double n_y(double y){
+		double fd = derivative_f_surface(y);
+		double s = Math.sqrt(1.0+fd*fd);
+		return -fd/s;
+	}
+	
+	public double n_x(double y){
+		double fd = derivative_f_surface(y);
+		double s = Math.sqrt(1.0+fd*fd);
+		return 1.0/s;
 	}
 }

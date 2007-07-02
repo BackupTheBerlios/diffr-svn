@@ -39,7 +39,24 @@ public abstract class SmallPerturbationAlgorithmSolver extends AlgorithmBase {
 		return new Result(reflectedField, null, surfaceCurrent, energyError);
 	}
 
-	public abstract SurfaceCurrent calculateSurfaceCurrent(int numberOfPoints);
+	public Complex normalDerivativeOfField(double x, double z) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Complex field(double y, double x) {
+		Complex s = (Complex.i.mul(k).mul(x*Math.cos(alpha) + y*Math.sin(alpha))).exp();
+		for (int j = 0; j < waves.length; j++) {
+			int n = waves[j].getNumber();
+			s = s.add((waves[j].getAmplitude()).mul(     
+				(Complex.i.mul(-1.0).mul(gam(n)).mul(x)).exp().mul(
+						(Complex.i.mul(lam(n)).mul(y)).exp()	
+				)
+			));
+		}
+		return s;
+	}
+		public abstract SurfaceCurrent calculateSurfaceCurrent(int numberOfPoints);
 
 	public abstract Complex calculateNonDimensionalAmplitude(int n, int order);
 	public abstract double calculateEnergyError();
