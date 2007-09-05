@@ -18,6 +18,7 @@ public class PeriodicSurfaceCurrentView extends View {
 		for (int a=0;a<surfaceCurrent.getPointsNumber();a++) {
 			scale = Math.min(height / 3 / surfaceCurrent.get(a).abs(), scale);
 		}
+		g.setColor(Color.white);
 		g.drawString("Scale:" + (int)scale, 100, 20);
 		g.drawString("Phase", 0, 20);
 		g.drawString("Abs", 0, height/2 + 20);

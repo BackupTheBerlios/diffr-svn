@@ -39,9 +39,25 @@ public abstract class SmallPerturbationAlgorithmSolver extends AlgorithmBase {
 		return new Result(reflectedField, null, surfaceCurrent, energyError);
 	}
 
-	public Complex normalDerivativeOfField(double x, double z) {
-		// TODO Auto-generated method stub
-		return null;
+	public Complex normalDerivativeOfField(double y) {
+		Complex s = (Complex.i.mul(k).mul(f_surface(y)*Math.cos(alpha) + y*Math.sin(alpha))).exp();
+		s = s.mul(Complex.i).mul(k).mul(n_x(y)*Math.cos(alpha) + n_y(y)*Math.sin(alpha));
+		for (int j = 0; j < waves.length; j++) {
+			int n = waves[j].getNumber();
+			Complex s1 = (waves[j].getAmplitude()).mul
+			(     
+					(Complex.i.mul(-1.0).mul(gam(n)).mul(f_surface(y))).exp().mul
+					(
+							(Complex.i.mul(lam(n)).mul(y)).exp()
+					)
+			);
+			s1 = s1.mul(Complex.i).mul(
+					gam(n).mul(n_x(y)).add(
+							(lam(n)*n_y(y)) )
+			);		
+			s = s.add(s1);
+		}
+		return s;
 	}
 
 	public Complex field(double y, double x) {

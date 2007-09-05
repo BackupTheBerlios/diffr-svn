@@ -13,10 +13,9 @@ import de.berlios.diffr.exceptions.*;
 public class SmallPerturbationAlgorithm extends AbstractAlgorithmForDiffrractionOfPlaneWaveOnPeriodicSurface {
 	public SmallPerturbationAlgorithm(AlgorithmType algorithmType) {
 		super(algorithmType);
-		parameters = new DataString[1];
-//		parameters = new DataString[2]; //Vremeno
+		parameters = new DataString[2];
 		parameters[0] = new DataString("Order", new Integer(1));
-//		parameters[1] = new DataString("NumberOfPointsForSurfaceCalculation", new Integer(1)); //Vremeno
+		parameters[1] = new DataString("NumberOfPointsForSurfaceCalculation", new Integer(200)); //Vremeno
 	}
 	public Algorithm clone() {
 		SmallPerturbationAlgorithm r = new SmallPerturbationAlgorithm(super.getAlgorithmType());
@@ -25,8 +24,7 @@ public class SmallPerturbationAlgorithm extends AbstractAlgorithmForDiffrraction
 	}
 	public Result calculate(NonDimensionInputData inputData)  {
 		int order = ((Integer)parameters[0].getValue()).intValue();
-//		int numberOfPoints = ((Integer)parameters[1].getValue()).intValue(); //Vremeno
-		int numberOfPoints = 200; //Vremeno
+		int numberOfPoints = ((Integer)parameters[1].getValue()).intValue();
 		SmallPerturbationAlgorithmSolver solver = null;
 		
 		if (inputData.getSurface().getConductivity() instanceof PerfectConductivity)
