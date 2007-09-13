@@ -11,20 +11,20 @@ public class Task extends Model {
 	private InputData inputData;
 	private Result result = null;
 	private Algorithm algorithm;
-	private TaskType taskType;
 	
 	private transient boolean taskIsSolving = false;
 	private transient Thread solveThread = null;
+	private transient AlgorithmTypes algorithms;
 	
 	private int state = 0;
 	public static final int resultIsnotCalculateState = 0;
 	public static final int taskIsSolvingState = 1;
 	public static final int taskStoppedState = 2;
-	public static final int inputDataNotSupportedState = 3;
+	public static final int errorInAlgorithmState = 3;
 	public static final int resultIsCalculateState = 4; 
 	
-	public Task(TaskType taskType, InputData initialInputData, Algorithm initialAlgorithm) {
-		this.taskType = taskType;
+	public Task(AlgorithmTypes algorithms, InputData initialInputData, Algorithm initialAlgorithm) {
+		this.algorithms = algorithms;
 		inputData = initialInputData;
 		algorithm = initialAlgorithm;
 		inputData.addModelChangingListener(new ModelChangingListener() {
@@ -32,6 +32,10 @@ public class Task extends Model {
 				nullResult();
 			}
 		});
+	}
+	
+	public AlgorithmTypes getAlgorithms() {
+		return algorithms;
 	}
 	
 	public void restorationAfterSerialization() {
@@ -43,21 +47,9 @@ public class Task extends Model {
 		});
 	}
 	
-	public void restorationAfterSerialization(ArrayList taskTypes) throws UnknownTaskTypeException {
+	public void restorationAfterSerialization(AlgorithmTypes algorithms) {
+		this.algorithms = algorithms;
 		restorationAfterSerialization();
-		Iterator i = taskTypes.iterator();
-		while (i.hasNext()) {
-			TaskType t = (TaskType)i.next();
-			if (this.taskType.equals(t) &&
-					t.getAlgorithmTypes().contains(this.algorithm.getAlgorithmType()))
-				this.taskType = t;
-				return;
-		}
-		throw new UnknownTaskTypeException();
-	}
-	
-	public TaskType getTaskType() {
-		return taskType;
 	}
 	
 	public InputData getInputData() {
@@ -83,8 +75,8 @@ public class Task extends Model {
 				try {
 					result = algorithm.run(inputData);
 					state = resultIsCalculateState;
-				} catch (InputDataNotSupportedException e) {
-					state = inputDataNotSupportedState;
+				} catch (Exception e) {
+					state = errorInAlgorithmState;
 				}
 				algorithm.setEditable(true);
 				taskIsSolving = false;

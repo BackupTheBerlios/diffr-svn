@@ -34,7 +34,7 @@ public class TaskView extends View {
 		task.addModelChangingListener(changingListener);
 		smallInputDataView = new SmallInputDataView(task.getInputData());
 		inputDataView = new InputDataView (task.getInputData());
-		algorithmChooser = new AlgorithmChooser(task.getTaskType(), task.getAlgorithm());
+		algorithmChooser = new AlgorithmChooser(task.getAlgorithms(), task.getAlgorithm());
 		algorithmChooser.addAlgorithmChooserListener(new AlgorithmChooserListener() {
 			public void newAlgorithmWasChoosed(Algorithm algorithm) {
 				changeAlgorithm(algorithm);
@@ -135,7 +135,7 @@ public class TaskView extends View {
 	
 	private void renewState() {
 		switch (task.getState()) {
-			case Task.inputDataNotSupportedState: state.setText("Input data not supported");
+			case Task.errorInAlgorithmState: state.setText("Input data not supported");
 			break;
 			case Task.resultIsCalculateState: state.setText("Result is calculated");
 			break;
