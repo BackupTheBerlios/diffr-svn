@@ -9,7 +9,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class AlgorithmChooser extends JPanel {
-	private TaskType taskType;
+	private AlgorithmTypes algorithms;
 	private JComboBox algorithmTypes;
 	private Box parametersBox = Box.createVerticalBox();
 	private JLabel autor = new JLabel();
@@ -38,26 +38,19 @@ public class AlgorithmChooser extends JPanel {
 		currentAlgorithm = algorithm;
 		autor.setText("autor : " + algorithm.getAlgorithmType().getAutor());
 		parametersBox.removeAll();
-		ViewFactory viewFactory = new ViewFactory();
 		for (int parameterNumber = 0;
 				parameterNumber < algorithm.getAlgorithmParameters().length;
 				parameterNumber++) {
-			try {
-				View view =
-					viewFactory.makeView(algorithm.getAlgorithmParameters()[parameterNumber]);
-				parametersBox.add(view);
-				this.add(Box.createVerticalStrut(10));
-			} catch (WrongTypeException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			View view = new DataStringView(algorithm.getAlgorithmParameters()[parameterNumber]);
+			parametersBox.add(view);
+			this.add(Box.createVerticalStrut(10));
 		}
 		this.validate();
 	}
-	public AlgorithmChooser(TaskType taskType, Algorithm currentAlgorithm) {
-		this.taskType = taskType;
+	public AlgorithmChooser(AlgorithmTypes algorithms, Algorithm currentAlgorithm) {
+		this.algorithms = algorithms;
 		this.currentAlgorithm = currentAlgorithm;
-		taskType.addModelChangingListener(new ModelChangingListener() {
+		algorithms.addModelChangingListener(new ModelChangingListener() {
 			public void modelWasChanged(Model m) {
 				renewAlgorithmTypesList();
 			}
@@ -86,7 +79,6 @@ public class AlgorithmChooser extends JPanel {
 					tryChangeAlgorithm(newAlgorithm);
 				}
 			} catch (WrongTypeException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 	      }
@@ -96,7 +88,7 @@ public class AlgorithmChooser extends JPanel {
 	}
 	private void renewAlgorithmTypesList() {
 		algorithmTypes.removeAllItems();
-		Iterator i = taskType.getAlgorithmTypes().iterator();
+		Iterator i = algorithms.getAlgorithmTypes().iterator();
 		while (i.hasNext()) {
 			algorithmTypes.addItem(i.next());
 		}

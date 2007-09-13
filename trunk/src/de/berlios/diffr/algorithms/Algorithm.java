@@ -31,5 +31,5 @@ public abstract class Algorithm extends Model {
 		}
 	}
 	
-	public abstract Result run(InputData inputData) throws InputDataNotSupportedException;
+	public abstract Result run(InputData inputData) throws Exception;
 }
