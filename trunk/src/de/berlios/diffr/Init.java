@@ -7,9 +7,7 @@ import javax.swing.*;
 import de.berlios.diffr.task.*;
 import de.berlios.diffr.exceptions.TaskIsSolvingException;
 import de.berlios.diffr.exceptions.TaskIsnotSolvingException;
-import de.berlios.diffr.exceptions.UnknownTaskTypeException;
-import de.berlios.diffr.inputData.inputDataForDiffractionOfPlaneWaveOnPeriodicSurface.*;
-import de.berlios.diffr.inputData.inputDataForDiffractionOfPlaneWaveOnPeriodicSurface.periodicSurface.*;
+import de.berlios.diffr.exceptions.WrongTypeException;
 import de.berlios.diffr.inputData.*;
 import de.berlios.diffr.algorithms.*;
 import de.berlios.diffr.algorithms.addedAlgorithms.*;
@@ -26,12 +24,12 @@ public class Init {
 	private JFrame frame = new JFrame("Diffr6");
 	private Container cont = frame.getContentPane();
 	private JMenuBar menuBar;
-	private ArrayList taskTypes;
+	private AlgorithmTypes algorithmTypes;
 	private Task currentTask = null;
 	private JFileChooser fileChooser = new JFileChooser();
 	
 	public Init() {
-		loadTaskTypes();
+		algorithmTypes = loadAlgorithmTypes();
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				exit();
@@ -59,27 +57,18 @@ public class Init {
 		frame.validate();
 	}
 	
-	private void newTask() {
-/*		cont.removeAll();
-		Box chooseBox = Box.createVerticalBox();
-		JComboBox comboBox = new JComboBox();
-		Iterator it = taskTypes.iterator();
-		while (it.hasNext()) {
-			comboBox.addItem(it.next());
+	private Task makeDefaultTask() {
+		try {
+			Algorithm algorithm = ((AlgorithmType)algorithmTypes.getAlgorithmTypes().get(0)).newInstance();
+			return new Task(algorithmTypes, new InputData(), algorithm);
+		} catch (WrongTypeException e) {
+			e.printStackTrace();
+			return null;
 		}
-		comboBox.setSelectedIndex(-1);
-		comboBox.setMaximumSize(new Dimension(500, 20));
-		chooseBox.add(Box.createVerticalStrut(30));
-		chooseBox.add(new JLabel("Choose task type:"));
-		chooseBox.add(comboBox);
-		cont.add(chooseBox);
-		comboBox.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				setTask(((TaskType)((JComboBox)e.getSource()).getSelectedItem()).newTask());
-			}
-		});
-		cont.validate();*/
-		setTask(((TaskType)taskTypes.get(0)).newTask());
+	}
+	
+	private void newTask() {
+		setTask(makeDefaultTask());
 		cont.validate();
 	}
 	
@@ -103,9 +92,6 @@ public class Init {
 		if (file != null) {
 			try {
 				setTask(readTask(file.getAbsolutePath()));
-			} catch (UnknownTaskTypeException e) {
-				JOptionPane.showMessageDialog(frame, "Unknown task type");
-				e.printStackTrace();
 			}catch (Exception e) {
 				JOptionPane.showMessageDialog(frame, "Incorrect format of file");
 				e.printStackTrace();
@@ -113,10 +99,10 @@ public class Init {
 		}
 	}
 	
-	private Task readTask(String file) throws IOException, ClassNotFoundException, UnknownTaskTypeException {
+	private Task readTask(String file) throws IOException, ClassNotFoundException {
 		ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
 		Task task = (Task)in.readObject();
-		task.restorationAfterSerialization(taskTypes);
+		task.restorationAfterSerialization(algorithmTypes);
 		return task;
 	}
 	
@@ -132,7 +118,7 @@ public class Init {
 			return readTask(path + "autosave.task");
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ((TaskType)taskTypes.get(0)).newTask();
+			return makeDefaultTask();
 		}
 	}
 	
@@ -149,36 +135,28 @@ public class Init {
 		}
 	}
 	
-	private void loadTaskTypes() {
+	private AlgorithmTypes loadAlgorithmTypes() {
 		try {
-			ObjectInputStream in = new ObjectInputStream(new FileInputStream(path + "taskTypes.d6"));
-			taskTypes = (ArrayList)in.readObject();
-			Iterator i = taskTypes.iterator();
-			while (i.hasNext())
-				((TaskType)i.next()).getInitialInputData().restorationAfterSerialization();
+			ObjectInputStream in = new ObjectInputStream(new FileInputStream(path + "algorithms.dat"));
+			return (AlgorithmTypes)in.readObject();
 		} catch (Exception e) {
 			e.printStackTrace();
 			
-			taskTypes = new ArrayList();
-			
-			InputData inputData2 = new InputDataForDiffractionOfPlaneWaveOnPeriodicSurface(new PeriodicSurface(), new ImpingingPlaneWave());
-			AlgorithmType algorithmType2 =
+			AlgorithmType algorithmType =
 				new AlgorithmType("Small perturbation algorithm",
 						"andrmikheev", "0.01", SmallPerturbationAlgorithm.class);
-			Algorithm algorithm2 = new SmallPerturbationAlgorithm(algorithmType2);
-			TaskType taskType2 = new TaskType("Diffraction of plane wave on periodic surface", inputData2, algorithm2);
-			
-			taskTypes.add(taskType2);
+			Algorithm algorithm = new SmallPerturbationAlgorithm(algorithmType);
+			AlgorithmTypes types = new AlgorithmTypes(algorithm);
+			return types;
 		}
 	}
 	
-	private void saveTaskTypes() {
+	private void saveAlgorithmTypes(AlgorithmTypes t) {
 		try {
-			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(path + "taskTypes.d6"));
-			out.writeObject(taskTypes);
+			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(path + "algorithms.dat"));
+			out.writeObject(t);
 			out.close();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -251,7 +229,7 @@ public class Init {
 			
 			Box chooseBox = Box.createVerticalBox();
 			
-			Iterator it = currentTask.getTaskType().getAlgorithmTypes().iterator();
+			Iterator it = currentTask.getAlgorithms().getAlgorithmTypes().iterator();
 			while (it.hasNext()) {
 				comboBox.addItem(it.next());
 			}
@@ -269,7 +247,7 @@ public class Init {
 			});
 			okButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					currentTask.getTaskType().removeAlgorithmType((AlgorithmType)comboBox.getSelectedItem());
+					currentTask.getAlgorithms().removeAlgorithmType((AlgorithmType)comboBox.getSelectedItem());
 					setVisible(false);
 				}
 			});
@@ -313,7 +291,7 @@ public class Init {
 			okButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					try {
-						currentTask.getTaskType().addAlgorithmType(
+						currentTask.getAlgorithms().addAlgorithmType(
 								new AlgorithmType(title.getText(), autor.getText(), version.getText(), Class.forName("de.berlios.diffr.algorithms.addedAlgorithms." + className.getText()))
 						);
 						setVisible(false);
@@ -343,7 +321,6 @@ public class Init {
 					// This string correctly only for OS Windows
 					Runtime.getRuntime().exec(path + "userManual.bat "+path);
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -354,7 +331,7 @@ public class Init {
 	
 	private void exit() {
 		saveCurrentTask();
-		saveTaskTypes();
+		saveAlgorithmTypes(algorithmTypes);
 		System.exit(0);
 	}
 }
