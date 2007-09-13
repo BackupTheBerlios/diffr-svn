@@ -1,10 +1,9 @@
 package de.berlios.diffr.algorithms.addedAlgorithms;
 
 import Org.netlib.math.complex.Complex;
-import de.berlios.diffr.inputData.inputDataForDiffractionOfPlaneWaveOnPeriodicSurface.ImpingingPlaneWave;
+import de.berlios.diffr.inputData.ImpingingField;
+import de.berlios.diffr.result.ReflectedPlaneWave;
 import de.berlios.diffr.result.SurfaceCurrent;
-import de.berlios.diffr.result.resultForDiffractionOfPlaneWaveOnPriodicSurface.PeriodicSurfaceCurrent;
-import de.berlios.diffr.result.resultForDiffractionOfPlaneWaveOnPriodicSurface.ReflectedPlaneWave;
 
 public class SmallPerturbationAlgorithmSolverPerfectConductivity extends SmallPerturbationAlgorithmSolver {
 
@@ -63,14 +62,14 @@ public class SmallPerturbationAlgorithmSolverPerfectConductivity extends SmallPe
 		double deltaX = Complex.TWO_PI / numberOfPoints;
 		double xCurrent = deltaX/2.0;
 		for (int j = 0; j< numberOfPoints; j++){
-			if (polarization == ImpingingPlaneWave.polarizationE) {
+			if (polarization == ImpingingField.polarizationE) {
 				current[j] = normalDerivativeOfField(xCurrent);
 			} else {
 				current[j] = field(xCurrent,f_surface(xCurrent));
 			}
 			xCurrent += deltaX; 
 		}
-		PeriodicSurfaceCurrent surfaceCurrent = new PeriodicSurfaceCurrent(current, 2*Math.PI);
+		SurfaceCurrent surfaceCurrent = new SurfaceCurrent(current, 2*Math.PI);
 		return surfaceCurrent;
 	}
 }

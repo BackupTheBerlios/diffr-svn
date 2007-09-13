@@ -4,8 +4,7 @@ import java.util.ArrayList;
 
 import Org.netlib.math.complex.Complex;
 import de.berlios.diffr.inputData.*;
-import de.berlios.diffr.inputData.inputDataForDiffractionOfPlaneWaveOnPeriodicSurface.*;
-import de.berlios.diffr.inputData.inputDataForDiffractionOfPlaneWaveOnPeriodicSurface.periodicSurface.*;
+import de.berlios.diffr.inputData.surface.*;
 
 public abstract class AlgorithmBase  {
 
@@ -21,12 +20,12 @@ public abstract class AlgorithmBase  {
 	private ArrayList f_coef;
 	private double shift;
 	protected int f_size;
-	protected ImpingingPlaneWave wave; 
+	protected ImpingingField wave; 
 	
-	public void initialize (NonDimensionInputData inputData){
+	public void initialize (InputData inputData){
 //				System.out.println("initialization started");
-		PeriodicSurface surface = (PeriodicSurface) inputData.getSurface();
-		wave = (ImpingingPlaneWave) inputData.getImpingingField();
+		Surface surface = inputData.getSurface();
+		wave = inputData.getImpingingField();
 		polarization = wave.getPolarization();
 //				System.out.println("polarization = " + polarization);
 		amplitude = wave.getAmplitude();
@@ -52,7 +51,7 @@ public abstract class AlgorithmBase  {
 		if ( surface.getConductivity() instanceof HeightConductivity ) {
 			Complex epsilon = ((HeightConductivity) surface.getConductivity()).getEpsilon();
 			Complex impedance = ((new Complex(1.0,0.0)).div(epsilon)).sqrt();
-			if (wave.getPolarization() == ImpingingPlaneWave.polarizationE) {
+			if (wave.getPolarization() == ImpingingField.polarizationE) {
 				h = Complex.i.mul(-1.0).mul(impedance).div(k);
 			}else {
 				h = Complex.i.mul(impedance).mul(k);

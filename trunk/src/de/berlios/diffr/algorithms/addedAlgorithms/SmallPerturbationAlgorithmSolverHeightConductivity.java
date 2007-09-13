@@ -1,8 +1,7 @@
 package de.berlios.diffr.algorithms.addedAlgorithms;
 
+import de.berlios.diffr.result.ReflectedPlaneWave;
 import de.berlios.diffr.result.SurfaceCurrent;
-import de.berlios.diffr.result.resultForDiffractionOfPlaneWaveOnPriodicSurface.ReflectedFieldOfPlaneWaves;
-import de.berlios.diffr.result.resultForDiffractionOfPlaneWaveOnPriodicSurface.ReflectedPlaneWave;
 import Org.netlib.math.complex.Complex;
 
 public class SmallPerturbationAlgorithmSolverHeightConductivity extends SmallPerturbationAlgorithmSolver {

@@ -2,7 +2,6 @@ package de.berlios.diffr.algorithms.addedAlgorithms;
 
 import de.berlios.diffr.*;
 import de.berlios.diffr.algorithms.*;
-import de.berlios.diffr.exceptions.InputDataNotSupportedException;
 import de.berlios.diffr.inputData.InputData;
 import de.berlios.diffr.result.Result;
 
@@ -17,7 +16,7 @@ public class SleepAlgorithm extends Algorithm {
 		r.parameters = parameters.clone();
 		return r;
 	}
-	public Result run(InputData inputData) throws InputDataNotSupportedException {
+	public Result run(InputData inputData) throws Exception {
 		try {
 			Thread.sleep(( (Long) parameters[0].getValue()).longValue());
 		} catch (InterruptedException e) {

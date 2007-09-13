@@ -2,15 +2,14 @@ package de.berlios.diffr.algorithms.addedAlgorithms;
 
 import de.berlios.diffr.result.*;
 import de.berlios.diffr.inputData.*;
-import de.berlios.diffr.inputData.inputDataForDiffractionOfPlaneWaveOnPeriodicSurface.NonDimensionInputData;
-import de.berlios.diffr.inputData.inputDataForDiffractionOfPlaneWaveOnPeriodicSurface.periodicSurface.HeightConductivity;
-import de.berlios.diffr.inputData.inputDataForDiffractionOfPlaneWaveOnPeriodicSurface.periodicSurface.PerfectConductivity;
+import de.berlios.diffr.inputData.surface.*;
 import de.berlios.diffr.DataString;
+import de.berlios.diffr.algorithms.AbstractAlgorithm;
 import de.berlios.diffr.algorithms.Algorithm;
 import de.berlios.diffr.algorithms.AlgorithmType;
 import de.berlios.diffr.exceptions.*;
 
-public class SmallPerturbationAlgorithm extends AbstractAlgorithmForDiffrractionOfPlaneWaveOnPeriodicSurface {
+public class SmallPerturbationAlgorithm extends AbstractAlgorithm {
 	public SmallPerturbationAlgorithm(AlgorithmType algorithmType) {
 		super(algorithmType);
 		parameters = new DataString[2];
@@ -22,7 +21,7 @@ public class SmallPerturbationAlgorithm extends AbstractAlgorithmForDiffrraction
 		r.parameters = parameters.clone();
 		return r;
 	}
-	public Result calculate(NonDimensionInputData inputData)  {
+	public Result calculate(InputData inputData)  {
 		int order = ((Integer)parameters[0].getValue()).intValue();
 		int numberOfPoints = ((Integer)parameters[1].getValue()).intValue();
 		SmallPerturbationAlgorithmSolver solver = null;
