@@ -14,37 +14,12 @@ public class ResultView extends View {
 		if (tabbedPane != null) this.remove(tabbedPane);
 		if (newResult != null) {
 			tabbedPane = new JTabbedPane();
-			ViewFactory viewFactory = new ViewFactory();
-			View reflectedFieldView = null;
+			View reflectedFieldView = new ReflectedFieldView(newResult.getReflectedField());
 			View passedFieldView = null;
-			View surfaceCurrentView = null;
-			try {
-				reflectedFieldView = viewFactory.makeView(newResult.getReflectedField());
-				tabbedPane.add("Reflected field", reflectedFieldView);
-			} catch (WrongTypeException e) {
-				e.printStackTrace();
-				JOptionPane.showMessageDialog(null, "Unknown type of reflected field");
-			} catch (NullPointerException e) {
-				// Algorithm can`t calculate this
-			}
-			try {
-				passedFieldView = viewFactory.makeView(newResult.getPassedField());
-				tabbedPane.add("Passed field", passedFieldView);
-			} catch (WrongTypeException e) {
-				e.printStackTrace();
-				JOptionPane.showMessageDialog(null, "Unknown type of passed field");
-			} catch (NullPointerException e) {
-				// Algorithm can`t calculate this
-			}
-			try {
-				surfaceCurrentView = viewFactory.makeView(newResult.getSurfaceCurrent());
-				tabbedPane.add("Surface current", surfaceCurrentView);
-			} catch (WrongTypeException e) {
-				e.printStackTrace();
-				JOptionPane.showMessageDialog(null, "Unknown type of surface current");
-			} catch (NullPointerException e) {
-				// Algorithm can`t calculate this
-			}
+			View surfaceCurrentView = new SurfaceCurrentView(newResult.getSurfaceCurrent());
+			tabbedPane.add("Reflected field", reflectedFieldView);
+			tabbedPane.add("Passed field", passedFieldView);
+			tabbedPane.add("Surface current", surfaceCurrentView);
 			tabbedPane.add("Energetic imperfection", new JLabel("Energetic imperfection " + newResult.getEnergeticImperfection()*100 + "%"));
 			this.add(tabbedPane);
 		}
