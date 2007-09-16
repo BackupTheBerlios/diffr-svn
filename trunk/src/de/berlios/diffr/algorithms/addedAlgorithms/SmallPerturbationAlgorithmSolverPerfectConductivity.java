@@ -44,7 +44,7 @@ public class SmallPerturbationAlgorithmSolverPerfectConductivity extends SmallPe
 		return s;
 	}
 	
-	public double calculateEnergyError(){
+	public double calculateEnergyError(int numberOfPoints){
 		double s = 0.0;
 		int counter = 0;
 		for (int j = -gam_min; j<= gam_max; j++){

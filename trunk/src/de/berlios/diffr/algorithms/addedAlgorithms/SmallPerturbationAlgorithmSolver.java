@@ -32,7 +32,7 @@ public abstract class SmallPerturbationAlgorithmSolver extends AlgorithmBase {
 		SurfaceCurrent surfaceCurrent = calculateSurfaceCurrent(numberOfPoints);
 
 		
-		double energyError = calculateEnergyError();
+		double energyError = calculateEnergyError(numberOfPoints);
 			
 		return new Result(reflectedField, null, surfaceCurrent, energyError);
 	}
@@ -73,7 +73,7 @@ public abstract class SmallPerturbationAlgorithmSolver extends AlgorithmBase {
 		public abstract SurfaceCurrent calculateSurfaceCurrent(int numberOfPoints);
 
 	public abstract Complex calculateNonDimensionalAmplitude(int n, int order);
-	public abstract double calculateEnergyError();
+	public abstract double calculateEnergyError(int numberOfPoints);
 	public abstract Complex term1(int n);
 	public abstract Complex term2(int n);
 }

@@ -1,5 +1,6 @@
 package de.berlios.diffr.algorithms.addedAlgorithms;
 
+import de.berlios.diffr.inputData.IncidentWave;
 import de.berlios.diffr.result.ReflectedPlaneWave;
 import de.berlios.diffr.result.SurfaceCurrent;
 import Org.netlib.math.complex.Complex;
@@ -93,11 +94,61 @@ public class SmallPerturbationAlgorithmSolverHeightConductivity extends SmallPer
 		return s;
 	}
 
-	public double calculateEnergyError(){
-		return 1.0;//vremenno
+	public double calculateEnergyError(int numberOfPoints){
+		double s = 0.0;
+		int counter = 0;
+		for (int j = -gam_min; j<= gam_max; j++){
+			double absAmplitude = waves[counter].getAmplitude().abs(); 
+			s = s + absAmplitude*absAmplitude * (gam(j).re());
+			counter++;
+		}
+		
+		double surfaceAbsorbtion = calculateSurfaceAbsorbtion(numberOfPoints);
+		
+		return Math.abs((surfaceAbsorbtion +  s)/(gam(0).re()) - 1.0);
+	}
+
+	private double calculateSurfaceAbsorbtion(int numberOfPoints) {
+
+		SurfaceCurrent surfaceCurrent = calculateSurfaceCurrent(numberOfPoints);
+		double s = 0.0;
+		double deltaX = Complex.TWO_PI / numberOfPoints;
+		double xCurrent = deltaX/2.0;
+		for (int j = 0; j< numberOfPoints; j++){
+			s = s + surfaceCurrent.get(j).norm()*di(xCurrent);
+			xCurrent += deltaX; 
+		}
+		
+		double term = 0.0;
+		if (polarization == IncidentWave.polarizationE) {
+			term = h.im()*(-1.0)/Math.PI/2.0*s;
+		} else {
+			term = h.im()/Math.PI/2.0*s;
+		}
+		
+		
+		return term;
+	}
+
+	private double di(double current) {
+		double deriv = derivative_f_surface(current);
+		return Math.sqrt(1.0 + deriv*deriv);
 	}
 
 	public SurfaceCurrent calculateSurfaceCurrent(int numberOfPoints) {
-		return null;
+		Complex s = new Complex(0.0);
+		Complex [] current = new Complex [ numberOfPoints];
+		double deltaX = Complex.TWO_PI / numberOfPoints;
+		double xCurrent = deltaX/2.0;
+		for (int j = 0; j< numberOfPoints; j++){
+			if (polarization == IncidentWave.polarizationE) {
+				current[j] = normalDerivativeOfField(xCurrent);
+			} else {
+				current[j] = field(xCurrent,f_surface(xCurrent));
+			}
+			xCurrent += deltaX; 
+		}
+		SurfaceCurrent surfaceCurrent = new SurfaceCurrent(current, 2*Math.PI);
+		return surfaceCurrent;
 	}
 }
