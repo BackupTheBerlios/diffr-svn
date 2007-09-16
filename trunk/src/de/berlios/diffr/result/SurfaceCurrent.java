@@ -2,6 +2,7 @@ package de.berlios.diffr.result;
 
 import Org.netlib.math.complex.Complex;
 import de.berlios.diffr.*;
+import de.berlios.diffr.algorithms.DimensionData;
 import de.berlios.diffr.inputData.InputData;
 
 public class SurfaceCurrent extends Model {
@@ -20,11 +21,11 @@ public class SurfaceCurrent extends Model {
 	public double getSurfacePeriod() {
 		return surfacePeriod;
 	}
-	public SurfaceCurrent dimensioning(InputData inputData) {
+	public SurfaceCurrent dimensioning(DimensionData d) {
 		for (int j = 0; j < points.length; j++){
-			points[j] = points[j].mul(inputData.getImpingingField().getAmplitude());
+			points[j] = points[j].mul(d.getAmplitude());
 		}
-		surfacePeriod = inputData.getSurface().getShape().getPeriod();
+		surfacePeriod = d.getPeriod();
 		return this;
 	}
 }

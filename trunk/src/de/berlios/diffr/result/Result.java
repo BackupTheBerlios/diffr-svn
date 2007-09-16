@@ -2,6 +2,7 @@ package de.berlios.diffr.result;
 
 import de.berlios.diffr.*;
 import de.berlios.diffr.algorithms.DimensionData;
+import de.berlios.diffr.exceptions.ObjectIsnotEditableException;
 import de.berlios.diffr.inputData.InputData;
 
 public class Result extends Model {
@@ -28,14 +29,13 @@ public class Result extends Model {
 		return energeticImperfection;
 	}
 	public Result dimensioning(DimensionData d) {
-		/*ReflectedField dimensionalReflectedField = reflectedField.dimensioning(inputData);
+		ReflectedField dimensionalReflectedField = reflectedField.dimensioning(d);
 		SurfaceCurrent dimensionalSurfaceCurrent = null;
 		PassedField dimensionalPassedField = null;
 		if ( surfaceCurrent != null)
-			dimensionalSurfaceCurrent = surfaceCurrent.dimensioning(inputData);
+			dimensionalSurfaceCurrent = surfaceCurrent.dimensioning(d);
 		if ( passedField != null)
-			dimensionalPassedField = passedField.dimensioning(inputData);
-		return 	new Result(dimensionalReflectedField, dimensionalPassedField, dimensionalSurfaceCurrent, energeticImperfection);*/
-		return null;
+			dimensionalPassedField = passedField.dimensioning(d);
+		return 	new Result(dimensionalReflectedField, dimensionalPassedField, dimensionalSurfaceCurrent, energeticImperfection);
 	}
 }

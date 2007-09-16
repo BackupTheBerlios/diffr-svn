@@ -20,12 +20,12 @@ public abstract class AlgorithmBase  {
 	private ArrayList f_coef;
 	private double shift;
 	protected int f_size;
-	protected ImpingingField wave; 
+	protected IncidentWave wave; 
 	
 	public void initialize (InputData inputData){
 //				System.out.println("initialization started");
 		Surface surface = inputData.getSurface();
-		wave = inputData.getImpingingField();
+		wave = inputData.getIncidentWave();
 		polarization = wave.getPolarization();
 //				System.out.println("polarization = " + polarization);
 		amplitude = wave.getAmplitude();
@@ -51,7 +51,7 @@ public abstract class AlgorithmBase  {
 		if ( surface.getConductivity() instanceof HeightConductivity ) {
 			Complex epsilon = ((HeightConductivity) surface.getConductivity()).getEpsilon();
 			Complex impedance = ((new Complex(1.0,0.0)).div(epsilon)).sqrt();
-			if (wave.getPolarization() == ImpingingField.polarizationE) {
+			if (wave.getPolarization() == IncidentWave.polarizationE) {
 				h = Complex.i.mul(-1.0).mul(impedance).div(k);
 			}else {
 				h = Complex.i.mul(impedance).mul(k);

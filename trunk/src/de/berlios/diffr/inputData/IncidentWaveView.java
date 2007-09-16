@@ -9,18 +9,18 @@ import javax.swing.*;
 import Org.netlib.math.complex.*;
 import de.berlios.diffr.*;
 
-public class ImpingingFieldView extends InputDataPartView {
+public class IncidentWaveView extends InputDataPartView {
 	private DataString angleData;
 	private DataStringView angleView;
 	private DataString lengthData;
 	private DataStringView lengthView;
 	private DataString amplitudeData;
 	private DataStringView amplitudeView;
-	private ImpingingField planeWave;
+	private IncidentWave planeWave;
 	private JRadioButton HPolarization = new JRadioButton("H polarization");
 	private JRadioButton EPolarization = new JRadioButton("E polarization");
 	private ButtonGroup polarization = new ButtonGroup();
-	public ImpingingFieldView(ImpingingField wave) {
+	public IncidentWaveView(IncidentWave wave) {
 		this.planeWave = wave;
 		angleData = new DataString("angle", new Double(wave.getAngle() / Math.PI * 180));
 		angleView = new DataStringView(angleData);
@@ -72,16 +72,16 @@ public class ImpingingFieldView extends InputDataPartView {
 		});
 		polarization.add(HPolarization);
 		polarization.add(EPolarization);
-		if(ImpingingField.polarizationH == wave.getPolarization())
+		if(IncidentWave.polarizationH == wave.getPolarization())
 			HPolarization.doClick();
 		else
 			EPolarization.doClick();
 		HPolarization.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					planeWave.setPolarization(ImpingingField.polarizationH);
+					planeWave.setPolarization(IncidentWave.polarizationH);
 				} catch (ObjectIsnotEditableException e1) {
-					if (planeWave.getPolarization() != ImpingingField.polarizationH) {
+					if (planeWave.getPolarization() != IncidentWave.polarizationH) {
 						JOptionPane.showMessageDialog(null, "You can`t change this now");
 						EPolarization.doClick();
 					}
@@ -91,9 +91,9 @@ public class ImpingingFieldView extends InputDataPartView {
 		EPolarization.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					planeWave.setPolarization(ImpingingField.polarizationE);
+					planeWave.setPolarization(IncidentWave.polarizationE);
 				} catch (ObjectIsnotEditableException e1) {
-					if (planeWave.getPolarization() != ImpingingField.polarizationE) {
+					if (planeWave.getPolarization() != IncidentWave.polarizationE) {
 						JOptionPane.showMessageDialog(null, "You can`t change this now");
 						HPolarization.doClick();
 					}

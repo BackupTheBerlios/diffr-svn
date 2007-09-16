@@ -5,12 +5,12 @@ import de.berlios.diffr.Model;
 import de.berlios.diffr.algorithms.DimensionData;
 import de.berlios.diffr.exceptions.ObjectIsnotEditableException;
 
-public class ImpingingField extends Model {
+public class IncidentWave extends Model {
 	public static final boolean polarizationE = false;
 	public static final boolean polarizationH = true;
 
-	public ImpingingField() {}
-	public ImpingingField(boolean polarization, double angle, double waveLength, Complex amplitude) {
+	public IncidentWave() {}
+	public IncidentWave(boolean polarization, double angle, double waveLength, Complex amplitude) {
 	    if (amplitude == null) throw new NullPointerException();
 	    this.amplitude = amplitude;
 	    this.angle = angle;
@@ -18,11 +18,11 @@ public class ImpingingField extends Model {
 	    this.waveLength = waveLength;
 	}
 
-	public ImpingingField clone() {
-		return new ImpingingField(polarization, angle, waveLength, (Complex)amplitude.clone());
+	public IncidentWave clone() {
+		return new IncidentWave(polarization, angle, waveLength, (Complex)amplitude.clone());
 	}
 	
-	private boolean polarization = ImpingingField.polarizationE;
+	private boolean polarization = IncidentWave.polarizationE;
 	private double angle = 1;
 	private Complex amplitude = new Complex(1.0, 0.0);
 	private double waveLength = 1;
@@ -65,12 +65,11 @@ public class ImpingingField extends Model {
 		this.polarization = polarization;
 		modelWasChangedEvent();
 	}
-	public ImpingingField nonDimensioning(DimensionData d) {
-	    /*Complex nonDimensionalAmplitude = new Complex(1.0,0.0);
+	public IncidentWave nonDimensioning(DimensionData d) {
+	    Complex nonDimensionalAmplitude = new Complex(1.0,0.0);
 	    double nonDimensionalAngle = angle;
 	    boolean nonDimensionalPolarization = polarization;
-	    double nonDimensionalWaveLength = waveLength*Complex.TWO_PI/period;
-		return new ImpingingField(nonDimensionalPolarization, nonDimensionalAngle, nonDimensionalWaveLength, nonDimensionalAmplitude) ;*/
-		return null;
+	    double nonDimensionalWaveLength = waveLength*Complex.TWO_PI/d.getPeriod();
+		return new IncidentWave(nonDimensionalPolarization, nonDimensionalAngle, nonDimensionalWaveLength, nonDimensionalAmplitude) ;
 	}
 }

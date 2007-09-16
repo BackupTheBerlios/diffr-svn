@@ -11,7 +11,7 @@ public class InputDataView extends View {
 	public InputDataView(InputData inputData) {
 		JTabbedPane tabbedPane = new JTabbedPane();
 		View surfaceView = new SurfaceView(inputData.getSurface());
-		View impingingFieldView = new ImpingingFieldView(inputData.getImpingingField());
+		View impingingFieldView = new IncidentWaveView(inputData.getIncidentWave());
 		tabbedPane.add("Surface", surfaceView);
 		tabbedPane.add("Impinging field", impingingFieldView);
 		this.setLayout(new BorderLayout());

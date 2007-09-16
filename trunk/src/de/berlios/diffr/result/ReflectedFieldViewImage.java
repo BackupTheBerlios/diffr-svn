@@ -1,7 +1,7 @@
 package de.berlios.diffr.result;
 
 import de.berlios.diffr.*;
-import de.berlios.diffr.inputData.ImpingingField;
+import de.berlios.diffr.inputData.IncidentWave;
 
 import java.awt.*;
 
@@ -16,7 +16,7 @@ public class ReflectedFieldViewImage extends View {
 		int height = g.getClipBounds().height;
 		g.fillRect(0, 0, width, height);
 		ReflectedPlaneWave[] waves = field.getWaves();
-		ImpingingField impingingWave = field.getImpingingWave();
+		IncidentWave impingingWave = field.getIncidentWave();
 		double maxX = impingingWave.getAmplitude().abs()*Math.sin(impingingWave.getAngle())*3;
 		double maxY = impingingWave.getAmplitude().abs()*Math.cos(impingingWave.getAngle())*3;
 		for (int a=0;a<waves.length;a++) {

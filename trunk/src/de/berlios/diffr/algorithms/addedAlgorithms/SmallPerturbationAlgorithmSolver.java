@@ -1,7 +1,7 @@
 package de.berlios.diffr.algorithms.addedAlgorithms;
 
 import Org.netlib.math.complex.Complex;
-import de.berlios.diffr.inputData.ImpingingField;
+import de.berlios.diffr.inputData.IncidentWave;
 import de.berlios.diffr.result.*;
 
 public abstract class SmallPerturbationAlgorithmSolver extends AlgorithmBase {
@@ -26,7 +26,7 @@ public abstract class SmallPerturbationAlgorithmSolver extends AlgorithmBase {
 				System.out.println("Amplitude re =  " + r.re() + "   im = " + r.im());*/
 		}
 //			System.out.println("waves.length =  " + waves.length);
-		ReflectedField reflectedField = new ReflectedField(waves, new ImpingingField(polarization, alpha, waveLength, amplitude));
+		ReflectedField reflectedField = new ReflectedField(waves, new IncidentWave(polarization, alpha, waveLength, amplitude));
 //			System.out.println("solver end");
 		
 		SurfaceCurrent surfaceCurrent = calculateSurfaceCurrent(numberOfPoints);

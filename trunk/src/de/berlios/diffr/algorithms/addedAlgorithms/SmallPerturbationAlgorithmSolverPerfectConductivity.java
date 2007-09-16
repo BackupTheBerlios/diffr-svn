@@ -1,7 +1,7 @@
 package de.berlios.diffr.algorithms.addedAlgorithms;
 
 import Org.netlib.math.complex.Complex;
-import de.berlios.diffr.inputData.ImpingingField;
+import de.berlios.diffr.inputData.IncidentWave;
 import de.berlios.diffr.result.ReflectedPlaneWave;
 import de.berlios.diffr.result.SurfaceCurrent;
 
@@ -62,7 +62,7 @@ public class SmallPerturbationAlgorithmSolverPerfectConductivity extends SmallPe
 		double deltaX = Complex.TWO_PI / numberOfPoints;
 		double xCurrent = deltaX/2.0;
 		for (int j = 0; j< numberOfPoints; j++){
-			if (polarization == ImpingingField.polarizationE) {
+			if (polarization == IncidentWave.polarizationE) {
 				current[j] = normalDerivativeOfField(xCurrent);
 			} else {
 				current[j] = field(xCurrent,f_surface(xCurrent));

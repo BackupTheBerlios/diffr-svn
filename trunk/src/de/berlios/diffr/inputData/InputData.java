@@ -5,36 +5,36 @@ import de.berlios.diffr.algorithms.DimensionData;
 
 public class InputData extends Model {
 	private Surface surface;
-	private ImpingingField impingingField;
-	public InputData(Surface surface, ImpingingField field) {
+	private IncidentWave incidentWave;
+	public InputData(Surface surface, IncidentWave field) {
 		this.surface = surface;
-		this.impingingField = field;
+		this.incidentWave = field;
 		surface.addModelChangingListener(new ModelChangingListener() {
 			public void modelWasChanged(Model model) {
 				modelWasChangedEvent();
 			}
 		});
-		impingingField.addModelChangingListener(new ModelChangingListener() {
+		incidentWave.addModelChangingListener(new ModelChangingListener() {
 			public void modelWasChanged(Model model) {
 				modelWasChangedEvent();
 			}
 		});
 	}
 	public InputData() {
-		this(new Surface(), new ImpingingField());
+		this(new Surface(), new IncidentWave());
 	}
 	public InputData clone() {
-		return new InputData(surface.clone(), impingingField.clone());
+		return new InputData(surface.clone(), incidentWave.clone());
 	}
 	public void restorationAfterSerialization() {
 		surface.restorationAfterSerialization();
-		impingingField.restorationAfterSerialization();
+		incidentWave.restorationAfterSerialization();
 		surface.addModelChangingListener(new ModelChangingListener() {
 			public void modelWasChanged(Model model) {
 				modelWasChangedEvent();
 			}
 		});
-		impingingField.addModelChangingListener(new ModelChangingListener() {
+		incidentWave.addModelChangingListener(new ModelChangingListener() {
 			public void modelWasChanged(Model model) {
 				modelWasChangedEvent();
 			}
@@ -43,19 +43,19 @@ public class InputData extends Model {
 	public Surface getSurface() {
 		return surface;
 	}
-	public ImpingingField getImpingingField() {
-		return impingingField;
+	public IncidentWave getIncidentWave() {
+		return incidentWave;
 	}
 	public void setEditable(boolean b) {
 		super.setEditable(b);
 		surface.setEditable(b);
-		impingingField.setEditable(b);
+		incidentWave.setEditable(b);
 	}
 
 	public InputData nonDimensioning(DimensionData data) {
 
 		Surface nonDimensionalSurface = surface.nonDimensioning(data); 
-		ImpingingField nonDimensionalWave = impingingField.nonDimensioning(data);
+		IncidentWave nonDimensionalWave = incidentWave.nonDimensioning(data);
 		
 		return new InputData(nonDimensionalSurface, nonDimensionalWave);
 	}

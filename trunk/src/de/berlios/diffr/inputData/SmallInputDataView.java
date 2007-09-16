@@ -12,13 +12,13 @@ public class SmallInputDataView extends View {
 	private InputDataPartView impingingFieldView;
 	public SmallInputDataView(InputData inputData) {
 		surfaceView = new SurfaceView(inputData.getSurface());
-		impingingFieldView = new ImpingingFieldView(inputData.getImpingingField());
+		impingingFieldView = new IncidentWaveView(inputData.getIncidentWave());
 		inputData.getSurface().addModelChangingListener(new ModelChangingListener() {
 			public void modelWasChanged(Model m) {
 				repaint();
 			}
 		});
-		inputData.getImpingingField().addModelChangingListener(new ModelChangingListener() {
+		inputData.getIncidentWave().addModelChangingListener(new ModelChangingListener() {
 			public void modelWasChanged(Model m) {
 				repaint();
 			}
