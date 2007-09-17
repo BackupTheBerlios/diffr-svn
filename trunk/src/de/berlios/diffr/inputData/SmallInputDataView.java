@@ -29,7 +29,7 @@ public class SmallInputDataView extends View {
 		int width = g.getClipBounds().width;
 		int height = g.getClipBounds().height;
 		g.fillRect(0, 0, width, height);
-		double scaleX = this.getWidth() / Math.max(surfaceView.getModelSizeX(), impingingFieldView.getModelSizeX());
+		double scaleX = (this.getWidth()-30) / Math.max(surfaceView.getModelSizeX(), impingingFieldView.getModelSizeX());
 		double scaleY = this.getHeight() / Math.max(surfaceView.getModelSizeY(), impingingFieldView.getModelSizeY());
 		double scale = Math.min(scaleX, scaleY);
 		g.setColor(new Color(100, 120, 100));

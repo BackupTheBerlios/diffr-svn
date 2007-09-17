@@ -104,7 +104,6 @@ public class SurfaceShapeView extends View {
 	private double maxHeight = 0;
 	private double minHeight = 0;
 	public void drawImage(Graphics g, double scale) {
-		g.setColor(new Color(0, 0, 255));
 		int centerX = g.getClipBounds().width / 2;
 		int centerY = g.getClipBounds().height / 2;
 		double newMaxHeight = Double.MIN_VALUE;
@@ -124,10 +123,6 @@ public class SurfaceShapeView extends View {
 			}
 			if (y<newMinHeight) newMinHeight = y;
 			if (y>newMaxHeight) newMaxHeight = y;
-			int x1 = (int)(centerX - surfaceShape.getPeriod() / 2 * scale + lastX * scale);
-			int x2 = (int)(centerX - surfaceShape.getPeriod() / 2 * scale + x * scale);
-			int y1 = (int)(centerY - lastY * scale + maxHeight * scale);
-			int y2 = (int)(centerY - y * scale + maxHeight * scale);
 			lastX = x;
 			lastY = y;
 			x += 1 / scale;
@@ -136,9 +131,24 @@ public class SurfaceShapeView extends View {
 			maxHeight = newMaxHeight;
 			minHeight = newMinHeight;
 		}
+		{
+			g.setColor(Color.green);
+			int x1 = (int)(centerX - surfaceShape.getPeriod() / 2 * scale);
+			int x2 = (int)(centerX + surfaceShape.getPeriod() / 2 * scale);
+			int yv = (int)(centerY + maxHeight * scale); 
+			g.drawLine(x1, yv, x2, yv);
+			for (double a=0;a<=surfaceShape.getPeriod();a+=surfaceShape.getPeriod()/4) {
+				int vx = x1+(int)(a*scale);
+				g.drawLine(vx, yv-2, vx, yv+2);
+				double v = (int)(a*100); v/=100;
+				g.drawString(""+v, vx-10, yv+15);
+			}
+		}
+		
 		x=0;
 		lastX = 0;
 		lastY = 0;
+		g.setColor(new Color(0, 0, 255));
 		while (x<surfaceShape.getPeriod()) {
 			double y = 0;
 			Iterator i = surfaceShape.getFourierCoefficients().iterator();
