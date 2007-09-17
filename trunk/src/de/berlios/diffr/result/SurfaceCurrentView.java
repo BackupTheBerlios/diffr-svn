@@ -22,6 +22,17 @@ public class SurfaceCurrentView extends View {
 		g.drawString("Scale:" + (int)scale, 100, 20);
 		g.drawString("Phase", 0, 20);
 		g.drawString("Abs", 0, height/2 + 20);
+		
+		g.setColor(Color.green);
+		int xb=(int)(-(surfaceCurrent.getSurfacePeriod()/2) * scale + width/2);
+		int xe=(int)((surfaceCurrent.getSurfacePeriod()/2) * scale + width/2);
+		int ya = (int)(height / 4);
+		int yp = (int)(height * 5/6);
+		g.drawLine(xb, ya, xe, ya);
+		g.drawLine(xb, yp, xe, yp);
+		g.drawString("zero", xb-30, ya);
+		g.drawString("zero", xb-30, yp);
+		
 		g.setColor(new Color(255, 0, 0));
 		double lastPhase = surfaceCurrent.get(0).arg();
 		double lastAbs = surfaceCurrent.get(0).abs();
@@ -29,9 +40,9 @@ public class SurfaceCurrentView extends View {
 			int x1=(int)(((a-1)*surfaceCurrent.getSurfacePeriod()/(surfaceCurrent.getPointsNumber()-1)-surfaceCurrent.getSurfacePeriod() / 2) * scale + width/2);
 			int x2=(int)((a*surfaceCurrent.getSurfacePeriod()/(surfaceCurrent.getPointsNumber()-1)-surfaceCurrent.getSurfacePeriod() / 2) * scale + width/2);
 			int y1p = (int)(height / 4 - (lastPhase - Math.PI) * scale);
-			int y2p = (int)(height / 4 - (surfaceCurrent.get(0).arg() - Math.PI) * scale);
+			int y2p = (int)(height / 4 - (surfaceCurrent.get(a).arg() - Math.PI) * scale);
 			int y1a = (int)(height * 5/6 - lastAbs * scale);
-			int y2a = (int)(height * 5/6 - surfaceCurrent.get(0).abs() * scale);
+			int y2a = (int)(height * 5/6 - surfaceCurrent.get(a).abs() * scale);
 			g.drawLine(x1, y1p, x2, y2p);
 			g.drawLine(x1, y1a, x2, y2a);
 			lastPhase = surfaceCurrent.get(a).arg();
