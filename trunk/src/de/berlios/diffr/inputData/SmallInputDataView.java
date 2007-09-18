@@ -9,10 +9,10 @@ import de.berlios.diffr.exceptions.WrongTypeException;
 
 public class SmallInputDataView extends View {
 	private InputDataPartView surfaceView;
-	private InputDataPartView impingingFieldView;
+	private InputDataPartView incidentWaveView;
 	public SmallInputDataView(InputData inputData) {
 		surfaceView = new SurfaceView(inputData.getSurface());
-		impingingFieldView = new IncidentWaveView(inputData.getIncidentWave());
+		incidentWaveView = new IncidentWaveView(inputData.getIncidentWave());
 		inputData.getSurface().addModelChangingListener(new ModelChangingListener() {
 			public void modelWasChanged(Model m) {
 				repaint();
@@ -29,12 +29,12 @@ public class SmallInputDataView extends View {
 		int width = g.getClipBounds().width;
 		int height = g.getClipBounds().height;
 		g.fillRect(0, 0, width, height);
-		double scaleX = (this.getWidth()-30) / Math.max(surfaceView.getModelSizeX(), impingingFieldView.getModelSizeX());
-		double scaleY = this.getHeight() / Math.max(surfaceView.getModelSizeY(), impingingFieldView.getModelSizeY());
+		double scaleX = (this.getWidth()-30) / Math.max(surfaceView.getModelSizeX(), incidentWaveView.getModelSizeX());
+		double scaleY = this.getHeight() / Math.max(surfaceView.getModelSizeY(), incidentWaveView.getModelSizeY());
 		double scale = Math.min(scaleX, scaleY);
 		g.setColor(new Color(100, 120, 100));
 		g.drawString("Scale:" + (int)scale, 0, 20);
 		surfaceView.drawImage(g, scale);
-		impingingFieldView.drawImage(g, scale);
+		incidentWaveView.drawImage(g, scale);
 	}
 }

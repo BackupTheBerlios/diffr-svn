@@ -43,8 +43,8 @@ public class ReflectedPlaneWave extends Model {
 	    return polarization;
 	}
 
-	public ReflectedPlaneWave dimensioning(double period, Complex impingingWaveAmplitude) {
-	    Complex dimensionalAmplitude = amplitude.mul(impingingWaveAmplitude);
+	public ReflectedPlaneWave dimensioning(double period, Complex incidentWaveAmplitude) {
+	    Complex dimensionalAmplitude = amplitude.mul(incidentWaveAmplitude);
 	    double dimensionalAngle = angle;
 	    boolean dimensionalPolarization = polarization;
 	    double dimensionalWaveLength = waveLength/Complex.TWO_PI*period;

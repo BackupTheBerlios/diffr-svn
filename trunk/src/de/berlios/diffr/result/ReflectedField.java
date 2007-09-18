@@ -10,8 +10,8 @@ import de.berlios.diffr.inputData.InputData;
 public class ReflectedField extends Model {
 	private ReflectedPlaneWave[] waves;
 	private IncidentWave incidentWave;
-	public ReflectedField(ReflectedPlaneWave[] waves, IncidentWave impingingPlaneWave) {
-		this.incidentWave = impingingPlaneWave;
+	public ReflectedField(ReflectedPlaneWave[] waves, IncidentWave incidentPlaneWave) {
+		this.incidentWave = incidentPlaneWave;
 		this.waves = waves;
 	}
 	public ReflectedPlaneWave[] getWaves() {
@@ -23,9 +23,9 @@ public class ReflectedField extends Model {
 	public ReflectedField dimensioning(DimensionData dimensionData) {
 		ReflectedPlaneWave[] dimensionWaves = new ReflectedPlaneWave[waves.length];
 		double period = dimensionData.getPeriod();
-		Complex impingingWaveAmplitude = dimensionData.getAmplitude();
+		Complex incidentWaveAmplitude = dimensionData.getAmplitude();
 		for (int j=0; j< waves.length; j++) {
-			dimensionWaves[j] = waves[j].dimensioning(period, impingingWaveAmplitude);
+			dimensionWaves[j] = waves[j].dimensioning(period, incidentWaveAmplitude);
 		}
 		
 		IncidentWave dimensionIncidentWave = incidentWave.clone();
