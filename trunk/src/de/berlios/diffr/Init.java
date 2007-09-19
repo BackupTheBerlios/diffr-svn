@@ -117,7 +117,7 @@ public class Init {
 		try {
 			return readTask(path + "autosave.task");
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("Can`t open autosave task");
 			return makeDefaultTask();
 		}
 	}

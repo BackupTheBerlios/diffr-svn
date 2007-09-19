@@ -39,11 +39,11 @@ public class ReflectedFieldViewImage extends View {
 		g.setColor(new Color(255, 0, 0));
 		int x = width / 2;
 		int y = height / 2;
-		int x1 = (int) (x - incidentWave.getAmplitude().abs() * scale * Math.sin(incidentWave.getAngle()));
+		int x1 = (int) (x + incidentWave.getAmplitude().abs() * scale * Math.sin(incidentWave.getAngle()));
 		int y1 = (int) (y - incidentWave.getAmplitude().abs() * scale * Math.cos(incidentWave.getAngle()));
-		int x2 = (int) (x - 10 * Math.sin(incidentWave.getAngle() + 0.3));
+		int x2 = (int) (x + 10 * Math.sin(incidentWave.getAngle() + 0.3));
 		int y2 = (int) (y - 10 * Math.cos(incidentWave.getAngle() + 0.3));
-		int x3 = (int) (x - 10 * Math.sin(incidentWave.getAngle() - 0.3));
+		int x3 = (int) (x + 10 * Math.sin(incidentWave.getAngle() - 0.3));
 		int y3 = (int) (y - 10 * Math.cos(incidentWave.getAngle() - 0.3));
 		g.drawLine(x, y, x1, y1);
 		g.drawLine(x, y, x2, y2);
@@ -53,11 +53,11 @@ public class ReflectedFieldViewImage extends View {
 			if ((waves[a] != null) && (waves[a].getAmplitude().abs() > 0)) {
 				x = width / 2;
 				y = height / 2;
-				x1 = (int) (x + waves[a].getAmplitude().abs() * scale * Math.sin(waves[a].getAngle()));
+				x1 = (int) (x - waves[a].getAmplitude().abs() * scale * Math.sin(waves[a].getAngle()));
 				y1 = (int) (y - waves[a].getAmplitude().abs() * scale * Math.cos(waves[a].getAngle()));
-				x2 = (int) (x1 + 10 * Math.sin(waves[a].getAngle() + Math.PI + 0.3));
+				x2 = (int) (x1 - 10 * Math.sin(waves[a].getAngle() + Math.PI + 0.3));
 				y2 = (int) (y1 - 10 * Math.cos(waves[a].getAngle() + Math.PI + 0.3));
-				x3 = (int) (x1 + 10 * Math.sin(waves[a].getAngle() + Math.PI - 0.3));
+				x3 = (int) (x1 - 10 * Math.sin(waves[a].getAngle() + Math.PI - 0.3));
 				y3 = (int) (y1 - 10 * Math.cos(waves[a].getAngle() + Math.PI - 0.3));
 				g.drawLine(x, y, x1, y1);
 				g.drawLine(x1, y1, x2, y2);
