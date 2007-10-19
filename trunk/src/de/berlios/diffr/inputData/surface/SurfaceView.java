@@ -10,6 +10,7 @@ import de.berlios.diffr.inputData.*;
 import Org.netlib.math.complex.*;
 
 public class SurfaceView extends InputDataPartView {
+	private static final long serialVersionUID = 1L;
 	private Surface surface;
 	private JTabbedPane tabbedPane = new JTabbedPane();
 	private Box conductivityBox = Box.createVerticalBox();

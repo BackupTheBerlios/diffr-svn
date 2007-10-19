@@ -10,6 +10,7 @@ import Org.netlib.math.complex.*;
 import de.berlios.diffr.*;
 
 public class IncidentWaveView extends InputDataPartView {
+	private static final long serialVersionUID = 1L;
 	private DataString angleData;
 	private DataStringView angleView;
 	private DataString lengthData;

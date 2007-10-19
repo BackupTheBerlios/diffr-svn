@@ -3,6 +3,7 @@ package de.berlios.diffr.inputData.surface;
 import Org.netlib.math.complex.Complex;
 
 public class RealConductivity extends SurfaceConductivity {
+	private static final long serialVersionUID = 1L;
 	public RealConductivity(Complex epsilon) {
 	    this.epsilon = epsilon;
 	}

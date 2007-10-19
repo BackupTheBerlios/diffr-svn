@@ -4,10 +4,10 @@ import java.awt.BorderLayout;
 
 import javax.swing.*;
 import de.berlios.diffr.*;
-import de.berlios.diffr.exceptions.WrongTypeException;
 import de.berlios.diffr.inputData.surface.SurfaceView;
 
 public class InputDataView extends View {
+	private static final long serialVersionUID = 1L;
 	public InputDataView(InputData inputData) {
 		JTabbedPane tabbedPane = new JTabbedPane();
 		View surfaceView = new SurfaceView(inputData.getSurface());

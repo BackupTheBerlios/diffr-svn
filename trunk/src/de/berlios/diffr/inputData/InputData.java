@@ -4,6 +4,7 @@ import de.berlios.diffr.*;
 import de.berlios.diffr.algorithms.DimensionData;
 
 public class InputData extends Model {
+	private static final long serialVersionUID = 1L;
 	private Surface surface;
 	private IncidentWave incidentWave;
 	public InputData(Surface surface, IncidentWave field) {

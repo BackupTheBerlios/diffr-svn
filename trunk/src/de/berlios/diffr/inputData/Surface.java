@@ -6,6 +6,7 @@ import de.berlios.diffr.algorithms.DimensionData;
 import de.berlios.diffr.exceptions.ObjectIsnotEditableException;
 
 public class Surface extends Model {
+	private static final long serialVersionUID = 1L;
 	public Surface() {
 		addListenerToShape();
 	}

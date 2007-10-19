@@ -1,13 +1,12 @@
 package de.berlios.diffr.inputData;
 
 import java.awt.*;
-import javax.swing.*;
 import de.berlios.diffr.*;
 import de.berlios.diffr.inputData.InputDataPartView;
 import de.berlios.diffr.inputData.surface.SurfaceView;
-import de.berlios.diffr.exceptions.WrongTypeException;
 
 public class SmallInputDataView extends View {
+	private static final long serialVersionUID = 1L;
 	private InputDataPartView surfaceView;
 	private InputDataPartView incidentWaveView;
 	public SmallInputDataView(InputData inputData) {

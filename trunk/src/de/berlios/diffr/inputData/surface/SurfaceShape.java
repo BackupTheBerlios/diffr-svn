@@ -7,23 +7,24 @@ import java.util.*;
 import Org.netlib.math.complex.Complex;
 
 public class SurfaceShape extends Model {
+	private static final long serialVersionUID = 1L;
 	public SurfaceShape() {
 		fourierCoefficients.add(new FourierCoefficient(0.1, 0.05));
 	}
 	
-	public SurfaceShape(double period, double shift, ArrayList fourierCoefficients) {
+	public SurfaceShape(double period, double shift, ArrayList<FourierCoefficient> fourierCoefficients) {
 		this.period = period;
 	    this.shift = shift;
 	    this.fourierCoefficients = fourierCoefficients;
 	}
 	
 	public SurfaceShape clone() {
-		return new SurfaceShape(period, shift, (ArrayList)fourierCoefficients.clone());
+		return new SurfaceShape(period, shift, (ArrayList<FourierCoefficient>)fourierCoefficients.clone());
 	}
 	
 	private double period = Complex.TWO_PI;
 	private double shift = 0;
-	private ArrayList fourierCoefficients = new ArrayList();
+	private ArrayList<FourierCoefficient> fourierCoefficients = new ArrayList<FourierCoefficient>();
 	
 	public double getPeriod() {
 	    return period;
@@ -45,13 +46,13 @@ public class SurfaceShape extends Model {
 		modelWasChangedEvent();
 	}
 	
-	public ArrayList getFourierCoefficients() {
-	    return (ArrayList)fourierCoefficients.clone();
+	public ArrayList<FourierCoefficient> getFourierCoefficients() {
+	    return (ArrayList<FourierCoefficient>)fourierCoefficients.clone();
 	}
 	
 	public void setFourierCoefficients(ArrayList c) throws ObjectIsnotEditableException {
 		if (!isEditable()) throw new ObjectIsnotEditableException();
-	    fourierCoefficients = (ArrayList)c.clone();
+	    fourierCoefficients = (ArrayList<FourierCoefficient>)c.clone();
 	    modelWasChangedEvent();
 	}
 	

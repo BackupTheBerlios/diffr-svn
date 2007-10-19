@@ -10,6 +10,7 @@ import de.berlios.diffr.exceptions.ObjectIsnotEditableException;
 import de.berlios.diffr.exceptions.WrongTypeException;
 
 public class SurfaceShapeView extends View {
+	private static final long serialVersionUID = 1L;
 	private SurfaceShape surfaceShape;
 	private DataString periodData;
 	private DataStringView periodView;
@@ -62,7 +63,7 @@ public class SurfaceShapeView extends View {
 		coefNumberData.addModelChangingListener(new ModelChangingListener() {
 			public void modelWasChanged(Model model) {
 				try {
-					ArrayList newCoefs = new ArrayList();
+					ArrayList<FourierCoefficient> newCoefs = new ArrayList<FourierCoefficient>();
 					for (int a=0;a<((Integer)coefNumberData.getValue()).intValue();a++) {
 						if (a<surfaceShape.getFourierCoefficients().size())
 							newCoefs.add(surfaceShape.getFourierCoefficients().get(a));
@@ -171,6 +172,7 @@ public class SurfaceShapeView extends View {
 	}
 	private void makeFourierCoefficientsTable() {
 		TableModel model = new AbstractTableModel() {
+			private static final long serialVersionUID = 1L;
 			public int getColumnCount() { return 3; }
 	        public int getRowCount() { return surfaceShape.getFourierCoefficients().size();}
 	        public Object getValueAt(int row, int col) {
@@ -194,6 +196,7 @@ public class SurfaceShapeView extends View {
 	        }
 		};
 		table = new JTable(model) {
+			private static final long serialVersionUID = 1L;
 			public void editingStopped(ChangeEvent e) {
 				try {
 					double cosVal;
@@ -205,7 +208,7 @@ public class SurfaceShapeView extends View {
 						sinVal = Double.parseDouble((String)table.getCellEditor().getCellEditorValue());
 						cosVal = ((FourierCoefficient)surfaceShape.getFourierCoefficients().get(table.getSelectedRow())).getCoefficientOfCosinus();
 					}
-					ArrayList newCoef = surfaceShape.getFourierCoefficients();
+					ArrayList<FourierCoefficient> newCoef = surfaceShape.getFourierCoefficients();
 					newCoef.set(table.getSelectedRow(), new FourierCoefficient(cosVal, sinVal));
 					surfaceShape.setFourierCoefficients(newCoef);
 				} catch (ObjectIsnotEditableException e1) {

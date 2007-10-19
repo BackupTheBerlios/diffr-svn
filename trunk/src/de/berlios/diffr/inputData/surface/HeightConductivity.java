@@ -2,7 +2,8 @@ package de.berlios.diffr.inputData.surface;
 
 import Org.netlib.math.complex.Complex;
 
-public class HeightConductivity extends SurfaceConductivity {	
+public class HeightConductivity extends SurfaceConductivity {
+	private static final long serialVersionUID = 1L;
 	public HeightConductivity(Complex epsilon) {
 	    this.epsilon = epsilon;
 	}
