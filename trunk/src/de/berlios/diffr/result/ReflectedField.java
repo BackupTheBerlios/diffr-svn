@@ -5,9 +5,9 @@ import de.berlios.diffr.*;
 import de.berlios.diffr.algorithms.DimensionData;
 import de.berlios.diffr.exceptions.ObjectIsnotEditableException;
 import de.berlios.diffr.inputData.IncidentWave;
-import de.berlios.diffr.inputData.InputData;
 
 public class ReflectedField extends Model {
+	private static final long serialVersionUID = 1L;
 	private ReflectedPlaneWave[] waves;
 	private IncidentWave incidentWave;
 	public ReflectedField(ReflectedPlaneWave[] waves, IncidentWave incidentPlaneWave) {
