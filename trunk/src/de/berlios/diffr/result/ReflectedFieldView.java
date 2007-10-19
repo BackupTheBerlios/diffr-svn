@@ -7,6 +7,7 @@ import de.berlios.diffr.*;
 import javax.swing.*;
 
 public class ReflectedFieldView extends View {
+	private static final long serialVersionUID = 1L;
 	public ReflectedFieldView(ReflectedField field) {
 		JTabbedPane pane = new JTabbedPane();
 		pane.add("Graphical view", new ReflectedFieldViewImage(field));
