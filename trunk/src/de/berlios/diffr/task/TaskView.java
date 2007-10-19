@@ -11,7 +11,7 @@ import de.berlios.diffr.algorithms.*;
 import javax.swing.*;
 
 public class TaskView extends View {
-	
+	private static final long serialVersionUID = 1L;
 	private Task task = null;
 	private SmallInputDataView smallInputDataView;
 	private InputDataView inputDataView;

@@ -1,6 +1,5 @@
 package de.berlios.diffr.task;
 
-import java.util.*;
 import de.berlios.diffr.*;
 import de.berlios.diffr.inputData.*;
 import de.berlios.diffr.result.*;
@@ -8,6 +7,7 @@ import de.berlios.diffr.algorithms.*;
 import de.berlios.diffr.exceptions.*;
 
 public class Task extends Model {
+	private static final long serialVersionUID = 1L;
 	private InputData inputData;
 	private Result result = null;
 	private Algorithm algorithm;

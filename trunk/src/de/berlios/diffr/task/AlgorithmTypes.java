@@ -3,11 +3,11 @@ package de.berlios.diffr.task;
 import java.io.Serializable;
 import java.util.*;
 import de.berlios.diffr.*;
-import de.berlios.diffr.exceptions.WrongTypeException;
 import de.berlios.diffr.algorithms.*;
 
 public class AlgorithmTypes extends Model implements Serializable {
-	private ArrayList algorithmTypes = new ArrayList();
+	private static final long serialVersionUID = 1L;
+	private ArrayList<AlgorithmType> algorithmTypes = new ArrayList<AlgorithmType>();
 	public AlgorithmTypes(Algorithm initialAlgorithm) {
 		algorithmTypes.add(initialAlgorithm.getAlgorithmType());
 	}
