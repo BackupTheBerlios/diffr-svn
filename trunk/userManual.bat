@@ -1,2 +1,2 @@
 cd %1
-userManual.html
+docs\manual\rus\userManual.html
