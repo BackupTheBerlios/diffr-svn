@@ -126,10 +126,13 @@ import  java.io.Serializable;
 * <p>
 **/
 
-public class
-Complex implements Cloneable, Serializable {
+public class Complex implements Cloneable, Serializable {
 
-    public    static final String          VERSION             =  "1.0.1";
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	public    static final String          VERSION             =  "1.0.1";
     public    static final String          DATE                =  "Fri 23-Mar-2001 8:56 pm";
     public    static final String          AUTHOR              =  "sandy@almide.demon.co.uk";
     public    static final String          REMARK              =  "Class available from "
