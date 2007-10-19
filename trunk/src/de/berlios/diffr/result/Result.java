@@ -2,10 +2,9 @@ package de.berlios.diffr.result;
 
 import de.berlios.diffr.*;
 import de.berlios.diffr.algorithms.DimensionData;
-import de.berlios.diffr.exceptions.ObjectIsnotEditableException;
-import de.berlios.diffr.inputData.InputData;
 
 public class Result extends Model {
+	private static final long serialVersionUID = 1L;
 	private ReflectedField reflectedField;
 	private SurfaceCurrent surfaceCurrent;
 	private PassedField passedField;

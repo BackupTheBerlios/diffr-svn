@@ -6,6 +6,7 @@ import de.berlios.diffr.inputData.IncidentWave;
 import java.awt.*;
 
 public class ReflectedFieldViewImage extends View {
+	private static final long serialVersionUID = 1L;
 	private ReflectedField field;
 	public ReflectedFieldViewImage(ReflectedField field) {
 		this.field = field;

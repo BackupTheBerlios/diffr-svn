@@ -7,6 +7,7 @@ import de.berlios.diffr.View;
 import javax.swing.*;
 
 public class ReflectedFieldViewText extends View {
+	private static final long serialVersionUID = 1L;
 	private JTextArea text = new JTextArea();
 	private JScrollPane scrollText = new JScrollPane(text);
 	public ReflectedFieldViewText(ReflectedField field) {
@@ -19,7 +20,7 @@ public class ReflectedFieldViewText extends View {
 				result += "  angle        " + wave.getAngle() / Math.PI * 180 + "\n";
 				result += "  amplitude    " + wave.getAmplitude() + "\n";
 				result += "  length       " + wave.getLength() + "\n";
-				if (wave.getPolarization() == wave.polarizationH)
+				if (wave.getPolarization() == ReflectedPlaneWave.polarizationH)
 					result += "  polarization H\n";
 				else
 					result += "  polarization E\n";

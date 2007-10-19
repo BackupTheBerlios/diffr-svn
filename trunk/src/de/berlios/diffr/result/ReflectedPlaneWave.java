@@ -1,10 +1,10 @@
 package de.berlios.diffr.result;
 
 import Org.netlib.math.complex.Complex;
-import de.berlios.diffr.exceptions.ObjectIsnotEditableException;
 import de.berlios.diffr.*;
 
 public class ReflectedPlaneWave extends Model {
+	private static final long serialVersionUID = 1L;
 	public static final boolean polarizationE = false;
 	public static final boolean polarizationH = true;
 

@@ -1,11 +1,11 @@
 package de.berlios.diffr.result;
 
 import de.berlios.diffr.*;
-import de.berlios.diffr.exceptions.WrongTypeException;
 import java.awt.*;
 import javax.swing.*;
 
 public class ResultView extends View {
+	private static final long serialVersionUID = 1L;
 	private JTabbedPane tabbedPane = null;
 	public ResultView() {
 		this.setLayout(new BorderLayout());

@@ -3,9 +3,9 @@ package de.berlios.diffr.result;
 import Org.netlib.math.complex.Complex;
 import de.berlios.diffr.*;
 import de.berlios.diffr.algorithms.DimensionData;
-import de.berlios.diffr.inputData.InputData;
 
 public class SurfaceCurrent extends Model {
+	private static final long serialVersionUID = 1L;
 	private Complex[] points;
 	private double surfacePeriod;
 	public SurfaceCurrent(Complex[] points, double period) {
