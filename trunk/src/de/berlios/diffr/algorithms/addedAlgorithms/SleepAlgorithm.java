@@ -6,6 +6,7 @@ import de.berlios.diffr.inputData.InputData;
 import de.berlios.diffr.result.Result;
 
 public class SleepAlgorithm extends Algorithm {
+	private static final long serialVersionUID = 1L;
 	public SleepAlgorithm(AlgorithmType algorithmType) {
 		super(algorithmType);
 		parameters = new DataString[1];

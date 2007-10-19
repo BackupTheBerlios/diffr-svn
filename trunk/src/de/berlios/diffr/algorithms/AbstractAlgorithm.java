@@ -1,6 +1,5 @@
 package de.berlios.diffr.algorithms;
 
-import de.berlios.diffr.DataString;
 import de.berlios.diffr.inputData.*;
 import de.berlios.diffr.result.*;
 

@@ -7,9 +7,9 @@ import de.berlios.diffr.DataString;
 import de.berlios.diffr.algorithms.AbstractAlgorithm;
 import de.berlios.diffr.algorithms.Algorithm;
 import de.berlios.diffr.algorithms.AlgorithmType;
-import de.berlios.diffr.exceptions.*;
 
 public class SmallPerturbationAlgorithm extends AbstractAlgorithm {
+	private static final long serialVersionUID = 1L;
 	public SmallPerturbationAlgorithm(AlgorithmType algorithmType) {
 		super(algorithmType);
 		parameters = new DataString[2];

@@ -2,7 +2,6 @@ package de.berlios.diffr.algorithms;
 
 import de.berlios.diffr.result.*;
 import de.berlios.diffr.inputData.*;
-import de.berlios.diffr.exceptions.*;
 import de.berlios.diffr.*;
 
 public abstract class Algorithm extends Model {

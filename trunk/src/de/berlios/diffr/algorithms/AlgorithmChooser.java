@@ -9,12 +9,13 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class AlgorithmChooser extends JPanel {
+	private static final long serialVersionUID = 1L;
 	private AlgorithmTypes algorithms;
 	private JComboBox algorithmTypes;
 	private Box parametersBox = Box.createVerticalBox();
 	private JLabel autor = new JLabel();
 	private Algorithm currentAlgorithm;
-	private ArrayList algorithmChooserListeners = new ArrayList();
+	private ArrayList<AlgorithmChooserListener> algorithmChooserListeners = new ArrayList<AlgorithmChooserListener>();
 	public void addAlgorithmChooserListener(AlgorithmChooserListener l) {
 		algorithmChooserListeners.add(l);
 	}

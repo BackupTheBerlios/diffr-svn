@@ -57,7 +57,6 @@ public class SmallPerturbationAlgorithmSolverPerfectConductivity extends SmallPe
 	}
 
 	public SurfaceCurrent calculateSurfaceCurrent(int numberOfPoints) {
-		Complex s = new Complex(0.0);
 		Complex [] current = new Complex [ numberOfPoints];
 		double deltaX = Complex.TWO_PI / numberOfPoints;
 		double xCurrent = deltaX/2.0;

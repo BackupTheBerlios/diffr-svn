@@ -6,6 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 import de.berlios.diffr.exceptions.WrongTypeException;
 
 public class AlgorithmType implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private final String title;
 	private final String autor;
 	private final String version;
