@@ -4,6 +4,7 @@ import de.berlios.diffr.exceptions.ObjectIsnotEditableException;
 import de.berlios.diffr.exceptions.WrongTypeException;
 
 public class DataString extends Model {
+	private static final long serialVersionUID = 1L;
 	private String description;
 	private Object value;
 	

@@ -217,6 +217,7 @@ public class Init {
 	}
 	
 	private class RemoveAlgorithmDialog extends JDialog {
+		private static final long serialVersionUID = 1L;
 		private JButton okButton = new JButton("OK");
 		private JButton cancelButton = new JButton("Cancel");
 		private JComboBox comboBox = new JComboBox();
@@ -255,6 +256,7 @@ public class Init {
 	}
 	
 	private class AddAlgorithmDialog extends JDialog {
+		private static final long serialVersionUID = 1L;
 		private JTextField title = new JTextField();
 		private JTextField autor = new JTextField();
 		private JTextField version = new JTextField();

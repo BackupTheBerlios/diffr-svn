@@ -8,6 +8,7 @@ import javax.swing.*;
 import Org.netlib.math.complex.*;
 
 public class DataStringView extends View {
+	private static final long serialVersionUID = 1L;
 	private DataString dataString;
 	private JTextField text1 = new JTextField();
 	private JTextField text2 = new JTextField();
