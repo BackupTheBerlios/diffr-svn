@@ -15,6 +15,8 @@
 <a href="#algorithm">Как задать параметры алгоритма<a><br>
 <a href="#run">Как запустить на выполнение<a><br>
 <a href="#result">Как посмотреть, что получилось<a><br>
+<a href="#newAlg"><h5>Как добавить свой алгоритм</h5><a>
+<a href="#newAlg2">Как написать класс алгоритма<a><br>
 
 <hr>
 
@@ -148,5 +150,96 @@ Reflected Field - отраженное поле. В нём имеются вложенные вкладки Graphical vie
 <br>
 <img src="../images/resFieldText.jpg">
 <br>
+
+Surface Current - токи в поверхности. Тоже состоит из Graphical view и Text view
+
+<br>
+<img src="../images/resCurrentGraph.jpg">
+<br>
+<img src="../images/resCurrentText.jpg">
+<br>
+
+<a name=newAlg>
+<h3>Как добавить новый алгоритм</h3>
+Для того, чтобы добавть свой алгоритм нужно написать класс, унаследованный от de.berlios.diffr.algorithms.AbstractAlgorithm, и положить в пакет de.berlios.diffr.algorithms.addedAlgorithms
+ (Дирректория bin/de/berlios/diffr/algorithms/addedAlgorithms/)<br>
+Затем запустите diffr и выберите в меню Algorithms/Add algorithm
+
+<br>
+<img src="../images/addAlgorithm.jpg">
+<br>
+
+Надо указать название, автора, версию и название класса<br>
+(SleepAlgorithm - это алгоритм, который ничего не считает, а просто ждёт несколько секунд. Он используется только для тестирования. Класс SleepAlgorithm.class уже лежит в требуемой дирректории)
+
+<br><br>
+Чтобы удалить алгоритм выберите в меню Algorithms/Remove algorithm
+
+<br>
+<img src="../images/removeAlgorithm.jpg">
+<br>
+
+<a name=newAlg2>
+<h5>Как написать класс алгоритма</h5>
+
+В классе алгоритма надо реализовать методы:
+public Result calculate(InputData inputData) throws Exception<br>
+public Algorithm clone()<br>
+<br>
+inputData - обезразмеренные входные данные
+из него можно извлечь все параметры задачи, например:<br>
+double shift = inputData.getSurface().getShape().getShift();
+<br>
+В конструктор Result надо дать ReflectedField(отражённое поле), PassedField(прошедшее поле), SurfaceCurrent(токи в поверхности), double(точность)<br>
+Вместо части параматров можно дать пустые ссылки - тогда соответствующие вкладки результата отображаться не будут.<br>
+<br>
+Кроме того надо обязательно реализовать конструктор:<br>
+<code>
+	public 'Название класса'(AlgorithmType algorithmType) {<br>
+		super(algorithmType);<br>
+		parameters = new DataString['количество параметров алгоитма'];<br>
+		parameters[0] = new DataString("Описание параметра1", 'Значение по умолчанию');<br>
+		parameters[1] = new DataString("Описание параметра2", 'Значение по умолчанию');<br>
+		...
+	}<br>
+</code><br>
+'Значение по умолчанию' - это одно из new Long(значение), new Integer(значение), new Double(значение).<br>
+<br>
+Затем перед запуском алгоритма значения в массиве parametres будут заменены на указанные пользователем.<br>
+Извлечь их можно так: (Long или Integer или Double)parameters[0].getValue()<br>
+<br>
+Таким образом ваш алгоритм будет выглядеть так:
+<br>
+<code>
+package de.berlios.diffr.algorithms.addedAlgorithms;<br>
+<br>
+import de.berlios.diffr.*;<br>
+import de.berlios.diffr.algorithms.*;<br>
+import de.berlios.diffr.inputData.InputData;<br>
+import de.berlios.diffr.result.Result;<br>
+<br>
+public class MyAlgorithm extends AbstractAlgorithm {<br>
+	private static final long serialVersionUID = 1L;<br>
+	public MyAlgorithm(AlgorithmType algorithmType) {<br>
+		super(algorithmType);<br>
+		parameters = new DataString[0];<br>
+	}<br>
+	public Algorithm clone() {<br>
+		MyAlgorithm r = new MyAlgorithm(super.getAlgorithmType());<br>
+		r.parameters = parameters.clone();<br>
+		return r;<br>
+	}<br>
+	public Result calculate(InputData inputData) throws Exception {<br>
+		ReflectedField reflectedField;<br>
+		SurfaceCurrent surfaceCurrent;<br>
+		double energeticImperfection;<br>
+...<br>
+... Ваш код<br>
+...<br>
+		return new Result(reflectedField, null, surfaceCurrent, energeticImperfection);<br>
+	}<br>
+}<br>
+</code>
+
 </body>
 </html>
