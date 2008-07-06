@@ -14,10 +14,7 @@ import de.berlios.diffr.algorithms.addedAlgorithms.*;
 import java.util.*;
 
 public class Init {
-	public static String path = "";
 	public static void main(String[] args) {
-		if (args.length > 0)
-			path = args[0];
 		new Init();
 	}
 	
@@ -36,7 +33,7 @@ public class Init {
 			}
 		});
 		cont.setLayout(new BorderLayout());
-		frame.setSize(500, 500);
+		frame.setSize(800, 600);
 		frame.setVisible(true);
 		setTask(loadLastSavedTask());
 	}
@@ -115,7 +112,7 @@ public class Init {
 	
 	private Task loadLastSavedTask() {
 		try {
-			return readTask(path + "autosave.task");
+			return readTask("autosave.task");
 		} catch (Exception e) {
 			System.out.println("Can`t open autosave task");
 			return makeDefaultTask();
@@ -124,7 +121,7 @@ public class Init {
 	
 	private void saveCurrentTask() {
 		try {
-			writeTask(path + "autosave.task", currentTask);
+			writeTask("autosave.task", currentTask);
 		} catch (TaskIsSolvingException e) {
 			try {
 				currentTask.stop();
@@ -137,7 +134,7 @@ public class Init {
 	
 	private AlgorithmTypes loadAlgorithmTypes() {
 		try {
-			ObjectInputStream in = new ObjectInputStream(new FileInputStream(path + "algorithms.dat"));
+			ObjectInputStream in = new ObjectInputStream(new FileInputStream("algorithms.dat"));
 			return (AlgorithmTypes)in.readObject();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -153,7 +150,7 @@ public class Init {
 	
 	private void saveAlgorithmTypes(AlgorithmTypes t) {
 		try {
-			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(path + "algorithms.dat"));
+			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("algorithms.dat"));
 			out.writeObject(t);
 			out.close();
 		} catch (Exception e) {
@@ -320,8 +317,7 @@ public class Init {
 		aboutItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					// This string correctly only for OS Windows
-					Runtime.getRuntime().exec(path + "userManual.bat "+path);
+					Desktop.getDesktop().open(new File("docs/manual/rus/userManual.html"));
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}

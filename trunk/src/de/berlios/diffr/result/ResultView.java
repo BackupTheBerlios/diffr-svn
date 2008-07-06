@@ -8,7 +8,8 @@ public class ResultView extends View {
 	private static final long serialVersionUID = 1L;
 	private JTabbedPane tabbedPane = null;
 	public ResultView() {
-		this.setLayout(new BorderLayout());
+		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		this.add(Box.createVerticalStrut(30));
 	}
 	public void setResult(Result newResult) {
 		if (tabbedPane != null) this.remove(tabbedPane);
@@ -24,7 +25,15 @@ public class ResultView extends View {
 			if (reflectedFieldView!=null) tabbedPane.add("Reflected field", reflectedFieldView);
 			if (passedFieldView!=null) tabbedPane.add("Passed field", passedFieldView);
 			if (surfaceCurrentView!=null) tabbedPane.add("Surface current", surfaceCurrentView);
-			tabbedPane.add("Energetic imperfection", new JLabel("Energetic imperfection " + newResult.getEnergeticImperfection()*100 + "%"));
+			Box energyErrorBox = Box.createVerticalBox();
+			JTextField energyErrorText = new JTextField("" + newResult.getEnergeticError()*100 + "%");
+			energyErrorText.setMaximumSize(new Dimension(200, 30));
+			energyErrorText.setMinimumSize(new Dimension(200, 30));
+			energyErrorText.setEditable(false);
+			energyErrorBox.add(Box.createVerticalStrut(50));
+			energyErrorBox.add(new JLabel("Energy error"));
+			energyErrorBox.add(energyErrorText);
+			tabbedPane.add("Energetic error", energyErrorBox);
 			this.add(tabbedPane);
 		}
 		validate();

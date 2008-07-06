@@ -102,6 +102,7 @@ public class IncidentWaveView extends InputDataPartView {
 			}
 		});
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		this.add(Box.createVerticalStrut(30));
 		this.add(angleView);
 		this.add(Box.createVerticalStrut(10));
 		this.add(lengthView);

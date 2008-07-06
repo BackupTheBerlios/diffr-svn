@@ -35,7 +35,7 @@ public class SurfaceView extends InputDataPartView {
 	private ActionListener heightConductivityListener = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			try {
-				if (surface.getConductivity().getClass() != HeightConductivity.class) surface.setConductivity(new HeightConductivity());
+				if (surface.getConductivity().getClass() != ZeroConductivity.class) surface.setConductivity(new ZeroConductivity());
 			} catch (ObjectIsnotEditableException e1) {
 				JOptionPane.showMessageDialog(null, "You can`t change this now");
 			}
@@ -45,7 +45,7 @@ public class SurfaceView extends InputDataPartView {
 	private ActionListener realConductivityListener = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			try {
-				if (surface.getConductivity().getClass() != RealConductivity.class) surface.setConductivity(new RealConductivity());
+				if (surface.getConductivity().getClass() != Impedance.class) surface.setConductivity(new Impedance());
 			} catch (ObjectIsnotEditableException e1) {
 				JOptionPane.showMessageDialog(null, "You can`t change this now");
 			}
@@ -68,11 +68,11 @@ public class SurfaceView extends InputDataPartView {
 		epsilonListener = new ModelChangingListener() {
 			public void modelWasChanged(Model m) {
 				try {
-					if (surface.getConductivity().getClass() == HeightConductivity.class) {
-						surface.setConductivity(new HeightConductivity((Complex)epsilon.getValue()));
+					if (surface.getConductivity().getClass() == ZeroConductivity.class) {
+						surface.setConductivity(new ZeroConductivity((Complex)epsilon.getValue()));
 					}
-					if (surface.getConductivity().getClass() == RealConductivity.class) {
-						surface.setConductivity(new RealConductivity((Complex)epsilon.getValue()));
+					if (surface.getConductivity().getClass() == Impedance.class) {
+						surface.setConductivity(new Impedance((Complex)epsilon.getValue()));
 					}
 				} catch (ObjectIsnotEditableException e) {
 					renewConductivity();
@@ -80,10 +80,11 @@ public class SurfaceView extends InputDataPartView {
 			}
 		};
 		shapeView = new SurfaceShapeView(surface.getShape());
-		tabbedPane.add("Shape", shapeView);
-		tabbedPane.add("Conductivity", conductivityBox);
+		//tabbedPane.add("Shape", shapeView);
+		//tabbedPane.add("Conductivity", conductivityBox);
 		this.setLayout(new BorderLayout());
-		this.add(tabbedPane);
+		//this.add(tabbedPane);
+		this.add(shapeView);
 	}
 	private void removeListeners() {
 		perfectConductivity.removeActionListener(perfectConductivityListener);
@@ -101,17 +102,17 @@ public class SurfaceView extends InputDataPartView {
 		if (surface.getConductivity().getClass() == PerfectConductivity.class) {
 			if (!perfectConductivity.isSelected()) perfectConductivity.doClick();
 		}
-		if (surface.getConductivity().getClass() == HeightConductivity.class) {
+		if (surface.getConductivity().getClass() == ZeroConductivity.class) {
 			if (!heightConductivity.isSelected()) heightConductivity.doClick();
-			HeightConductivity c = (HeightConductivity) surface.getConductivity(); 
+			ZeroConductivity c = (ZeroConductivity) surface.getConductivity(); 
 			epsilon = new DataString("epsilon", c.getEpsilon());
 			epsilon.addModelChangingListener(epsilonListener);
 			epsilonView = new DataStringView(epsilon);
 			conductivityBox.add(epsilonView);
 		}
-		if (surface.getConductivity().getClass() == RealConductivity.class) {
+		if (surface.getConductivity().getClass() == Impedance.class) {
 			if (!realConductivity.isSelected()) realConductivity.doClick();
-			RealConductivity c = (RealConductivity) surface.getConductivity(); 
+			Impedance c = (Impedance) surface.getConductivity(); 
 			epsilon = new DataString("epsilon", c.getEpsilon());
 			epsilon.addModelChangingListener(epsilonListener);
 			epsilonView = new DataStringView(epsilon);

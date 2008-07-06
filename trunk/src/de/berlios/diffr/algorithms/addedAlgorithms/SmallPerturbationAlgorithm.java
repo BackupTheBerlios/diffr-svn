@@ -5,7 +5,6 @@ import de.berlios.diffr.inputData.*;
 import de.berlios.diffr.inputData.surface.*;
 import de.berlios.diffr.DataString;
 import de.berlios.diffr.algorithms.AbstractAlgorithm;
-import de.berlios.diffr.algorithms.Algorithm;
 import de.berlios.diffr.algorithms.AlgorithmType;
 
 public class SmallPerturbationAlgorithm extends AbstractAlgorithm {
@@ -16,11 +15,6 @@ public class SmallPerturbationAlgorithm extends AbstractAlgorithm {
 		parameters[0] = new DataString("Order", new Integer(1));
 		parameters[1] = new DataString("NumberOfPointsForSurfaceCalculation", new Integer(200)); //Vremeno
 	}
-	public Algorithm clone() {
-		SmallPerturbationAlgorithm r = new SmallPerturbationAlgorithm(super.getAlgorithmType());
-		r.parameters = parameters.clone();
-		return r;
-	}
 	public Result calculate(InputData inputData)  {
 		int order = ((Integer)parameters[0].getValue()).intValue();
 		int numberOfPoints = ((Integer)parameters[1].getValue()).intValue();
@@ -29,7 +23,7 @@ public class SmallPerturbationAlgorithm extends AbstractAlgorithm {
 		if (inputData.getSurface().getConductivity() instanceof PerfectConductivity)
 			solver = new SmallPerturbationAlgorithmSolverPerfectConductivity();
 		
-		if (inputData.getSurface().getConductivity() instanceof HeightConductivity) {
+		if (inputData.getSurface().getConductivity() instanceof ZeroConductivity) {
 			solver = new SmallPerturbationAlgorithmSolverHeightConductivity();
 		}
 		

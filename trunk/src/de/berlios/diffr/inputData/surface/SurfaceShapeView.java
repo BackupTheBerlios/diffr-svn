@@ -86,7 +86,7 @@ public class SurfaceShapeView extends View {
 		});
 		makeFourierCoefficientsTable();
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		this.add(Box.createVerticalStrut(10));
+		this.add(Box.createVerticalStrut(30));
 		this.add(periodView);
 		this.add(Box.createVerticalStrut(10));
 		this.add(shiftView);
@@ -184,9 +184,9 @@ public class SurfaceShapeView extends View {
 	        }
 	        public String getColumnName(int n) {
 	        	switch (n) {
-	        	case 0:return "¹";
-	        	case 1:return "coef. of cos.";
-	        	case 2:return "coef. of sin.";
+	        	case 0:return "#";
+	        	case 1:return "coef. at cos.";
+	        	case 2:return "coef. at sin.";
 	        	}
 	        	return "";
 	        }

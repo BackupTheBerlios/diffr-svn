@@ -1,7 +1,5 @@
 package de.berlios.diffr.inputData;
 
-import java.awt.BorderLayout;
-
 import javax.swing.*;
 import de.berlios.diffr.*;
 import de.berlios.diffr.inputData.surface.SurfaceView;
@@ -14,7 +12,8 @@ public class InputDataView extends View {
 		View incidentWaveView = new IncidentWaveView(inputData.getIncidentWave());
 		tabbedPane.add("Surface", surfaceView);
 		tabbedPane.add("Incident Wave", incidentWaveView);
-		this.setLayout(new BorderLayout());
+		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		this.add(Box.createVerticalStrut(30));
 		this.add(tabbedPane);
 	}
 }

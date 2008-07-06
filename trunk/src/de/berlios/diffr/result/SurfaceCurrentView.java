@@ -10,6 +10,7 @@ public class SurfaceCurrentView extends View {
 	private static final long serialVersionUID = 1L;
 	public SurfaceCurrentView(SurfaceCurrent c) {
 		JTabbedPane pane = new JTabbedPane();
+		pane.setTabPlacement(3);
 		pane.add("Graphical view", new SurfaceCurrentViewImage(c));
 		pane.add("Text view", new SurfaceCurrentViewText(c));
 		this.setLayout(new BorderLayout());

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.*;
 
 public abstract class Model implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private boolean editable = true;
 	private transient ArrayList<ModelChangingListener> modelChangingListeners = new ArrayList<ModelChangingListener>();
 	public void addModelChangingListener(ModelChangingListener l) {

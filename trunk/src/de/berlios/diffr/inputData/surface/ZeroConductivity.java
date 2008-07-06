@@ -2,12 +2,12 @@ package de.berlios.diffr.inputData.surface;
 
 import Org.netlib.math.complex.Complex;
 
-public class HeightConductivity extends SurfaceConductivity {
+public class ZeroConductivity extends SurfaceConductivity {
 	private static final long serialVersionUID = 1L;
-	public HeightConductivity(Complex epsilon) {
+	public ZeroConductivity(Complex epsilon) {
 	    this.epsilon = epsilon;
 	}
-	public HeightConductivity() {
+	public ZeroConductivity() {
 		this.epsilon = new Complex(1, 1);
 	}
 	private Complex epsilon;
@@ -15,6 +15,6 @@ public class HeightConductivity extends SurfaceConductivity {
 		return epsilon;
 	}
 	public SurfaceConductivity nonDimensioning() {
-		return new HeightConductivity(epsilon);
+		return new ZeroConductivity(epsilon);
 	}
 }

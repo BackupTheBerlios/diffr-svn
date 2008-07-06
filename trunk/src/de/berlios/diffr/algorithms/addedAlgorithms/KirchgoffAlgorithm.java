@@ -29,7 +29,7 @@
 			if (inputData.getSurface().getConductivity() instanceof PerfectConductivity)
 				solver = new KirchgoffAlgorithmSolverPerfectConductivity();
 			
-			if (inputData.getSurface().getConductivity() instanceof HeightConductivity) {
+			if (inputData.getSurface().getConductivity() instanceof ZeroConductivity) {
 				solver = new KirchgoffAlgorithmSolverHeightConductivity();
 			}
 			

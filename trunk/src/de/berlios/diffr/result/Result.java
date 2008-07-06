@@ -7,11 +7,11 @@ public class Result extends Model {
 	private static final long serialVersionUID = 1L;
 	private ReflectedField reflectedField;
 	private SurfaceCurrent surfaceCurrent;
-	private PassedField passedField;
+	private RefractedField refractedField;
 	private double energeticImperfection;
-	public Result(ReflectedField reflectedField, PassedField passedField, SurfaceCurrent surfaceCurrent, double energeticImperfection) {
+	public Result(ReflectedField reflectedField, RefractedField refractedField, SurfaceCurrent surfaceCurrent, double energeticImperfection) {
 		this.reflectedField = reflectedField;
-		this.passedField = passedField;
+		this.refractedField = refractedField;
 		this.surfaceCurrent = surfaceCurrent;
 		this.energeticImperfection = energeticImperfection;
 	}
@@ -21,20 +21,20 @@ public class Result extends Model {
 	public SurfaceCurrent getSurfaceCurrent() {
 		return surfaceCurrent;
 	}
-	public PassedField getPassedField() {
-		return passedField;
+	public RefractedField getPassedField() {
+		return refractedField;
 	}
-	public double getEnergeticImperfection() {
+	public double getEnergeticError() {
 		return energeticImperfection;
 	}
 	public Result dimensioning(DimensionData d) {
 		ReflectedField dimensionalReflectedField = reflectedField.dimensioning(d);
 		SurfaceCurrent dimensionalSurfaceCurrent = null;
-		PassedField dimensionalPassedField = null;
+		RefractedField dimensionalPassedField = null;
 		if ( surfaceCurrent != null)
 			dimensionalSurfaceCurrent = surfaceCurrent.dimensioning(d);
-		if ( passedField != null)
-			dimensionalPassedField = passedField.dimensioning(d);
+		if ( refractedField != null)
+			dimensionalPassedField = refractedField.dimensioning(d);
 		return 	new Result(dimensionalReflectedField, dimensionalPassedField, dimensionalSurfaceCurrent, energeticImperfection);
 	}
 }

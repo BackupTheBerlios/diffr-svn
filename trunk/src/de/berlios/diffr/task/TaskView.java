@@ -47,7 +47,7 @@ public class TaskView extends View {
 		statePanel.setLayout(new BorderLayout());
 		statePanel.add(state, BorderLayout.SOUTH);
 		statePanel.add(stateLabel, BorderLayout.NORTH);
-		
+	
 		tabbedPane.add("Input data", inputDataView);
 		tabbedPane.add("Result", resultView);
 		tabbedPane.add("Algorithm", algorithmChooser);

@@ -48,8 +48,8 @@ public abstract class AlgorithmBase  {
  		f_coef = surface.getShape().getFourierCoefficients();
  		shift =  surface.getShape().getShift();
 
-		if ( surface.getConductivity() instanceof HeightConductivity ) {
-			Complex epsilon = ((HeightConductivity) surface.getConductivity()).getEpsilon();
+		if ( surface.getConductivity() instanceof ZeroConductivity ) {
+			Complex epsilon = ((ZeroConductivity) surface.getConductivity()).getEpsilon();
 			Complex impedance = ((new Complex(1.0,0.0)).div(epsilon)).sqrt();
 			if (wave.getPolarization() == IncidentWave.polarizationE) {
 				h = Complex.i.mul(-1.0).mul(impedance).div(k);
