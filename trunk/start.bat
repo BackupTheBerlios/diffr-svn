@@ -1,2 +1,1 @@
-cd bin
-java -cp "." de.berlios.diffr.Init ../
+java -cp "bin" de.berlios.diffr.Init
