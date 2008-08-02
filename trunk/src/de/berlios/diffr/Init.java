@@ -10,7 +10,8 @@ import de.berlios.diffr.exceptions.TaskIsnotSolvingException;
 import de.berlios.diffr.exceptions.WrongTypeException;
 import de.berlios.diffr.inputData.*;
 import de.berlios.diffr.algorithms.*;
-import de.berlios.diffr.algorithms.addedAlgorithms.*;
+import de.berlios.diffr.algorithms.addedAlgorithms.SmallPerturbationAlgorithm.SmallPerturbationAlgorithm;
+
 import java.util.*;
 
 public class Init {
@@ -35,6 +36,16 @@ public class Init {
 		cont.setLayout(new BorderLayout());
 		frame.setSize(800, 600);
 		frame.setVisible(true);
+		addAlgorithmListener = new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tryLoadAlgorithm();
+			}
+		}; 
+		removeAlgorithmListener = new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tryRemoveAlgorithm();
+			}
+		}; 
 		setTask(loadLastSavedTask());
 	}
 	
@@ -139,10 +150,15 @@ public class Init {
 		} catch (Exception e) {
 			e.printStackTrace();
 			
-			AlgorithmType algorithmType =
-				new AlgorithmType("Small perturbation algorithm",
-						"andrmikheev", "0.01", SmallPerturbationAlgorithm.class);
-			Algorithm algorithm = new SmallPerturbationAlgorithm(algorithmType);
+			AlgorithmType algorithmType;
+			Algorithm algorithm = null;
+			try {
+				algorithmType = new AlgorithmType(SmallPerturbationAlgorithm.class);
+				algorithm = new SmallPerturbationAlgorithm(algorithmType);
+			} catch (WrongTypeException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			AlgorithmTypes types = new AlgorithmTypes(algorithm);
 			return types;
 		}
@@ -193,21 +209,16 @@ public class Init {
 		return menu;
 	}
 	
+	public static ActionListener addAlgorithmListener;
+	public static ActionListener removeAlgorithmListener;
+	
 	private JMenu newAlgorithmMenu() {
 		JMenu menu = new JMenu("Algorithms");
 		JMenuItem addAlgorithmItem = new JMenuItem("Add algorithm");
-		addAlgorithmItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				tryLoadAlgorithm();
-			}
-		});
+		addAlgorithmItem.addActionListener(addAlgorithmListener);
 		menu.add(addAlgorithmItem);
 		JMenuItem removeAlgorithmItem = new JMenuItem("Remove algorithm");
-		removeAlgorithmItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				tryRemoveAlgorithm();
-			}
-		});
+		removeAlgorithmItem.addActionListener(removeAlgorithmListener);
 		menu.add(addAlgorithmItem);
 		menu.add(removeAlgorithmItem);
 		return menu;
@@ -220,7 +231,8 @@ public class Init {
 		private JComboBox comboBox = new JComboBox();
 		RemoveAlgorithmDialog() {
 			super(frame, "Remove algorithm", true);
-			this.setSize(400, 300);
+			this.setSize(400, 200);
+			this.setLocation(300, 200);
 			Container c = this.getContentPane();
 			c.setLayout(new BoxLayout(c, BoxLayout.Y_AXIS));
 			c.add(Box.createVerticalStrut(30));
@@ -254,30 +266,21 @@ public class Init {
 	
 	private class AddAlgorithmDialog extends JDialog {
 		private static final long serialVersionUID = 1L;
-		private JTextField title = new JTextField();
-		private JTextField autor = new JTextField();
-		private JTextField version = new JTextField();
-		private JTextField className = new JTextField();
+		private JTextField name = new JTextField();
 		private JButton okButton = new JButton("OK");
 		private JButton cancelButton = new JButton("Cancel");
 		AddAlgorithmDialog() {
 			super(frame, "Add algorithm", true);
-			this.setSize(400, 300);
+			this.setSize(400, 200);
+			this.setLocation(300, 200);
 			Container c = this.getContentPane();
 			c.setLayout(new BoxLayout(c, BoxLayout.Y_AXIS));
 			c.add(Box.createVerticalStrut(10));
-			c.add(new JLabel("Title"));
-			c.add(title);
-			c.add(Box.createVerticalStrut(10));
-			c.add(new JLabel("Autor"));
-			c.add(autor);
-			c.add(Box.createVerticalStrut(10));
-			c.add(new JLabel("Version"));
-			c.add(version);
-			c.add(Box.createVerticalStrut(10));
-			c.add(new JLabel("Class"));
+			c.add(new JLabel("Input name of package with algorithm:"));
 			c.add(new JLabel("de.berlios.diffr.algorithms.addedAlgorithms."));
-			c.add(className);
+			c.add(name);
+			name.setMaximumSize(new Dimension(400, 30));
+			name.setMinimumSize(new Dimension(200, 30));
 			c.add(Box.createVerticalStrut(10));
 			c.add(okButton);
 			c.add(Box.createVerticalStrut(10));
@@ -291,11 +294,13 @@ public class Init {
 				public void actionPerformed(ActionEvent e) {
 					try {
 						currentTask.getAlgorithms().addAlgorithmType(
-								new AlgorithmType(title.getText(), autor.getText(), version.getText(), Class.forName("de.berlios.diffr.algorithms.addedAlgorithms." + className.getText()))
+								new AlgorithmType(Class.forName("de.berlios.diffr.algorithms.addedAlgorithms." + name.getText() + "." + name.getText()))
 						);
 						setVisible(false);
 					} catch (ClassNotFoundException e1) {
 						JOptionPane.showMessageDialog(null, "Specified class doesn`t exist");
+					} catch (WrongTypeException e2) {
+						JOptionPane.showMessageDialog(null, "Specified class isn`t algorithm");
 					}
 				}
 			});

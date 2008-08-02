@@ -171,4 +171,3 @@ public class Formula {
 		return ans;
 	}
 }
-

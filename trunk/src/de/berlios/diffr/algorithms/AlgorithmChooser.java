@@ -2,10 +2,10 @@ package de.berlios.diffr.algorithms;
 
 import de.berlios.diffr.*;
 import de.berlios.diffr.exceptions.WrongTypeException;
-import de.berlios.diffr.task.*;
 import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
 
 public class AlgorithmChooser extends JPanel {
@@ -16,6 +16,22 @@ public class AlgorithmChooser extends JPanel {
 	private JLabel autor = new JLabel();
 	private Algorithm currentAlgorithm;
 	private ArrayList<AlgorithmChooserListener> algorithmChooserListeners = new ArrayList<AlgorithmChooserListener>();
+	private boolean notCh = false;
+	private ActionListener typesListener = new ActionListener() {
+	      public void actionPerformed(ActionEvent e) {
+	    	  if (!notCh) {
+				try {
+					if (algorithmTypes.getSelectedItem() != null) {
+						AlgorithmType type = (AlgorithmType)algorithmTypes.getSelectedItem();
+						Algorithm newAlgorithm = type.newInstance();
+						tryChangeAlgorithm(newAlgorithm);
+					}
+				} catch (WrongTypeException e1) {
+					e1.printStackTrace();
+				}
+	    	  }
+	      }
+	};
 	public void addAlgorithmChooserListener(AlgorithmChooserListener l) {
 		algorithmChooserListeners.add(l);
 	}
@@ -56,10 +72,19 @@ public class AlgorithmChooser extends JPanel {
 				renewAlgorithmTypesList();
 			}
 		});
-		
 	    this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
+	    
+	    JButton addAlgorithmButton = new JButton("Add algorithm");
+	    JButton removeAlgorithmButton = new JButton("Remove algorithm");
+	    addAlgorithmButton.addActionListener(Init.addAlgorithmListener);
+	    removeAlgorithmButton.addActionListener(Init.removeAlgorithmListener);
+	    
 	    this.add(Box.createVerticalStrut(20));
-
+	    this.add(addAlgorithmButton);
+	    this.add(Box.createVerticalStrut(10));
+	    this.add(removeAlgorithmButton);
+	    this.add(Box.createVerticalStrut(20));
+	    
 	    algorithmTypes = new JComboBox();
 	    algorithmTypes.setMaximumSize(new Dimension(400,20));
 	    this.add(algorithmTypes);  
@@ -71,28 +96,22 @@ public class AlgorithmChooser extends JPanel {
 
 	    renewAlgorithmTypesList();
 	    
-	    algorithmTypes.addActionListener(new ActionListener() {
-	      public void actionPerformed(ActionEvent e) {
-			try {
-				if (algorithmTypes.getSelectedItem() != null) {
-					AlgorithmType type = (AlgorithmType)algorithmTypes.getSelectedItem();
-					Algorithm newAlgorithm = type.newInstance();
-					tryChangeAlgorithm(newAlgorithm);
-				}
-			} catch (WrongTypeException e1) {
-				e1.printStackTrace();
-			}
-	      }
-	    });
+	    algorithmTypes.addActionListener(typesListener);
 	    
 	    setAlgorithm(currentAlgorithm);
 	}
 	private void renewAlgorithmTypesList() {
+		notCh = true;
 		algorithmTypes.removeAllItems();
 		Iterator i = algorithms.getAlgorithmTypes().iterator();
 		while (i.hasNext()) {
 			algorithmTypes.addItem(i.next());
 		}
 		if (currentAlgorithm != null) algorithmTypes.setSelectedItem(currentAlgorithm.getAlgorithmType());
+		notCh = false;
+		if (!currentAlgorithm.getAlgorithmType().equals(algorithmTypes.getSelectedItem())) {
+			//System.out.println("/");
+			typesListener.actionPerformed(new ActionEvent("", 0, ""));
+		}
 	}
 }
