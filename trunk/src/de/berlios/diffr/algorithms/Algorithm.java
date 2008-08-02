@@ -17,6 +17,9 @@ public abstract class Algorithm extends Model {
 	public DataString[] getAlgorithmParameters() {
 		return parameters;
 	}
+	public abstract String getTitle();
+	public abstract String getAutor();
+	public abstract String getVersion();
 	
 	public AlgorithmType getAlgorithmType() {
 		return algorithmType;
