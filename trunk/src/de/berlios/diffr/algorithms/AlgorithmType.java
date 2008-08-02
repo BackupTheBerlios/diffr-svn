@@ -12,11 +12,19 @@ public class AlgorithmType implements Serializable {
 	private final String version;
 	private Class algorithmClass;
 	
-	public AlgorithmType(String title, String autor, String version, Class c) {
-		this.title = title;
-		this.autor = autor;
-		this.version = version;
+	public boolean equals(Object o) {
+		if (!AlgorithmType.class.isInstance(o)) return false;
+		AlgorithmType t = (AlgorithmType)o;
+		if (t.algorithmClass != algorithmClass) return false;
+		return true;
+	}
+	
+	public AlgorithmType(Class c) throws WrongTypeException {
 		this.algorithmClass = c;
+		Algorithm alg = newInstance();
+		this.title = alg.getTitle();
+		this.autor = alg.getAutor();
+		this.version = alg.getVersion();
 	}
 	
 	public String getTitle() {
