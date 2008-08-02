@@ -26,14 +26,14 @@ public class ResultView extends View {
 			if (passedFieldView!=null) tabbedPane.add("Passed field", passedFieldView);
 			if (surfaceCurrentView!=null) tabbedPane.add("Surface current", surfaceCurrentView);
 			Box energyErrorBox = Box.createVerticalBox();
-			JTextField energyErrorText = new JTextField("" + newResult.getEnergeticError()*100 + "%");
+			JTextField energyErrorText = new JTextField("" + newResult.getEnergyError()*100 + "%");
 			energyErrorText.setMaximumSize(new Dimension(200, 30));
 			energyErrorText.setMinimumSize(new Dimension(200, 30));
 			energyErrorText.setEditable(false);
 			energyErrorBox.add(Box.createVerticalStrut(50));
 			energyErrorBox.add(new JLabel("Energy error"));
 			energyErrorBox.add(energyErrorText);
-			tabbedPane.add("Energetic error", energyErrorBox);
+			tabbedPane.add("Energy error", energyErrorBox);
 			this.add(tabbedPane);
 		}
 		validate();
