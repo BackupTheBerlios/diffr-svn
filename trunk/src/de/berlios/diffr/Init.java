@@ -148,7 +148,7 @@ public class Init {
 			ObjectInputStream in = new ObjectInputStream(new FileInputStream("algorithms.dat"));
 			return (AlgorithmTypes)in.readObject();
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("Can`t open algorithms list");
 			
 			AlgorithmType algorithmType;
 			Algorithm algorithm = null;
