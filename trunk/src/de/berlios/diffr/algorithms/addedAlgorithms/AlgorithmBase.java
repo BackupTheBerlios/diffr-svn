@@ -76,7 +76,7 @@ public abstract class AlgorithmBase  {
 			return lamNull + n;
 	}
 
-	protected Complex gam(int n){
+	public Complex gam(int n){
 		double s = k*k - lam(n)*lam(n);
 		if ( s >= 0 ){
 			return new Complex(Math.sqrt(s),0.0);
@@ -93,7 +93,7 @@ public abstract class AlgorithmBase  {
 		return Math.atan(lam(n)/(gam(n).re()));
 	}
 
-	protected Complex f(int n){
+	public Complex f(int n){
 		if ( n >= 0 ){
 			if ( n <= f_size ){
 				return f_positive_and_0_index[n];
