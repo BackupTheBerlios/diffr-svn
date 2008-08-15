@@ -35,8 +35,6 @@ public class ReflectedFieldViewImage extends View {
 		if (maxY !=0) scaleY = this.getHeight() / maxY;
 		else scaleY = Double.MAX_VALUE;
 		double scale = Math.min(scaleX, scaleY);
-		g.setColor(new Color(100, 120, 100));
-		g.drawString("Scale:" + (int)scale, 0, 20);
 		g.setColor(new Color(255, 0, 0));
 		int x = width / 2;
 		int y = height / 2;

@@ -177,7 +177,7 @@ public class SurfaceShapeView extends View {
 	        public int getRowCount() { return surfaceShape.getFourierCoefficients().size();}
 	        public Object getValueAt(int row, int col) {
 	        	if (col==0)
-					return new Integer(row);
+					return new Integer(row+1);
 	        	if (col==1)
 					return new Double(((FourierCoefficient)surfaceShape.getFourierCoefficients().get(row)).getCoefficientOfCosinus());
 	        	return new Double(((FourierCoefficient)surfaceShape.getFourierCoefficients().get(row)).getCoefficientOfSinus());

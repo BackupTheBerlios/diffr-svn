@@ -32,7 +32,6 @@ public class SmallInputDataView extends View {
 		double scaleY = this.getHeight() / Math.max(surfaceView.getModelSizeY(), incidentWaveView.getModelSizeY());
 		double scale = Math.min(scaleX, scaleY);
 		g.setColor(new Color(100, 120, 100));
-		g.drawString("Scale:" + (int)scale, 0, 20);
 		surfaceView.drawImage(g, scale);
 		incidentWaveView.drawImage(g, scale);
 	}
