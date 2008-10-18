@@ -19,7 +19,7 @@ public class SleepAlgorithm extends Algorithm {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return new Result(null, null, null, 0);
+		return new Result(null, null, null);
 	}
 
 	public String getAutor() {

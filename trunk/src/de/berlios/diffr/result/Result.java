@@ -9,12 +9,22 @@ public class Result extends Model {
 	private SurfaceCurrent surfaceCurrent;
 	private RefractedField refractedField;
 	private double energyError;
-	public Result(ReflectedField reflectedField, RefractedField refractedField, SurfaceCurrent surfaceCurrent, double energyError) {
+	public Result(ReflectedField reflectedField, RefractedField refractedField, SurfaceCurrent surfaceCurrent) {
 		this.reflectedField = reflectedField;
 		this.refractedField = refractedField;
 		this.surfaceCurrent = surfaceCurrent;
-		this.energyError = energyError;
+		this.energyError = calculateEnergyError();
 	}
+	
+	private double calculateEnergyError() {
+		if (reflectedField != null) {
+			double sum = 0;
+			for (ReflectedPlaneWave w : reflectedField.getWaves())
+				sum += w.getAmplitude().abs()*w.getAmplitude().abs()*Math.cos(w.getAngle());
+			return sum / Math.cos(reflectedField.getIncidentWave().getAngle()) - 1;
+		} else return -1;
+	}
+	
 	public ReflectedField getReflectedField() {
 		return reflectedField;
 	}
@@ -35,6 +45,6 @@ public class Result extends Model {
 			dimensionalSurfaceCurrent = surfaceCurrent.dimensioning(d);
 		if ( refractedField != null)
 			dimensionalPassedField = refractedField.dimensioning(d);
-		return 	new Result(dimensionalReflectedField, dimensionalPassedField, dimensionalSurfaceCurrent, energyError);
+		return new Result(dimensionalReflectedField, dimensionalPassedField, dimensionalSurfaceCurrent);
 	}
 }

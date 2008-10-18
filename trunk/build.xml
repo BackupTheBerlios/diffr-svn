@@ -1,0 +1,50 @@
+<project name="diffr" default="makejar" basedir=".">
+    <description>
+        Diffr buildfile
+    </description>
+  <!-- set global properties for this build -->
+  <property name="src" location="src"/>
+  <property name="build" location="build"/>
+  <property name="dist"  location="dist"/>
+  <property name="jarfile"  location="${dist}/lib/diffr.jar"/>
+
+  <target name="init">
+    <!-- Create the time stamp -->
+    <tstamp/>
+    <!-- Create the build directory structure used by compile -->
+    <mkdir dir="${build}"/>
+  </target>
+
+  <target name="compile" depends="init"
+        description="compile the source " >
+    <!-- Compile the java code from ${src} into ${build} -->
+    <javac srcdir="${src}" destdir="${build}"/>
+  </target>
+
+  <target name="makejar" depends="compile"
+        description="generate the diffr jar-file" >
+    <!-- Create the distribution directory -->
+    <mkdir dir="${dist}/lib"/>
+
+    <jar jarfile="${jarfile}" basedir="${build}" manifest="manif"/>
+  </target>
+
+
+  <target name="run" depends="makejar"
+        description="runs from jar-file" >
+    <mkdir dir="${dist}/lib"/>
+
+    <java jar="${jarfile}" fork="true"/>
+  </target>
+
+  <target name="dist" depends="clean,makejar"
+        description="cleans up and builds everything again" />
+
+
+  <target name="clean"
+        description="clean up" >
+    <!-- Delete the ${build} and ${dist} directory trees -->
+    <delete dir="${build}"/>
+    <delete dir="${dist}"/>
+  </target>
+</project>

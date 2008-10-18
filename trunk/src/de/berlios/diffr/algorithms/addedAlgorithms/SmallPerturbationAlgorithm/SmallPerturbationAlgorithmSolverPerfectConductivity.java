@@ -16,8 +16,6 @@ public Complex g1;
 				d = delta(n, 0);
 				f1=f(n);
 				g1=gam(0);
-				System.out.println(Formula.calculate("-d-2*i*g1*f1", this));
-				System.out.println(term1(n).add(-delta(n,0)));
 				return term1(n).add(-delta(n,0));
 			}
 			else
@@ -53,7 +51,7 @@ public Complex g1;
 		return s;
 	}
 	
-	public double calculateEnergyError(int numberOfPoints){
+/*	public double calculateEnergyError(int numberOfPoints){
 		double s = 0.0;
 		int counter = 0;
 		for (int j = -gam_min; j<= gam_max; j++){
@@ -63,7 +61,7 @@ public Complex g1;
 		}
 		
 		return Math.abs(s/(gam(0).re()) - 1.0);
-	}
+	}*/
 
 	public SurfaceCurrent calculateSurfaceCurrent(int numberOfPoints) {
 		Complex [] current = new Complex [ numberOfPoints];

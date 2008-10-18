@@ -33,9 +33,9 @@ import de.berlios.diffr.result.*;
 			ReflectedField reflectedField = new ReflectedField(waves, new IncidentWave(polarization, alpha, waveLength, amplitude));
 //				System.out.println("solver end");
 			
-			double energyError = calculateEnergyError(numberOfPoints);
+			//double energyError = calculateEnergyError(numberOfPoints);
 				
-			return new Result(reflectedField, null, surfaceCurrent, energyError);
+			return new Result(reflectedField, null, surfaceCurrent);
 		}
 
 		public Complex normalDerivativeOfIncidentField(double y) {

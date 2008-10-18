@@ -94,7 +94,7 @@ public class SmallPerturbationAlgorithmSolverHeightConductivity extends SmallPer
 		return s;
 	}
 
-	public double calculateEnergyError(int numberOfPoints){
+	/*public double calculateEnergyError(int numberOfPoints){
 		double s = 0.0;
 		int counter = 0;
 		for (int j = -gam_min; j<= gam_max; j++){
@@ -106,7 +106,7 @@ public class SmallPerturbationAlgorithmSolverHeightConductivity extends SmallPer
 		double surfaceAbsorbtion = calculateSurfaceAbsorbtion(numberOfPoints);
 		
 		return Math.abs((surfaceAbsorbtion +  s)/(gam(0).re()) - 1.0);
-	}
+	}*/
 
 	private double calculateSurfaceAbsorbtion(int numberOfPoints) {
 
