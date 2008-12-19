@@ -1,0 +1,411 @@
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=utf-8">
+		<title>DIFFR6 User's Manual</title>
+		<style>
+			.pname {
+				color: #0233FF;
+				font-family: AnjaliOldLipi;
+				font-style: italic;				
+			}
+			body {
+				background: #EEF2FF;
+				margin: 1px;
+				padding: 2px;
+			}
+			hr {
+				width: 90%;
+				align: center;
+				border: 1px dashed #000077;
+			}
+			a {
+				color: #775555;
+			}
+			.code {
+				width: 69%;
+				max-height: 1000px;
+				overflow: auto;
+				border: 1px dashed black;
+				margin: 10px;
+				padding: 10px;
+				margin-left: 0;
+				text-align: left;
+				background: #CCCCFF;
+			}
+			pre.bc {
+				font-family: AnjaliOldLipi;
+				color: #001177;
+			}
+			pre.sc {
+				font-family: AnjaliOldLipi;
+				color: #001177;
+				width: 70%;
+				background: #CCCCFF;
+				padding-top: 7px;
+
+
+
+				border-top: none;
+				border-bottom: 1px solid #AAAADD;
+				border-right: none;
+				margin-bottom: 1px;
+			}
+			pre.sr {
+				font-family: AnjaliOldLipi bold;
+				color: #007711;
+				width: 70%;
+				background: #CCFFCC;
+				padding-top: 7px;
+				margin-left: 5px;
+				padding-left: 7px;
+				}
+			.cpo {
+				background: #CCCCFF;
+				width: 70%;
+				margin-bottom: 10px;
+				border-left: 8px solid #AAAADD;
+			}
+			.cpo div {
+				margin: 0px;
+				padding-left: 15px;
+			}
+			td {
+				padding-left: 20px;
+			}
+			img {
+				padding: 10px;
+				border: 1px solid silver;
+				align: center;
+				margin: 20px;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Diffr6</h1>
+		<h2>User's Manual</h2>
+
+<!-- TODO: in Russian, "h3" and "h5", "h2" and "h4" are used interchangeably. Fix! --> 
+
+		<h3>Contents</h3>
+		<a href="#about">What is DIFFR</a><br>
+		<a href="#start">Program Startup</a><br>
+		
+		<a href="#window">Main Program Window</a><br>
+		<a href="#surface">Setting Up Scattering Surface</a><br>
+		<a href="#incField">Setting Up Incident Field</a><br>
+		<a href="#algorithm">Setting Up Algorithm</a><br>
+		<a href="#run">Starting Simulation</a><br>
+		<a href="#result">Viewing Results</a><br>
+		<a href="#newAlg">Adding a Custom Algorithm</a>
+
+		<hr/>
+
+		<a name=about></a>
+		<h3>What is DIFFR</h3>
+
+		<p>
+			Diffr6 is an integrated environment for simulation of two-dimensional diffraction problems. 
+		</p>
+		<p>
+			Two-dimensional problems of diffraction of electromagnetic and sound waves are described by a well-known Helmholtz 
+			equation with various additional conditions at the media interfaces and at the infinity. 
+		</p>
+		<p>
+			A characteristic feature of these problems is that they lack analytic solutions (with the exception of trivial cases). 
+			At present, there is a great number of numerical and asymptotic approaches to these problems. 
+			These approaches differ by the approximation type and the assumtions made, 
+			so they are useful in different ranges of parameters of the physical problem.  
+			Besides, different methods have different sets of parameters, 
+			and some methods cannot produce certain components of the solution. 
+		</p>
+		<p>
+			At present, many scientific schools worldwide are developing and using various methods 
+			of solution of two-dimensional diffraction problems. 
+			However, because the methods (and the corresponding computer software) are so different, 
+			it is sometimes hard to find a suitable method for a particular physical problem. 
+			For the same reasons, it is difficult to compare different algoriths. 
+		</p>
+		<p>
+				
+			The mission of Diffr6 is to facilitate comparison of algoriths that solve 
+			two-dimensional diffraction problems. 
+			The class of problems supported is the diffraction of a plane wave by a smooth 
+			periodic surface (curve). 
+			Users can develop their custom algorithms, add them to Diffr6, and use for simulation of diffraction problems. 
+			Diffr6 can help in selecting the most appropriate method for a particular set of parameters. 
+			Using this environment, the algorithm developers can compare results produced by different algorithms 
+			and with different problem and algorithm parameters. 
+		</p>
+
+
+<a name=start></a>
+<h3>Program Startup</h3>
+
+		<p>
+You will need Java 6 to run Diffr6. The following call starts the program:<br>
+<font color=blue>java -cp bin de.belios.diffr.Init</font><br>
+(or <font color=blue>java -jar diffr.jar</font> if you have a jar-archive).<br>
+
+		</p>
+<a name=rebuild></a>
+		<p>
+If you use Apache ANT, you may call<br> 
+<font color=blue>ant makejar</font><br> to build the project, and<br> 
+<font color=blue>ant run</font><br> 
+to start the program. 
+		</p>
+
+<a name=window></a>
+<h3>Main Program Window</h3>
+
+After the program starts, you should see the following screen: 
+
+<br>
+<center><img src="../images/window.png"></center>
+<br>
+
+The right pane displays the <dfn>scattering surface</dfn> and the 
+<dfn>incident field</dfn>. 
+The left pane contains three tabs: 
+<b>Input data</b>, <b>Result</b>, and <b>Algorithm</b>.
+The <b>Input data</b> tab contains two more sub-tabs: 
+<small><b>Surface</b></small> is used to set up the shape and properties of the 
+<dfn>scattering surface</dfn>, 
+and the <small><b>Incident field</b></small> tab sets the complex amplitude and direction of the 
+incident plane wave. 
+In the <b>Algorithm</b> tab, you select the solver and set its parameters. 
+The <b>Results</b> tab contains two sub-tabs: 
+<small><b>Reflected field</b></small> and <small><b>Surface Current</b></small>. 
+
+
+<a name=surface></a>
+<h3>Setting Up Scattering Surface</h3>
+
+The function defining the shape of the scattering surface is represented by a finite Fourier series. 
+The setup includes the following parameters:<br>
+
+<p>
+<table border=0>
+<tr><td><font color=green><i>period</i></font></td><td> - the main period of the surface; </td></tr>
+<tr><td><font color=green><i>shift</i></font></td><td> - the average elevation of the surface; </td></tr>
+<tr><td><font color=green><i>Number of Fourier harmonics</i></font></td><td> - the number of 
+sinusoidal harmonics in the surface (in other words - the ratio of the surface period to the 
+smallest horizontal scale of the surface). </td></tr>
+<!-- TODO: "harmonics" instead of "coefficients" --> 
+<!-- TODO: is there a lilmit on a number of harminics? -->
+</table>
+</p>
+
+
+The table of Fourier coefficients goes next.  
+</p>
+<p>
+The proportion between the wavelength and the surface period is displayed 
+in the graphics in the right pane by the 
+length of "incident wave" arrow (red) relative to the horizontal scale. 
+All changes in the settings immediately affect the graphics, and changes in 
+<font color=green><i>Number of Fourier harmonics</i></font> immediately affect 
+the number of rows in the table of Fourier coefficients. 
+<br>
+<center><img src="../images/surface.png"></center>
+
+<br>
+
+<a name=incField></a>
+<h3>Setting Up Incident Field</h3>
+
+We have to set the following parameters: <br>
+<p>
+<table border=0>
+<tr><td><font color=green><i>angle</i></font></td><td> - angle between the wavevector and the vertical, in degrees;</td></tr>
+<tr><td><font color=green><i>length</i></font></td><td> - wavelength, in centimeters;</td></tr>
+<tr><td><font color=green><i>amplitude</i></font></td><td> - complex amplitude of the wave;</td></tr>
+<tr><td><font color=green><i>polarization</i></font></td><td> - E or H (Horizontal or Vertical, respectively).</td></tr>
+</table>
+</p>
+
+<center><img src="../images/incidentWave.png"></center>
+<br>
+
+<a name=algorithm></a>
+<h3>Setting Up Algorithm</h3>
+
+
+On this tab, there is a list of available algorithms, followed by the input fields 
+for the parameters of the selected algorithm 
+(see also <a href="#newAlg">Adding a Custom Algorithm</a>). 
+<br>
+<center><img src="../images/algorithm.png"></center>
+<br>
+
+<a name=run></a>
+<h3>Starting Simulation</h3>
+
+To start a simulation, select "Task/Start" item in the top menu.<br>
+
+The status line in the bottom of the program window:<br>
+
+<pre class=sr>State:
+Result isn`t calculated</pre>
+
+will change to the following: <br>
+<pre class=sr>State:
+Task is being solved ...</pre>
+<!-- TODO: fix in Russian --> 
+
+
+and, finally, to:<br>
+<pre class=sr>State:
+Result is calculated</pre>
+
+<br>
+
+<a name=result></a>
+
+<h3>Viewing Results</h3>
+
+<p>
+The results are unavailable if the status line in the bottom of the program window 
+is different from "Result is calculated". 
+</p>
+<p>
+The results may include several parts:<br>
+<b>Reflected Field</b> - is available in <small><b>Graphical view</b></small> and in <small><b>Text view</b></small>. 
+In graphics, the red arrow shows the incident wave, and one or more green arrows 
+show the reflected waves. 
+
+<br>
+<center><img src="../images/reflectedFieldGraph.png"></center>
+<br>
+
+
+<br>
+<center><img src="../images/reflectedFieldText.png"></center>
+<br>
+
+<b>Surface Current</b> is also available in graphical and text format. 
+
+<br>
+<center><img src="../images/surfaceCurrentGraph.png"></center>
+<br>
+<center><img src="../images/surfaceCurrentText.png"></center>
+<br>
+
+<a name=newAlg></a>
+<h3>Adding a Custom Algorithm</h3>
+<p>
+In Diffr6, an algorithm solving a two-dimensional diffraction problem should be implemented 
+as a Java package. This package should be an immediate subpackage of 
+<font class=pname>de.berlios.diffr.algorithms.addedAlgorithms</font> package, and 
+one of its classes should be a descendant of <font class=pname>de.berlios.diffr.algorithms.Algorithm</font> class 
+and have the same name as the package. For example, an algorithm named MyAlgorithm 
+should be implemented in the Java class 
+.<br>
+<font class=pname>de.berlios.diffr.algorithms.addedAlgorithms.MyAlgorithm.MyAlgorithm</font>
+</p>
+
+<!-- TODO: fix Russian text about compilation
+<p>
+To include a custom algorithm and use it in Diffr6, the Java class(es) should be compiled 
+and made accessible to JVM. For example, this could be done by placing the source files 
+in the proper directory of the Diffr6 source tree and <a href="#rebuild">rebuilding</a> the project. 
+</p>
+
+<p> 
+If the properly named classes are availabe, you can add your custom algorithm by selecting 
+the "Algorithms/Add Algorithm" item from the top menu. 
+</p>
+
+<br>
+<center><img src="../images/addAlgorithm.png"></center>
+<br>
+
+The main class of the custom algorithm should implement the following methods: <br>
+<div class=cpo><pre class=sc>	public String getTitle();</pre>
+<div>Returns the algorithm name in the form that should appear in the list on the 
+<b>Algorithm</b> tab</div></div>
+<div class=cpo><pre class=sc>	public String getAutor();</pre>
+<div>Returns information about the author</div></div>
+<div class=cpo><pre class=sc>	public String getVersion();</pre>
+<div>Returns the algorithm version</div></div>
+
+<div class=cpo><pre class=sc>	public Result run(de.berlios.diffr.inputData.InputData inputData) throws Exception;</pre>
+<div>Runs calculations</div></div>
+
+<p>
+The following code snippet illustrates how to work with inputData object:<br>
+
+<div class=code>
+<pre class=bc>
+	Complex amplitude;
+	IncidentWave wave;
+
+	wave = inputData.getIncidentWave();
+	amplitude = wave.getAmplitude();
+</pre>
+</div>
+</p>
+
+
+<p>
+Most algorithms require de-dimensionalization of input data. The class AbstractAlgorithm (a subclass of 
+the Algorithm class) can do the job. The method AbstractAlgorithm.run 
+converts input data to dimensionless form, and converts the results returned by the 
+abstract method AbstractAlgorithm.calulate to dimensional form. 
+Thus, the algorithms subclassed from AbstractAlgorithm should implement the "calculate" method 
+rather than "run". 
+</p>
+
+<p>
+Besides input data, an algorithm may need values of its parameters. 
+An example of a parameter is the number of discretization points (per surface period) for 
+calculation of the surface current. 
+To use parameters, the array named "parameters" should be initialized by the default values 
+in the algorithm's constructor (see below). 
+Each element of the array contains the description of the parameter 
+(as it appears in the <b>Algorithm</b> tab) and the value. 
+If the user changes the value of a parameter in GUI, the new value will be accessible in the 
+"calculate" or "run" methods when calculations are started. 
+</p>
+
+<p>
+Below is a code example:<br><br>
+<div class=code>
+<pre class=bc>
+package de.berlios.diffr.algorithms.addedAlgorithms.MyAlgorithm;
+
+import de.berlios.diffr.result.*;
+import de.berlios.diffr.inputData.*;
+import de.berlios.diffr.*;
+
+public class MyAlgorithm extends AbstractAlgorithm {
+	public MyAlgorithm(AlgorithmType algorithmType) {
+		super(algorithmType);
+
+		parameters = new DataString[1];
+		parameters[0] = new DataString("description", new Double(10));
+	}
+	public String getTitle() {
+		return "My algorithm";
+	}
+
+	public String getAutor() {
+		return "My name";
+	}
+	public String getVersion() {
+		return "1.0";
+	}
+
+	public Result calculate(InputData inputData) throws Exception {
+		double parameter = (Double) parameters[0].getValue();
+		...
+		... your calculations here 
+		...
+		return new Result(reflectedField, null, surfaceCurrent, energyError);
+
+	}
+}
+</pre>
+</div>
+</body>
+</html>

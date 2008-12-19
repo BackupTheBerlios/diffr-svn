@@ -318,11 +318,22 @@ public class Init {
 	private JMenu newHelpMenu() {
 		JMenu menu = new JMenu("Help");
 		menu.addSeparator();
-		JMenuItem aboutItem = new JMenuItem("User manual");
+		JMenuItem aboutItem = new JMenuItem("User manual (ru)");
 		aboutItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					Desktop.getDesktop().open(new File("docs/manual/rus/userManual.html"));
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		menu.add(aboutItem);
+		aboutItem = new JMenuItem("User manual (en)");
+		aboutItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Desktop.getDesktop().open(new File("docs/manual/en/userManual.html"));
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
