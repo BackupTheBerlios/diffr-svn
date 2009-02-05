@@ -141,7 +141,7 @@ public class TaskView extends View {
 			break;
 			case Task.resultIsnotCalculateState: state.setText("Result isn`t calculated");
 			break;
-			case Task.taskIsSolvingState: state.setText("Task is solving...");
+			case Task.taskIsSolvingState: state.setText("Task is being solved ...");
 			break;
 			case Task.taskStoppedState: state.setText("Task is stopped");
 			break;

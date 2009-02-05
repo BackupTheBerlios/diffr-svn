@@ -24,7 +24,7 @@ public class SurfaceShapeView extends View {
 		surfaceShape = shape;
 		periodData = new DataString("period", new Double(surfaceShape.getPeriod()));
 		shiftData = new DataString("shift", new Double(surfaceShape.getShift()));
-		coefNumberData = new DataString("Number of Fourier coefficients", new Integer(surfaceShape.getFourierCoefficients().size()));
+		coefNumberData = new DataString("Number of Fourier harmonics", new Integer(surfaceShape.getFourierCoefficients().size()));
 		periodView = new DataStringView(periodData);
 		shiftView = new DataStringView(shiftData);
 		coefNumberView = new DataStringView(coefNumberData);
