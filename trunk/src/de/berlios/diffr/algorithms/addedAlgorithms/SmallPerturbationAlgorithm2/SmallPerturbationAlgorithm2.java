@@ -18,7 +18,10 @@ import de.berlios.diffr.result.ReflectedPlaneWave;
 import de.berlios.diffr.result.Result;
 
 public class SmallPerturbationAlgorithm2 extends AbstractAlgorithm {
+	private static final long serialVersionUID = 1L;
+
 	public class AlgData implements Serializable {
+		private static final long serialVersionUID = 1L;
 		public double a, b, gam, gamb;
 		public Complex f, f2;
 		public Complex sum;
@@ -127,7 +130,7 @@ public class SmallPerturbationAlgorithm2 extends AbstractAlgorithm {
 	}
 
 	public String getTitle() {
-		return "Small perturbation algoritm";
+		return "Small perturbation algorithm";
 	}
 
 	public String getVersion() {
