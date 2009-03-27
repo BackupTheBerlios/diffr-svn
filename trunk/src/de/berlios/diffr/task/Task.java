@@ -21,7 +21,8 @@ public class Task extends Model {
 	public static final int taskIsSolvingState = 1;
 	public static final int taskStoppedState = 2;
 	public static final int errorInAlgorithmState = 3;
-	public static final int resultIsCalculateState = 4; 
+	public static final int resultIsCalculateState = 4;
+	public static final int resultIsOutOfDateState = 5; 
 	
 	public Task(AlgorithmTypes algorithms, InputData initialInputData, Algorithm initialAlgorithm) {
 		this.algorithms = algorithms;
@@ -76,6 +77,7 @@ public class Task extends Model {
 					result = algorithm.run(inputData);
 					state = resultIsCalculateState;
 				} catch (Exception e) {
+					e.printStackTrace();
 					state = errorInAlgorithmState;
 				}
 				algorithm.setEditable(true);
@@ -106,8 +108,10 @@ public class Task extends Model {
 	}
 	
 	public void nullResult() {
-		result = null;
-		state = resultIsnotCalculateState;
+		if (result!=null)
+			state = resultIsOutOfDateState;
+		else
+			state = resultIsnotCalculateState;
 		modelWasChangedEvent();
 	}
 }

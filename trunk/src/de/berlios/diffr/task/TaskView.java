@@ -145,6 +145,8 @@ public class TaskView extends View {
 			break;
 			case Task.taskStoppedState: state.setText("Task is stopped");
 			break;
+			case Task.resultIsOutOfDateState: state.setText("Result is out of date");
+			break;
 		}
 	}
 }
