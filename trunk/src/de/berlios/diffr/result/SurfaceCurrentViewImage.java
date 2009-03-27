@@ -19,10 +19,13 @@ public class SurfaceCurrentViewImage extends View {
 		double phaseScale = height / 5 / Math.PI;
 		double absScale = Double.MAX_VALUE;
 		double maxAbs = 0;
+		double minAbs = surfaceCurrent.get(0).abs();
 		for (int a=0;a<surfaceCurrent.getPointsNumber();a++) {
 			maxAbs = Math.max(maxAbs, surfaceCurrent.get(a).abs());
-			absScale = Math.min(height / 3 / surfaceCurrent.get(a).abs(), absScale);
+			minAbs = Math.min(minAbs, surfaceCurrent.get(a).abs());
 		}
+		if (maxAbs==minAbs) maxAbs+=0.001;
+		absScale = height / 3 / (maxAbs-minAbs);
 		g.setColor(Color.white);
 		g.drawString("Phase", width-50, 20);
 		g.drawString("Abs", width-50, height/2 + 20);
@@ -44,8 +47,8 @@ public class SurfaceCurrentViewImage extends View {
 			double v = (int)(a*100); v/=100;
 			g.drawString(""+v, xb-30, y);
 		}
-		for (double a=0;a<=maxAbs;a+=maxAbs/4) {
-			int y = ya-(int)(a*absScale);
+		for (double a=minAbs;a<=maxAbs;a+=(maxAbs-minAbs)/4.1) {
+			int y = ya-(int)((a-minAbs)*absScale);
 			g.drawLine(xb-2, y, xb+2, y);
 			double v = (int)(a*100); v/=100;
 			g.drawString(""+v, xb-30, y);
@@ -63,17 +66,18 @@ public class SurfaceCurrentViewImage extends View {
 		g.setColor(new Color(255, 0, 0));
 		double lastPhase = surfaceCurrent.get(0).arg();
 		double lastAbs = surfaceCurrent.get(0).abs();
-		for (int a=1;a<surfaceCurrent.getPointsNumber();a++) {
-			int xa1=(int)(((a-1)*surfaceCurrent.getSurfacePeriod()/(surfaceCurrent.getPointsNumber()-1)-surfaceCurrent.getSurfacePeriod() / 2) * scaleX + width/2);
-			int xa2=(int)((a*surfaceCurrent.getSurfacePeriod()/(surfaceCurrent.getPointsNumber()-1)-surfaceCurrent.getSurfacePeriod() / 2) * scaleX + width/2);
-			int xp1=(int)(((a-1)*surfaceCurrent.getSurfacePeriod()/(surfaceCurrent.getPointsNumber()-1)-surfaceCurrent.getSurfacePeriod() / 2) * scaleX + width/2);
-			int xp2=(int)((a*surfaceCurrent.getSurfacePeriod()/(surfaceCurrent.getPointsNumber()-1)-surfaceCurrent.getSurfacePeriod() / 2) * scaleX + width/2);
+		int num = surfaceCurrent.getPointsNumber();
+		double dx = surfaceCurrent.getSurfacePeriod() / (num-1);
+		double center = surfaceCurrent.getSurfacePeriod() / 2;
+		for (int a=1;a<num;a++) {
+			int x1=(int)(((a-1)*dx - center) * scaleX + width/2);
+			int x2=(int)((a*dx - center) * scaleX + width/2);
 			int y1p = (int)(height / 4 - lastPhase * phaseScale);
 			int y2p = (int)(height / 4 - surfaceCurrent.get(a).arg() * phaseScale);
-			int y1a = (int)(height - 40 - lastAbs * absScale);
-			int y2a = (int)(height - 40 - surfaceCurrent.get(a).abs() * absScale);
-			g.drawLine(xp1, y1p, xp2, y2p);
-			g.drawLine(xa1, y1a, xa2, y2a);
+			int y1a = (int)(height - 40 - (lastAbs-minAbs) * absScale);
+			int y2a = (int)(height - 40 - (surfaceCurrent.get(a).abs()-minAbs) * absScale);
+			g.drawLine(x1, y1p, x2, y2p);
+			g.drawLine(x1, y1a, x2, y2a);
 			lastPhase = surfaceCurrent.get(a).arg();
 			lastAbs = surfaceCurrent.get(a).abs();
 		}
