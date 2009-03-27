@@ -156,7 +156,6 @@ public class Init {
 				algorithmType = new AlgorithmType(SmallPerturbationAlgorithm.class);
 				algorithm = new SmallPerturbationAlgorithm(algorithmType);
 			} catch (WrongTypeException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			AlgorithmTypes types = new AlgorithmTypes(algorithm);
