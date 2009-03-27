@@ -53,7 +53,7 @@ public class Formula {
 				res = res.sub(next);
 				continue;
 			}
-			System.err.println("Error");
+			System.err.println("Error in read term");
 		}
 		return res;
 	}
@@ -76,7 +76,7 @@ public class Formula {
 				res = res.div(next);
 				continue;
 			}
-			System.err.println("Error");
+			System.err.println("Error in read addend");
 		}
 		return res;
 	}
@@ -103,7 +103,7 @@ public class Formula {
 		if (s.equals("(")) {
 			Complex res = readTerm();
 			s = nextToken();
-			if (!s.equals(")")) System.err.println("Error");
+			if (!s.equals(")")) System.err.println("Error read simple ()");
 			return res;
 		}
 		if (s.equals("i"))
@@ -119,10 +119,10 @@ public class Formula {
 		} catch (Exception e) {}
 		String s2;
 		s2 = nextToken();
-		if (!s2.equals("(")) System.err.println("Error");
+		if (!s2.equals("(")) System.err.println("Error in read simple "+s+"(");
 		Complex pr = readTerm();
 		s2 = nextToken();
-		if (!s2.equals(")")) System.err.println("Error");
+		if (!s2.equals(")")) System.err.println("Error in read simple )");
 		try {
 			Method method = Complex.class.getMethod(s, new Class[0]);
 			Object o = method.invoke(pr);
@@ -133,7 +133,7 @@ public class Formula {
 			Object o = method.invoke(params, new Object[]{pr});
 			return makeComplex(o);
 		} catch (Exception e) {}
-		System.err.println("Error");
+		System.err.println("Error in read simle");
 		return null;
 	}
 	
