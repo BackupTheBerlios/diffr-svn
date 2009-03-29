@@ -163,7 +163,7 @@ public class SmallPerturbationAlgorithm extends AbstractAlgorithm {
 						data.m = b;
 						data.f = getF(b);
 						data.f2 = getF(a-b);
-						Complex r = Formula.calculate("-2*(gam*gam-lam*m)*(gam*gam-lam*m-lamb*n)*f*f2/(gama*gamb)", data);
+						Complex r = Formula.calculate("-2*(gam*gam-lam*m)*(gam*gam-lam*m)*f*f2/(gama*gamb)", data);
 						setAns(a, r);
 					}
 				}
