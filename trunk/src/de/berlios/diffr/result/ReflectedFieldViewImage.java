@@ -35,7 +35,10 @@ public class ReflectedFieldViewImage extends View {
 		if (maxY !=0) scaleY = this.getHeight() / maxY;
 		else scaleY = Double.MAX_VALUE;
 		double scale = Math.min(scaleX, scaleY);
-		g.setColor(new Color(255, 0, 0));
+		if (field.isOutOfDate())
+			g.setColor(Color.gray);
+		else
+			g.setColor(new Color(255, 0, 0));
 		int x = width / 2;
 		int y = height / 2;
 		int x1 = (int) (x + incidentWave.getAmplitude().abs() * scale * Math.sin(incidentWave.getAngle()));
@@ -48,7 +51,10 @@ public class ReflectedFieldViewImage extends View {
 		g.drawLine(x, y, x2, y2);
 		g.drawLine(x, y, x3, y3);
 		for (int a=0;a<waves.length;a++) {
-			g.setColor(new Color(0, 255, 0));
+			if (field.isOutOfDate())
+				g.setColor(Color.lightGray);
+			else
+				g.setColor(Color.green);
 			if ((waves[a] != null) && (waves[a].getAmplitude().abs() > 0)) {
 				x = width / 2;
 				y = height / 2;

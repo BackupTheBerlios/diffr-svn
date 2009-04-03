@@ -8,6 +8,7 @@ import de.berlios.diffr.inputData.IncidentWave;
 
 public class ReflectedField extends Model {
 	private static final long serialVersionUID = 1L;
+	private boolean outOfDate = false;
 	private ReflectedPlaneWave[] waves;
 	private IncidentWave incidentWave;
 	public ReflectedField(ReflectedPlaneWave[] waves, IncidentWave incidentPlaneWave) {
@@ -36,5 +37,11 @@ public class ReflectedField extends Model {
 			e.printStackTrace();
 		}
 		return new ReflectedField(dimensionWaves, dimensionIncidentWave);
+	}
+	public void outOfDate() {
+		outOfDate = true;
+	}
+	public boolean isOutOfDate() {
+		return outOfDate;
 	}
 }

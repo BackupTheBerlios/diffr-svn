@@ -221,7 +221,7 @@ public class SmallPerturbationAlgorithm extends AbstractAlgorithm {
 	}
 
 	public String getVersion() {
-		return "0.2";
+		return "v0.9";
 	}
 
 }

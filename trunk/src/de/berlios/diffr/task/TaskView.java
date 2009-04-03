@@ -29,8 +29,8 @@ public class TaskView extends View {
 		}
 	}
 	
-	public TaskView(Task task) {
-		this.task = task;
+	public TaskView(Task t) {
+		this.task = t;
 		task.addModelChangingListener(changingListener);
 		smallInputDataView = new SmallInputDataView(task.getInputData());
 		inputDataView = new InputDataView (task.getInputData());
@@ -38,6 +38,9 @@ public class TaskView extends View {
 		algorithmChooser.addAlgorithmChooserListener(new AlgorithmChooserListener() {
 			public void newAlgorithmWasChoosed(Algorithm algorithm) {
 				changeAlgorithm(algorithm);
+			}
+			public void algorithmParametersWereChanged() {
+				task.nullResult();
 			}
 		});
 		resultView.setResult(task.getResult());

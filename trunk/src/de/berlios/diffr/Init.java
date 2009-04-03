@@ -19,34 +19,63 @@ public class Init {
 		new Init();
 	}
 	
-	private JFrame frame = new JFrame("Diffr6");
-	private Container cont = frame.getContentPane();
+	private Container cont;
 	private JMenuBar menuBar;
+	private Component mainComponent;
 	private AlgorithmTypes algorithmTypes;
 	private Task currentTask = null;
-	private JFileChooser fileChooser = new JFileChooser();
+	private JFileChooser fileChooser = null;
+	private boolean isApplet;
+	
+	public Init(JApplet applet) {
+		isApplet = true;
+		mainComponent = applet;
+		cont = applet.getContentPane();
+		algorithmTypes = loadDefaultAlgorithmTypes();
+		cont.setLayout(new BorderLayout());
+		initListeners();
+		setTask(makeDefaultTask());
+	}
 	
 	public Init() {
-		algorithmTypes = loadAlgorithmTypes();
+		isApplet = false;
+		JFrame frame = new JFrame("Diffr6");
+		mainComponent = frame;
+		cont = frame.getContentPane();
+		fileChooser = new JFileChooser();
+		frame.setSize(800, 600);
+		frame.setVisible(true);
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				exit();
 			}
 		});
+		
+		algorithmTypes = loadAlgorithmTypes();
 		cont.setLayout(new BorderLayout());
-		frame.setSize(800, 600);
-		frame.setVisible(true);
+		initListeners();
+		setTask(loadLastSavedTask());
+	}
+	
+	private void initListeners() {
 		addAlgorithmListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if (isApplet) {
+					JOptionPane.showMessageDialog(mainComponent, "This option is inaccessible in applet");
+					return;
+				}
 				tryLoadAlgorithm();
 			}
 		}; 
 		removeAlgorithmListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if (isApplet) {
+					JOptionPane.showMessageDialog(mainComponent, "This option is inaccessible in applet");
+					return;
+				}
 				tryRemoveAlgorithm();
 			}
 		}; 
-		setTask(loadLastSavedTask());
 	}
 	
 	private void setTask(Task newCurrentTask) {
@@ -59,10 +88,13 @@ public class Init {
 		menuBar.add(taskView.getTaskMenu());
 		menuBar.add(newAlgorithmMenu());
 		menuBar.add(newHelpMenu());
-		frame.setJMenuBar(menuBar);
+		if (isApplet)
+			((JApplet)mainComponent).setJMenuBar(menuBar);
+		else
+			((JFrame)mainComponent).setJMenuBar(menuBar);
 		cont.validate();
 		cont.repaint();
-		frame.validate();
+		mainComponent.validate();
 	}
 	
 	private Task makeDefaultTask() {
@@ -81,7 +113,11 @@ public class Init {
 	}
 	
 	private void saveTask() {
-		fileChooser.showSaveDialog(frame);
+		if (isApplet) {
+			JOptionPane.showMessageDialog(mainComponent, "This option is inaccessible in applet");
+			return;
+		}
+		fileChooser.showSaveDialog(mainComponent);
 		File file = fileChooser.getSelectedFile();
 		if (file != null) {
 			try {
@@ -89,19 +125,23 @@ public class Init {
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (TaskIsSolvingException e) {
-				JOptionPane.showMessageDialog(frame, "You can`t save task when it running");
+				JOptionPane.showMessageDialog(mainComponent, "You can`t save task when it running");
 			}
 		}
 	}
 	
 	private void loadTask() {
-		fileChooser.showOpenDialog(frame);
+		if (isApplet) {
+			JOptionPane.showMessageDialog(mainComponent, "This option is inaccessible in applet");
+			return;
+		}
+		fileChooser.showOpenDialog(mainComponent);
 		File file = fileChooser.getSelectedFile();
 		if (file != null) {
 			try {
 				setTask(readTask(file.getAbsolutePath()));
 			}catch (Exception e) {
-				JOptionPane.showMessageDialog(frame, "Incorrect format of file");
+				JOptionPane.showMessageDialog(mainComponent, "Incorrect format of file");
 				e.printStackTrace();
 			}
 		}
@@ -150,17 +190,21 @@ public class Init {
 		} catch (Exception e) {
 			System.out.println("Can`t open algorithms list");
 			
-			AlgorithmType algorithmType;
-			Algorithm algorithm = null;
-			try {
-				algorithmType = new AlgorithmType(SmallPerturbationAlgorithm.class);
-				algorithm = new SmallPerturbationAlgorithm(algorithmType);
-			} catch (WrongTypeException e1) {
-				e1.printStackTrace();
-			}
-			AlgorithmTypes types = new AlgorithmTypes(algorithm);
-			return types;
+			return loadDefaultAlgorithmTypes();
 		}
+	}
+	
+	private AlgorithmTypes loadDefaultAlgorithmTypes() {
+		AlgorithmType algorithmType;
+		Algorithm algorithm = null;
+		try {
+			algorithmType = new AlgorithmType(SmallPerturbationAlgorithm.class);
+			algorithm = new SmallPerturbationAlgorithm(algorithmType);
+		} catch (WrongTypeException e1) {
+			e1.printStackTrace();
+		}
+		AlgorithmTypes types = new AlgorithmTypes(algorithm);
+		return types;
 	}
 	
 	private void saveAlgorithmTypes(AlgorithmTypes t) {
@@ -229,7 +273,7 @@ public class Init {
 		private JButton cancelButton = new JButton("Cancel");
 		private JComboBox comboBox = new JComboBox();
 		RemoveAlgorithmDialog() {
-			super(frame, "Remove algorithm", true);
+			super((JFrame)mainComponent, "Remove algorithm", true);
 			this.setSize(400, 200);
 			this.setLocation(300, 200);
 			Container c = this.getContentPane();
@@ -269,7 +313,7 @@ public class Init {
 		private JButton okButton = new JButton("OK");
 		private JButton cancelButton = new JButton("Cancel");
 		AddAlgorithmDialog() {
-			super(frame, "Add algorithm", true);
+			super((JFrame)mainComponent, "Add algorithm", true);
 			this.setSize(400, 200);
 			this.setLocation(300, 200);
 			Container c = this.getContentPane();
@@ -343,8 +387,10 @@ public class Init {
 	}
 	
 	private void exit() {
-		saveCurrentTask();
-		saveAlgorithmTypes(algorithmTypes);
+		if (!isApplet) {
+			saveCurrentTask();
+			saveAlgorithmTypes(algorithmTypes);
+		}
 		System.exit(0);
 	}
 }

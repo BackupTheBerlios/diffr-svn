@@ -108,9 +108,10 @@ public class Task extends Model {
 	}
 	
 	public void nullResult() {
-		if (result!=null)
+		if (result!=null) {
 			state = resultIsOutOfDateState;
-		else
+			result.outOfDate();
+		} else
 			state = resultIsnotCalculateState;
 		modelWasChangedEvent();
 	}

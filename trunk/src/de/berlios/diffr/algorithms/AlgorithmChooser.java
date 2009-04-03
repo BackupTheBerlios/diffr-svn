@@ -59,6 +59,15 @@ public class AlgorithmChooser extends JPanel {
 				parameterNumber < algorithm.getAlgorithmParameters().length;
 				parameterNumber++) {
 			View view = new DataStringView(algorithm.getAlgorithmParameters()[parameterNumber]);
+			((DataStringView)view).listener = new ModelChangingListener() {
+				public void modelWasChanged(Model m) {
+					Iterator i = algorithmChooserListeners.iterator();
+					while (i.hasNext()) {
+						AlgorithmChooserListener l = ( AlgorithmChooserListener )i.next();
+						l.algorithmParametersWereChanged();
+					}		
+				}
+			};
 			parametersBox.add(view);
 			this.add(Box.createVerticalStrut(10));
 		}

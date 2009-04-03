@@ -1,6 +1,7 @@
 package de.berlios.diffr.result;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Graphics;
 
 import javax.swing.JScrollPane;
@@ -30,10 +31,15 @@ public class SurfaceCurrentViewText extends View {
 				result += " phase: " + c.arg();
 				result += " abs: " + c.abs() + "\n";
 			}
+			if (current.isOutOfDate())
+				text.setForeground(Color.lightGray);
+			else
+				text.setForeground(Color.black);
 			text.setText(result);
 			text.setEditable(false);
 			this.setLayout(new BorderLayout());
 			this.add(scrollText);
+			scrollText.setVerticalScrollBarPolicy(0);
 			this.validate();
 		}		
 		super.paintComponent(g);

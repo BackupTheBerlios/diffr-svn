@@ -47,4 +47,8 @@ public class Result extends Model {
 			dimensionalPassedField = refractedField.dimensioning(d);
 		return new Result(dimensionalReflectedField, dimensionalPassedField, dimensionalSurfaceCurrent);
 	}
+	public void outOfDate() {
+		reflectedField.outOfDate();
+		surfaceCurrent.outOfDate();
+	}
 }

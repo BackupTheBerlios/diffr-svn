@@ -24,7 +24,7 @@ public class IncidentWave extends Model {
 	}
 	
 	private boolean polarization = IncidentWave.polarizationE;
-	private double angle = 1;
+	private double angle = Math.PI/6;
 	private Complex amplitude = new Complex(1.0, 0.0);
 	private double waveLength = 1;
 

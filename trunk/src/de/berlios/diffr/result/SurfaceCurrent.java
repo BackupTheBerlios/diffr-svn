@@ -6,11 +6,18 @@ import de.berlios.diffr.algorithms.DimensionData;
 
 public class SurfaceCurrent extends Model {
 	private static final long serialVersionUID = 1L;
+	private boolean outOfDate = false;
 	private Complex[] points;
 	private double surfacePeriod;
 	public SurfaceCurrent(Complex[] points, double period) {
 		this.points = points;
 		this.surfacePeriod = period;
+	}
+	public void outOfDate() {
+		outOfDate = true;
+	}
+	public boolean isOutOfDate() {
+		return outOfDate;
 	}
 	public Complex get(int number) {
 		return points[number];

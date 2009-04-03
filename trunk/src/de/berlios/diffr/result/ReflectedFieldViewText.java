@@ -1,6 +1,8 @@
 package de.berlios.diffr.result;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Graphics;
 
 import de.berlios.diffr.View;
 
@@ -10,7 +12,11 @@ public class ReflectedFieldViewText extends View {
 	private static final long serialVersionUID = 1L;
 	private JTextArea text = new JTextArea();
 	private JScrollPane scrollText = new JScrollPane(text);
+	private ReflectedField field;
 	public ReflectedFieldViewText(ReflectedField field) {
+		this.field = field;
+	}
+	public void paintComponent(Graphics g) {
 		String result = "";
 		result += "Reflected field consist of " + field.getWaves().length + " waves:\n";
 		for (int a=0;a<field.getWaves().length;a++) {
@@ -28,6 +34,10 @@ public class ReflectedFieldViewText extends View {
 				result += "  wave not calculated\n";
 			}
 		}
+		if (field.isOutOfDate())
+			text.setForeground(Color.lightGray);
+		else
+			text.setForeground(Color.black);
 		text.setText(result);
 		text.setEditable(false);
 		this.setLayout(new BorderLayout());

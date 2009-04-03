@@ -12,6 +12,7 @@ public class DataStringView extends View {
 	private DataString dataString;
 	private JTextField text1 = new JTextField();
 	private JTextField text2 = new JTextField();
+	public ModelChangingListener listener = null;
 	public DataStringView(DataString p) {
 		this.dataString = p;
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
@@ -26,6 +27,7 @@ public class DataStringView extends View {
 		    		Object newValue = findNewValue();
 					try {
 						dataString.setValue(newValue);
+						if (listener!=null) listener.modelWasChanged(dataString);
 					} catch (ObjectIsnotEditableException e1) {
 						text1.setText(dataString.getValue().toString());
 						cannotSetError();
@@ -51,6 +53,7 @@ public class DataStringView extends View {
 		    		Object newValue = new Complex(new Double(Double.parseDouble(text1.getText())), new Double(Double.parseDouble(text2.getText())));
 					try {
 						dataString.setValue(newValue);
+						if (listener!=null) listener.modelWasChanged(dataString);
 					} catch (ObjectIsnotEditableException e1) {
 						text1.setText(Double.toString(((Complex)dataString.getValue()).re()));
 					    text2.setText(Double.toString(((Complex)dataString.getValue()).im()));
