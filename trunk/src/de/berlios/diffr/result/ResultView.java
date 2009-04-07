@@ -7,9 +7,11 @@ import javax.swing.*;
 public class ResultView extends View {
 	private static final long serialVersionUID = 1L;
 	private JTabbedPane tabbedPane = null;
-	public ResultView() {
+	public ResultView(JButton startButton) {
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		this.add(Box.createVerticalStrut(30));
+		this.add(Box.createVerticalStrut(10));
+		this.add(startButton);
+		this.add(Box.createVerticalStrut(10));
 	}
 	public void setResult(Result newResult) {
 		if (tabbedPane != null) this.remove(tabbedPane);

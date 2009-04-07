@@ -87,7 +87,7 @@ public class Init {
 		menuBar.add(newFileMenu());
 		menuBar.add(taskView.getTaskMenu());
 		menuBar.add(newAlgorithmMenu());
-		menuBar.add(newHelpMenu());
+		if (!isApplet) menuBar.add(newHelpMenu());
 		if (isApplet)
 			((JApplet)mainComponent).setJMenuBar(menuBar);
 		else

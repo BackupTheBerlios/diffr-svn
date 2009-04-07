@@ -73,7 +73,7 @@ public class AlgorithmChooser extends JPanel {
 		}
 		this.validate();
 	}
-	public AlgorithmChooser(AlgorithmTypes algorithms, Algorithm currentAlgorithm) {
+	public AlgorithmChooser(AlgorithmTypes algorithms, Algorithm currentAlgorithm, JButton startButton) {
 		this.algorithms = algorithms;
 		this.currentAlgorithm = currentAlgorithm;
 		algorithms.addModelChangingListener(new ModelChangingListener() {
@@ -100,6 +100,8 @@ public class AlgorithmChooser extends JPanel {
 	    
 	    this.add(Box.createVerticalStrut(20));
 	    this.add(autor);
+	    this.add(Box.createVerticalStrut(20));
+	    this.add(startButton);
 	    this.add(Box.createVerticalStrut(20));
 	    this.add(parametersBox);
 

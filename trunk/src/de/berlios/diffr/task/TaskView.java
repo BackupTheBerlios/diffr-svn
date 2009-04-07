@@ -14,12 +14,24 @@ public class TaskView extends View {
 	private static final long serialVersionUID = 1L;
 	private Task task = null;
 	private SmallInputDataView smallInputDataView;
+	private JButton[] startButtons = new JButton[3];
 	private InputDataView inputDataView;
 	private AlgorithmChooser algorithmChooser;
-	private ResultView resultView = new ResultView();
+	private ResultView resultView;
 	private JLabel stateLabel = new JLabel("State:");
 	private JLabel state = new JLabel();
 	private JTabbedPane tabbedPane = new JTabbedPane();
+	
+	private ActionListener startListener = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			start();
+		}
+	};
+	private ActionListener stopListener = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			stop();
+		}
+	};
 	
 	private void changeAlgorithm(Algorithm algorithm) {
 		try {
@@ -31,10 +43,12 @@ public class TaskView extends View {
 	
 	public TaskView(Task t) {
 		this.task = t;
+		for (int a=0;a<3;a++) startButtons[a] = new JButton();
 		task.addModelChangingListener(changingListener);
 		smallInputDataView = new SmallInputDataView(task.getInputData());
-		inputDataView = new InputDataView (task.getInputData());
-		algorithmChooser = new AlgorithmChooser(task.getAlgorithms(), task.getAlgorithm());
+		inputDataView = new InputDataView (task.getInputData(), startButtons[0]);
+		resultView = new  ResultView(startButtons[1]);
+		algorithmChooser = new AlgorithmChooser(task.getAlgorithms(), task.getAlgorithm(), startButtons[2]);
 		algorithmChooser.addAlgorithmChooserListener(new AlgorithmChooserListener() {
 			public void newAlgorithmWasChoosed(Algorithm algorithm) {
 				changeAlgorithm(algorithm);
@@ -118,6 +132,7 @@ public class TaskView extends View {
 		renewState();
 		renewResult();
 		changeMenuItemsEnabled();
+		if (task.getState() == Task.resultIsCalculateState) tabbedPane.setSelectedComponent(resultView);
 	}
 	
 	private void renewResult() {
@@ -134,13 +149,28 @@ public class TaskView extends View {
 			startItem.setEnabled(true);
 			stopItem.setEnabled(false);
 		}
+		for (JButton startButton : startButtons) {
+			if (task.getState() == Task.taskIsSolvingState) {
+				for (ActionListener l : startButton.getActionListeners())
+					startButton.removeActionListener(l);
+				startButton.setText("Stop calculation");
+				startButton.addActionListener(stopListener);
+			} else {
+				for (ActionListener l : startButton.getActionListeners())
+					startButton.removeActionListener(l);
+				startButton.setText("Start calculation");
+				startButton.addActionListener(startListener);
+			}
+		}
 	}
 	
 	private void renewState() {
+		state.setForeground(Color.black);
 		switch (task.getState()) {
 			case Task.errorInAlgorithmState: state.setText("Input data not supported");
 			break;
 			case Task.resultIsCalculateState: state.setText("Result is calculated");
+				state.setForeground(Color.red);
 			break;
 			case Task.resultIsnotCalculateState: state.setText("Result isn`t calculated");
 			break;
