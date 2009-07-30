@@ -8,6 +8,7 @@ import Org.netlib.math.complex.Complex;
 public class Formula {
 	
 	public static void main(String[] args) {
+		System.out.println("Example");
 		Object o = new Object() {
 				public double a=1;
 				public double b=2;
@@ -53,8 +54,10 @@ public class Formula {
 				res = res.sub(next);
 				continue;
 			}
-			System.err.println("Error in read term");
+			System.err.println("Error in read term :"+pos);
 		}
+		if (res.isNaN())
+			System.err.println("Error in read term (NaN) :"+pos);
 		return res;
 	}
 	
@@ -76,8 +79,10 @@ public class Formula {
 				res = res.div(next);
 				continue;
 			}
-			System.err.println("Error in read addend");
+			System.err.println("Error in read addend :"+pos);
 		}
+		if (res.isNaN())
+			System.err.println("Error in read addend (NaN) :"+pos);
 		return res;
 	}
 	
@@ -85,7 +90,10 @@ public class Formula {
 		int p2 = pos;
 		String s = nextToken();
 		if (s.equals("-")) {
-			return readMultiplier().neg();
+			Complex res = readMultiplier().neg();
+			if (res.isNaN())
+				System.err.println("Error in read multiplier (neg)");
+			return res;
 		}
 		pos = p2;
 		Complex res = readSimple();
@@ -93,9 +101,14 @@ public class Formula {
 		s = nextToken();
 		if (s==null || !s.equals("^")) {
 			pos = p2;
+			if (res.isNaN())
+				System.err.println("Error in read multiplier");
 			return res;
 		}
-		return res.pow(readSimple());
+		res = res.pow(readSimple());
+		if (res.isNaN())
+			System.err.println("Error in read multiplier (pow)");
+		return res;
 	}
 	
 	private Complex readSimple() {
@@ -104,6 +117,8 @@ public class Formula {
 			Complex res = readTerm();
 			s = nextToken();
 			if (!s.equals(")")) System.err.println("Error read simple ()");
+			if (res.isNaN())
+				System.err.println("Error in read simple (NaN)");
 			return res;
 		}
 		if (s.equals("i"))
@@ -126,12 +141,18 @@ public class Formula {
 		try {
 			Method method = Complex.class.getMethod(s, new Class[0]);
 			Object o = method.invoke(pr);
-			return makeComplex(o);
+			Complex res = makeComplex(o);
+			if (res.isNaN())
+				System.err.println("Error in read simple (NaN in method)");
+			return res;
 		} catch (Exception e) {}
 		try {
 			Method method = params.getClass().getMethod(s, new Class[]{Complex.class});
 			Object o = method.invoke(params, new Object[]{pr});
-			return makeComplex(o);
+			Complex res = makeComplex(o);
+			if (res.isNaN())
+				System.err.println("Error in read simple (NaN in method)");
+			return res;
 		} catch (Exception e) {}
 		System.err.println("Error in read simle");
 		return null;

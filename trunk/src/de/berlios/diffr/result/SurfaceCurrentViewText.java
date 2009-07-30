@@ -3,6 +3,7 @@ package de.berlios.diffr.result;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Scrollbar;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -39,7 +40,6 @@ public class SurfaceCurrentViewText extends View {
 			text.setEditable(false);
 			this.setLayout(new BorderLayout());
 			this.add(scrollText);
-			scrollText.setVerticalScrollBarPolicy(0);
 			this.validate();
 		}		
 		super.paintComponent(g);

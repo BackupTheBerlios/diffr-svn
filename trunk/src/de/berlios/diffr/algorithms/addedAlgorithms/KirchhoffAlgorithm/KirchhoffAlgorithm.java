@@ -1,4 +1,4 @@
-package de.berlios.diffr.algorithms.addedAlgorithms.SmallPerturbationAlgorithm;
+package de.berlios.diffr.algorithms.addedAlgorithms.KirchhoffAlgorithm;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -6,9 +6,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import Org.netlib.math.complex.Complex;
-import de.berlios.diffr.DataString;
-import de.berlios.diffr.algorithms.AbstractAlgorithm;
-import de.berlios.diffr.algorithms.AlgorithmType;
+import de.berlios.diffr.*;
+import de.berlios.diffr.algorithms.*;
 import de.berlios.diffr.inputData.IncidentWave;
 import de.berlios.diffr.inputData.InputData;
 import de.berlios.diffr.inputData.surface.FourierCoefficient;
@@ -18,9 +17,8 @@ import de.berlios.diffr.result.ReflectedPlaneWave;
 import de.berlios.diffr.result.Result;
 import de.berlios.diffr.result.SurfaceCurrent;
 
-public class SmallPerturbationAlgorithm extends AbstractAlgorithm {
+public class KirchhoffAlgorithm extends AbstractAlgorithm {
 	private static final long serialVersionUID = 1L;
-
 	public class AlgData implements Serializable {
 		private static final long serialVersionUID = 1L;
 		public double a, b, gam, gama, gamb, lam, lamb, nx, ny;
@@ -28,6 +26,12 @@ public class SmallPerturbationAlgorithm extends AbstractAlgorithm {
 		public Complex f, f2, coef;
 		public Complex sum;
 	};
+	public KirchhoffAlgorithm(AlgorithmType algorithmType) {
+		super(algorithmType);
+		parameters = new DataString[2];
+		parameters[0] = new DataString("Number of points for surface current calculation", new Integer(200));
+		parameters[1] = new DataString("Precision of integral", new Integer(200));
+	}
 	private ArrayList<FourierCoefficient> coefs;
 	private double shift;
 	private boolean polarization;
@@ -96,23 +100,16 @@ public class SmallPerturbationAlgorithm extends AbstractAlgorithm {
 		if (n-minw>=gam.size()) return;
 		ans.set(n-minw, ans.get(n-minw).add(nv));
 	}
-
-	public SmallPerturbationAlgorithm(AlgorithmType type) {
-		super(type);
-		parameters = new DataString[2];
-		parameters[0] = new DataString("Order (1 or 2)", new Integer(1));
-		parameters[1] = new DataString("Number of points for surface current calculation", new Integer(200));
-	}
-	
 	public Result calculate(InputData inputData) throws Exception {
-		boolean order2 = (Integer)parameters[0].getValue() > 1;
-		int currentPoints = (Integer)parameters[1].getValue();
+		int currentPoints = (Integer)parameters[0].getValue();
+		int precision = (Integer)parameters[1].getValue();
+		if (precision<1) precision = 1;
+		
 		coefs = inputData.getSurface().getShape().getFourierCoefficients();
 		shift = inputData.getSurface().getShape().getShift();
 		IncidentWave iwave = inputData.getIncidentWave();
 		polarization = iwave.getPolarization();
 		k = 2*Math.PI / iwave.getLength();
-		
 		double lam0 = k*Math.sin(-iwave.getAngle());
 		double gam0 = k*Math.cos(-iwave.getAngle());
 		minw = 0;
@@ -129,53 +126,31 @@ public class SmallPerturbationAlgorithm extends AbstractAlgorithm {
 				ans.add(new Complex(0, 0));
 			}
 		}
-		
-		if (polarization == IncidentWave.polarizationE) {
-			setAns(0, new Complex(-1, 0));
-			data.gam = gam0;
-			for (int a=minw; a<=maxw; a++) {
-				data.f = getF(a);
-				setAns(a, Formula.calculate("-2*gam*i*f", data));
-				if (order2) {
-					data.sum = new Complex(0, 0);
-					for (int b=-coefs.size();b<=coefs.size();b++) {
-						data.f = getF(b);
-						data.f2 = getF(a-b);
-						data.gamb = getGam(b);
-						if (data.gamb==0) continue;
-						data.sum = data.sum.add(Formula.calculate("gamb*f*f2", data));
-					}
-					setAns(a, Formula.calculate("2*gam*sum", data));
-				}
+		data.gam = gam0;
+		for (int a=minw; a<=maxw; a++) {
+			data.gama = getGam(a);
+			data.lam = getLam(a);
+			double delta = 2*Math.PI/precision;
+			Complex intg = new Complex(0, 0);
+			for (double al=0;al<2*Math.PI;al+=delta) {
+				data.f = new Complex(Fvalue(al), 0);
+				data.f2 = new Complex(Fderivative(al), 0);
+				data.b = al;
+				data.m = a;
+				Complex v = Formula.calculate("exp(-i*m*b+i*f*(gam+gama))*(gama+lam*f2)", data);
+				intg = intg.add(v.mul(delta));
 			}
-		} else {
-			setAns(0, new Complex(1, 0));
-			data.gam = gam0;
-			data.lam = lam0;
-			for (int a=minw; a<=maxw; a++) {
-				data.f = getF(a);
-				data.gama = getGam(a);
-				data.n = a;
-				setAns(a, Formula.calculate("2*i*f*(gam*gam-lam*n)/gama", data));
-				if (order2) {
-					for (int b=-coefs.size();b<=coefs.size();b++) {
-						data.gamb = getGam(b);
-						if (data.gamb==0) continue;
-						data.lamb = getLam(b);
-						data.m = b;
-						data.f = getF(b);
-						data.f2 = getF(a-b);
-						Complex r = Formula.calculate("-2*(gam*gam-lam*m)*(gam*gam-lam*m)*f*f2/(gama*gamb)", data);
-						setAns(a, r);
-					}
-				}
-			}
+			data.f = intg;
+			data.a = 2*Math.PI;
+			if (polarization == IncidentWave.polarizationE)
+				setAns(a, Formula.calculate("-f/gama/a", data));
+			else
+				setAns(a, Formula.calculate("f/gama/a", data));
 		}
-
 		List<ReflectedPlaneWave> waves = new LinkedList<ReflectedPlaneWave>();
 		for (int a=minw; a<=maxw;a++)
 			if (getAns(a).abs()>0)
-				waves.add(new ReflectedPlaneWave(ReflectedPlaneWave.polarizationE, Math.atan2(-getLam(a), getGam(a)), iwave.getLength(), iwave.getAmplitude().mul(getAns(a)), a));
+				waves.add(new ReflectedPlaneWave(polarization, Math.atan2(-getLam(a), getGam(a)), iwave.getLength(), iwave.getAmplitude().mul(getAns(a)), a));
 		ReflectedPlaneWave[] wavesArr = new ReflectedPlaneWave[waves.size()];
 		int num = 0;
 		for (ReflectedPlaneWave w : waves) wavesArr[num++] = w;
@@ -219,11 +194,10 @@ public class SmallPerturbationAlgorithm extends AbstractAlgorithm {
 	}
 
 	public String getTitle() {
-		return "Small perturbation algorithm";
+		return "Kirchhoff algorithm";
 	}
 
 	public String getVersion() {
-		return "v1.0";
+		return "v0.1";
 	}
-
 }

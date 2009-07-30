@@ -31,6 +31,6 @@ public class SleepAlgorithm extends Algorithm {
 	}
 
 	public String getVersion() {
-		return "1.0";
+		return "v1.0";
 	}
 }
