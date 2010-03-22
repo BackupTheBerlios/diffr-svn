@@ -1,6 +1,7 @@
 package de.berlios.diffr.inputData;
 
 import java.awt.*;
+
 import de.berlios.diffr.*;
 import de.berlios.diffr.inputData.InputDataPartView;
 import de.berlios.diffr.inputData.surface.SurfaceView;
@@ -34,5 +35,7 @@ public class SmallInputDataView extends View {
 		g.setColor(new Color(100, 120, 100));
 		surfaceView.drawImage(g, scale);
 		incidentWaveView.drawImage(g, scale);
+		g.setColor(new Color(255, 255, 255));
+		g.drawString("Simple mode", 10, height-10);
 	}
 }

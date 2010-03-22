@@ -21,15 +21,20 @@ public class TaskView extends View {
 	private JLabel stateLabel = new JLabel("State:");
 	private JLabel state = new JLabel();
 	private JTabbedPane tabbedPane = new JTabbedPane();
+	private boolean active = true;
 	
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
 	private ActionListener startListener = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			start();
+			if (active) start();
 		}
 	};
 	private ActionListener stopListener = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			stop();
+			if (active) stop();
 		}
 	};
 	
@@ -41,13 +46,15 @@ public class TaskView extends View {
 		}
 	}
 	
-	public TaskView(Task t) {
+	public TaskView(Task t, JMenuItem startItem, JMenuItem stopItem) {
 		this.task = t;
+		this.startItem = startItem;
+		this.stopItem = stopItem;
 		for (int a=0;a<3;a++) startButtons[a] = new JButton();
 		task.addModelChangingListener(changingListener);
 		smallInputDataView = new SmallInputDataView(task.getInputData());
 		inputDataView = new InputDataView (task.getInputData(), startButtons[0]);
-		resultView = new  ResultView(startButtons[1]);
+		resultView = new ResultView(startButtons[1]);
 		algorithmChooser = new AlgorithmChooser(task.getAlgorithms(), task.getAlgorithm(), startButtons[2]);
 		algorithmChooser.addAlgorithmChooserListener(new AlgorithmChooserListener() {
 			public void newAlgorithmWasChoosed(Algorithm algorithm) {
@@ -78,20 +85,8 @@ public class TaskView extends View {
 		this.add(statePanel, BorderLayout.SOUTH);
 		this.add(taskBox, BorderLayout.CENTER);
 		
-		startItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				start();
-			}
-		});
-		
-		stopItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				stop();
-			}
-		});
-		
-		taskMenu.add(startItem);
-		taskMenu.add(stopItem);
+		startItem.addActionListener(startListener);
+		stopItem.addActionListener(stopListener);
 		
 		renewTaskView();
 	}
@@ -100,7 +95,6 @@ public class TaskView extends View {
 		try {
 			task.start();
 		} catch (TaskIsSolvingException e1) {
-			e1.printStackTrace();
 			JOptionPane.showMessageDialog(this, "Task is already solving");
 		}
 	}
@@ -109,18 +103,12 @@ public class TaskView extends View {
 		try {
 			task.stop();
 		} catch (TaskIsnotSolvingException e1) {
-			e1.printStackTrace();
 			JOptionPane.showMessageDialog(this, "Task isn`t solving");
 		}
 	}
 	
-	private JMenu taskMenu = new JMenu("Task");
-	private JMenuItem startItem = new JMenuItem("Start");
-	private JMenuItem stopItem = new JMenuItem("Stop");
-	
-	public JMenu getTaskMenu() {
-		return taskMenu;
-	}
+	private JMenuItem startItem;
+	private JMenuItem stopItem;
 	
 	private ModelChangingListener changingListener = new ModelChangingListener() {
 		public void modelWasChanged(Model task) {

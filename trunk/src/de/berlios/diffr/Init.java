@@ -24,8 +24,12 @@ public class Init {
 	private Component mainComponent;
 	private AlgorithmTypes algorithmTypes;
 	private Task currentTask = null;
+	private TaskSeries currentTaskSeries = null;
+	private TaskView currentTaskView = null;
+	private TaskSeriesView currentTaskSeriesView = null;
 	private JFileChooser fileChooser = null;
 	private boolean isApplet;
+	private boolean seriesMode = false;
 	
 	public Init(JApplet applet) {
 		isApplet = true;
@@ -34,6 +38,7 @@ public class Init {
 		algorithmTypes = loadDefaultAlgorithmTypes();
 		cont.setLayout(new BorderLayout());
 		initListeners();
+		initMenuBar();
 		setTask(makeDefaultTask());
 	}
 	
@@ -54,6 +59,7 @@ public class Init {
 		algorithmTypes = loadAlgorithmTypes();
 		cont.setLayout(new BorderLayout());
 		initListeners();
+		initMenuBar();
 		setTask(loadLastSavedTask());
 	}
 	
@@ -79,22 +85,68 @@ public class Init {
 	}
 	
 	private void setTask(Task newCurrentTask) {
+		if (currentTaskSeries != null) currentTaskSeriesView.setActive(false);
+		seriesMode = false;
 		cont.removeAll();
-		currentTask = newCurrentTask;
-		TaskView taskView = new TaskView(currentTask);
-		cont.add(taskView);
+		if (currentTask != newCurrentTask) {
+			currentTask = newCurrentTask;
+			currentTaskView = new TaskView(currentTask, taskStartItem, taskStopItem);
+		}
+		currentTaskView.setActive(true);
+		cont.add(currentTaskView);
+		cont.validate();
+		cont.repaint();
+		mainComponent.validate();
+	}
+	
+	private void setTaskSeries(TaskSeries newCurrentSeries) {
+		if (currentTask != null) currentTaskView.setActive(false);
+		seriesMode = true;
+		cont.removeAll();
+		if (currentTaskSeries != newCurrentSeries) {
+			currentTaskSeries = newCurrentSeries;
+			currentTaskSeriesView = new TaskSeriesView(currentTaskSeries, taskStartItem, taskStopItem);
+		}
+		currentTaskSeriesView.setActive(true);
+		cont.add(currentTaskSeriesView);
+		cont.validate();
+		cont.repaint();
+		mainComponent.validate();
+	}
+	
+	private void initMenuBar() {
 		menuBar = new JMenuBar();
 		menuBar.add(newFileMenu());
-		menuBar.add(taskView.getTaskMenu());
+		menuBar.add(newModeMenu());
+		menuBar.add(newTaskMenu());
 		menuBar.add(newAlgorithmMenu());
 		if (!isApplet) menuBar.add(newHelpMenu());
 		if (isApplet)
 			((JApplet)mainComponent).setJMenuBar(menuBar);
 		else
 			((JFrame)mainComponent).setJMenuBar(menuBar);
-		cont.validate();
-		cont.repaint();
-		mainComponent.validate();
+	}
+	
+	private void simpleMode() {
+		if (!seriesMode) return;
+		Task task = currentTask;
+		if (task == null)
+			if (isApplet)
+				task = makeDefaultTask();
+			else
+				task = loadLastSavedTask();
+		setTask(task);
+	}
+	
+	private void seriesMode() {
+		if (seriesMode) return;
+		TaskSeries series = currentTaskSeries;
+		if (series == null)
+			if (isApplet)
+				series = makeDefaultTaskSeries();
+			else
+				series = loadLastSavedTaskSeries();
+		setTaskSeries(series);
 	}
 	
 	private Task makeDefaultTask() {
@@ -107,8 +159,23 @@ public class Init {
 		}
 	}
 	
+	private TaskSeries makeDefaultTaskSeries() {
+		try {
+			Algorithm algorithm = ((AlgorithmType)algorithmTypes.getAlgorithmTypes().get(0)).newInstance();
+			return new TaskSeries(algorithmTypes, new SeriesInputData(), algorithm);
+		} catch (WrongTypeException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	private void newTask() {
 		setTask(makeDefaultTask());
+		cont.validate();
+	}
+	
+	private void newTaskSeries() {
+		setTaskSeries(makeDefaultTaskSeries());
 		cont.validate();
 	}
 	
@@ -130,6 +197,8 @@ public class Init {
 		}
 	}
 	
+	private void saveTaskSeries() {}
+	
 	private void loadTask() {
 		if (isApplet) {
 			JOptionPane.showMessageDialog(mainComponent, "This option is inaccessible in applet");
@@ -146,6 +215,8 @@ public class Init {
 			}
 		}
 	}
+	
+	private void loadTaskSeries() {}
 	
 	private Task readTask(String file) throws IOException, ClassNotFoundException {
 		ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
@@ -169,6 +240,10 @@ public class Init {
 			return makeDefaultTask();
 		}
 	}
+
+	private TaskSeries loadLastSavedTaskSeries() {
+		return makeDefaultTaskSeries();
+	}
 	
 	private void saveCurrentTask() {
 		try {
@@ -182,6 +257,8 @@ public class Init {
 			e.printStackTrace();
 		}
 	}
+	
+	private void saveCurrentTaskSeries() {}
 	
 	private AlgorithmTypes loadAlgorithmTypes() {
 		try {
@@ -226,6 +303,13 @@ public class Init {
 			}
 		});
 		menu.add(newTaskItem);
+		JMenuItem newSeriesItem = new JMenuItem("New task series");
+		newSeriesItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				newTaskSeries();
+			}
+		});
+		menu.add(newSeriesItem);
 		menu.addSeparator();
 		JMenuItem loadItem = new JMenuItem("Load task");
 		loadItem.addActionListener(new ActionListener() {
@@ -242,6 +326,21 @@ public class Init {
 		});
 		menu.add(saveItem);
 		menu.addSeparator();
+		JMenuItem loadSeriesItem = new JMenuItem("Load task series");
+		loadSeriesItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				loadTaskSeries();
+			}
+		});
+		menu.add(loadSeriesItem);
+		JMenuItem saveSeriesItem = new JMenuItem("Save task series");
+		saveSeriesItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				saveTaskSeries();
+			}
+		});
+		menu.add(saveSeriesItem);
+		menu.addSeparator();
 		JMenuItem exitItem = new JMenuItem("Exit");
 		exitItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -249,6 +348,38 @@ public class Init {
 			}
 		});
 		menu.add(exitItem);
+		return menu;
+	}
+	
+	JMenuItem simpleModeItem = null;
+	JMenuItem seriesModeItem = null;
+	private JMenu newModeMenu() {
+		JMenu menu = new JMenu("Mode");
+		simpleModeItem = new JMenuItem("Simple mode");
+		simpleModeItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				simpleMode();
+			}
+		});
+		menu.add(simpleModeItem);
+		seriesModeItem = new JMenuItem("Series mode");
+		seriesModeItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				seriesMode();
+			}
+		});
+		menu.add(seriesModeItem);
+		return menu;
+	}
+
+	JMenuItem taskStartItem = null;
+	JMenuItem taskStopItem = null;
+	private JMenu newTaskMenu() {
+		JMenu menu = new JMenu("Task");
+		taskStartItem = new JMenuItem("Start");
+		menu.add(taskStartItem);
+		taskStopItem = new JMenuItem("Stop");
+		menu.add(taskStopItem);
 		return menu;
 	}
 	
