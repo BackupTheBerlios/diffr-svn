@@ -5,6 +5,8 @@ import de.berlios.diffr.result.*;
 
 public abstract class AbstractAlgorithm
 		extends Algorithm {
+	private static final long serialVersionUID = 1L;
+
 	public AbstractAlgorithm(AlgorithmType algorithmType) {
 		super(algorithmType);
 	}

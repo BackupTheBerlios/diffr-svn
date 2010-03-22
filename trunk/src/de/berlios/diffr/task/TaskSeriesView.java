@@ -107,21 +107,21 @@ public class TaskSeriesView extends View {
 	}
 	
 	private void start() {
-	/*	try {
-			task.start();
+		try {
+			series.start();
 		} catch (TaskIsSolvingException e1) {
 			e1.printStackTrace();
 			JOptionPane.showMessageDialog(this, "Task is already solving");
-		}*/
+		}
 	}
 	
 	private void stop() {
-	/*	try {
-			task.stop();
+		try {
+			series.stop();
 		} catch (TaskIsnotSolvingException e1) {
 			e1.printStackTrace();
 			JOptionPane.showMessageDialog(this, "Task isn`t solving");
-		}*/
+		}
 	}
 	
 	private JMenuItem startItem;

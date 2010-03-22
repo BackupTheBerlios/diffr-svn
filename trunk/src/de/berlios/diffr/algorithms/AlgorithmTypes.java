@@ -21,7 +21,7 @@ public class AlgorithmTypes extends Model implements Serializable {
 		modelWasChangedEvent();
 	}
 	
-	public ArrayList getAlgorithmTypes() {
-		return (ArrayList) algorithmTypes.clone();
+	public ArrayList<AlgorithmType> getAlgorithmTypes() {
+		return (ArrayList<AlgorithmType>) algorithmTypes.clone();
 	}
 }

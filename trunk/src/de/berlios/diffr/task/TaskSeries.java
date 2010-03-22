@@ -5,7 +5,11 @@ import de.berlios.diffr.ModelChangingListener;
 import de.berlios.diffr.algorithms.Algorithm;
 import de.berlios.diffr.algorithms.AlgorithmTypes;
 import de.berlios.diffr.exceptions.TaskIsSolvingException;
+import de.berlios.diffr.exceptions.TaskIsnotSolvingException;
+import de.berlios.diffr.inputData.IncidentWave;
+import de.berlios.diffr.inputData.InputData;
 import de.berlios.diffr.inputData.SeriesInputData;
+import de.berlios.diffr.result.Result;
 import de.berlios.diffr.result.SeriesResult;
 
 public class TaskSeries extends Model {
@@ -17,6 +21,7 @@ public class TaskSeries extends Model {
 	private int state = 0;
 	private transient AlgorithmTypes algorithms;
 	private transient boolean taskIsSolving = false;
+	private transient Thread solveThread = null;
 
 	public TaskSeries(AlgorithmTypes algorithms, SeriesInputData initialInputData, Algorithm initialAlgorithm) {
 		this.algorithms = algorithms;
@@ -67,6 +72,48 @@ public class TaskSeries extends Model {
 	
 	public int getState() {
 		return state;
+	}
+	
+	public void start() throws TaskIsSolvingException {
+		if (taskIsSolving) throw new TaskIsSolvingException();
+		solveThread = new Thread() {
+			public void run() {
+				taskIsSolving = true;
+				algorithm.setEditable(false);
+				try {
+					int points = inputData.getIncidentWaveSeries().getPointsNumber();
+					Result[] results = new Result[points];
+					for (int i=0; i<points; ++i) {
+						IncidentWave wave = inputData.getIncidentWaveSeries().getIncidentWave(i);
+						InputData input = new InputData(inputData.getSurface(), wave);
+						results[i] = algorithm.run(input);
+					}
+					result = new SeriesResult(results);
+					state = Task.resultIsCalculateState;
+				} catch (Exception e) {
+					e.printStackTrace();
+					state = Task.errorInAlgorithmState;
+				}
+				algorithm.setEditable(true);
+				taskIsSolving = false;
+				inputData.setEditable(true);
+				modelWasChangedEvent();
+			}
+		};
+		state = Task.taskIsSolvingState;
+		inputData.setEditable(false);
+		solveThread.start();
+		modelWasChangedEvent();
+	}
+	
+	public void stop() throws TaskIsnotSolvingException {
+		if (!taskIsSolving) throw new TaskIsnotSolvingException();
+		solveThread.stop();
+		taskIsSolving = false;
+		inputData.setEditable(true);
+		algorithm.setEditable(true);
+		state = Task.taskStoppedState;
+		modelWasChangedEvent();
 	}
 	
 	public void nullResult() {

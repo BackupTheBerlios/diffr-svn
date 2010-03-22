@@ -12,7 +12,7 @@ import Org.netlib.math.complex.*;
 public class SurfaceView extends InputDataPartView {
 	private static final long serialVersionUID = 1L;
 	private Surface surface;
-	private JTabbedPane tabbedPane = new JTabbedPane();
+	//private JTabbedPane tabbedPane = new JTabbedPane();
 	private Box conductivityBox = Box.createVerticalBox();
 	private JRadioButton perfectConductivity = new JRadioButton("Perfect conductivity");
 	private JRadioButton heightConductivity = new JRadioButton("Height conductivity");

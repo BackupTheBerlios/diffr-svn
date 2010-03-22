@@ -17,11 +17,9 @@ public abstract class Model implements Serializable {
 	}
 	protected void modelWasChangedEvent() {
 		if (modelChangingListeners == null) modelChangingListeners = new ArrayList<ModelChangingListener>();
-		Iterator i = modelChangingListeners.iterator();
-		while (i.hasNext()) {
-			ModelChangingListener l = ( ModelChangingListener )i.next();
-			l.modelWasChanged(this);
-		}
+		Iterator<ModelChangingListener> i = modelChangingListeners.iterator();
+		while (i.hasNext())
+			i.next().modelWasChanged(this);
 	}
 	public void setEditable(boolean b) {
 		editable = b;

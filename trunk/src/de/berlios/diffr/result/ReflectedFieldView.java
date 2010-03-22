@@ -8,11 +8,11 @@ import javax.swing.*;
 
 public class ReflectedFieldView extends View {
 	private static final long serialVersionUID = 1L;
-	public ReflectedFieldView(ReflectedField field) {
+	public ReflectedFieldView(Result result) {
 		JTabbedPane pane = new JTabbedPane();
 		pane.setTabPlacement(3);
-		pane.add("Graphical view", new ReflectedFieldViewImage(field));
-		pane.add("Text view", new ReflectedFieldViewText(field));
+		pane.add("Graphical view", new ReflectedFieldViewImage(result));
+		pane.add("Text view", new ReflectedFieldViewText(result.getReflectedField()));
 		this.setLayout(new BorderLayout());
 		this.add(pane);
 	}

@@ -5,6 +5,7 @@ import de.berlios.diffr.inputData.*;
 import de.berlios.diffr.*;
 
 public abstract class Algorithm extends Model {
+	private static final long serialVersionUID = 1L;
 	protected DataString[] parameters = new DataString[0];
 	private AlgorithmType algorithmType;
 	public Algorithm(AlgorithmType algorithmType) {

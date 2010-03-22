@@ -49,7 +49,6 @@ public class SurfaceCurrentViewImage extends View {
 			g.setColor(Color.green);
 		int xb=(int)(-(surfaceCurrent.getSurfacePeriod()/2) * scaleX + width/2);
 		int xe=(int)((surfaceCurrent.getSurfacePeriod()/2) * scaleX + width/2);
-		//int yp = (int)(height / 4);
 		int ypu = (int)(height / 4 - height / 5);
 		int ypd = (int)(height / 4 + height / 5);
 		int ya = (int)(height - 40);

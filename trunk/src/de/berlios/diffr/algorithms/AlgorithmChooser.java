@@ -40,11 +40,9 @@ public class AlgorithmChooser extends JPanel {
 	}
 	protected void tryChangeAlgorithm(Algorithm newAlgorithm) {
 		if (currentAlgorithm.isEditable()) {
-			Iterator i = algorithmChooserListeners.iterator();
-			while (i.hasNext()) {
-				AlgorithmChooserListener l = ( AlgorithmChooserListener )i.next();
-				l.newAlgorithmWasChoosed(newAlgorithm);
-			}
+			Iterator<AlgorithmChooserListener> i = algorithmChooserListeners.iterator();
+			while (i.hasNext())
+				i.next().newAlgorithmWasChoosed(newAlgorithm);
 			setAlgorithm(newAlgorithm);
 			algorithmTypes.setSelectedItem(currentAlgorithm.getAlgorithmType());
 		} else
@@ -61,10 +59,9 @@ public class AlgorithmChooser extends JPanel {
 			View view = new DataStringView(algorithm.getAlgorithmParameters()[parameterNumber]);
 			((DataStringView)view).listener = new ModelChangingListener() {
 				public void modelWasChanged(Model m) {
-					Iterator i = algorithmChooserListeners.iterator();
+					Iterator<AlgorithmChooserListener> i = algorithmChooserListeners.iterator();
 					while (i.hasNext()) {
-						AlgorithmChooserListener l = ( AlgorithmChooserListener )i.next();
-						l.algorithmParametersWereChanged();
+						i.next().algorithmParametersWereChanged();
 					}		
 				}
 			};
@@ -114,14 +111,13 @@ public class AlgorithmChooser extends JPanel {
 	private void renewAlgorithmTypesList() {
 		notCh = true;
 		algorithmTypes.removeAllItems();
-		Iterator i = algorithms.getAlgorithmTypes().iterator();
+		Iterator<AlgorithmType> i = algorithms.getAlgorithmTypes().iterator();
 		while (i.hasNext()) {
 			algorithmTypes.addItem(i.next());
 		}
 		if (currentAlgorithm != null) algorithmTypes.setSelectedItem(currentAlgorithm.getAlgorithmType());
 		notCh = false;
 		if (!currentAlgorithm.getAlgorithmType().equals(algorithmTypes.getSelectedItem())) {
-			//System.out.println("/");
 			typesListener.actionPerformed(new ActionEvent("", 0, ""));
 		}
 	}

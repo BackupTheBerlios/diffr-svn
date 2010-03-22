@@ -3,7 +3,6 @@ package de.berlios.diffr.result;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Scrollbar;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;

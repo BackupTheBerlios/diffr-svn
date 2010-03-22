@@ -413,7 +413,7 @@ public class Init {
 			
 			Box chooseBox = Box.createVerticalBox();
 			
-			Iterator it = currentTask.getAlgorithms().getAlgorithmTypes().iterator();
+			Iterator<AlgorithmType> it = currentTask.getAlgorithms().getAlgorithmTypes().iterator();
 			while (it.hasNext()) {
 				comboBox.addItem(it.next());
 			}

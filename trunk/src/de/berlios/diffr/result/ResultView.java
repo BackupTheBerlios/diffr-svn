@@ -21,7 +21,7 @@ public class ResultView extends View {
 			View passedFieldView = null;
 			View surfaceCurrentView = null;
 			if (newResult.getReflectedField()!=null)
-				reflectedFieldView = new ReflectedFieldView(newResult.getReflectedField());
+				reflectedFieldView = new ReflectedFieldView(newResult);
 			if (newResult.getSurfaceCurrent()!=null)
 				surfaceCurrentView = new SurfaceCurrentView(newResult.getSurfaceCurrent());
 			if (reflectedFieldView!=null) tabbedPane.add("Reflected field", reflectedFieldView);

@@ -44,12 +44,12 @@ public class IncidentWaveSeries extends Model {
 		return startWaveLength;
 	}
 
-	private double startAngle = Math.PI/6;
-	private double finalAngle = Math.PI/6;
+	private double startAngle = -Math.PI/6;
+	private double finalAngle = Math.PI/3;
 	private Complex amplitude = new Complex(1.0, 0.0);
 	private double startWaveLength = 1;
 	private double finalWaveLength = 1;
-	private int pointsNumber = 1;
+	private int pointsNumber = 10;
 
 	public IncidentWave getIncidentWave(int i) {
 		double da = finalAngle - startAngle;

@@ -114,10 +114,10 @@ public class SurfaceShapeView extends View {
 		double lastY = 0;
 		while (x<surfaceShape.getPeriod()) {
 			double y = 0;
-			Iterator i = surfaceShape.getFourierCoefficients().iterator();
+			Iterator<FourierCoefficient> i = surfaceShape.getFourierCoefficients().iterator();
 			int n = 0;
 			while (i.hasNext()) {
-				FourierCoefficient c = (FourierCoefficient) i.next();
+				FourierCoefficient c = i.next();
 				n++;
 				y += c.getCoefficientOfCosinus() * Math.cos(n * x * 2 * Math.PI / surfaceShape.getPeriod());
 				y += c.getCoefficientOfSinus() * Math.sin(n * x * 2 * Math.PI / surfaceShape.getPeriod());
@@ -152,10 +152,10 @@ public class SurfaceShapeView extends View {
 		g.setColor(new Color(0, 0, 255));
 		while (x<surfaceShape.getPeriod()) {
 			double y = 0;
-			Iterator i = surfaceShape.getFourierCoefficients().iterator();
+			Iterator<FourierCoefficient> i = surfaceShape.getFourierCoefficients().iterator();
 			int n = 0;
 			while (i.hasNext()) {
-				FourierCoefficient c = (FourierCoefficient) i.next();
+				FourierCoefficient c = i.next();
 				n++;
 				y += c.getCoefficientOfCosinus() * Math.cos(n * x * 2 * Math.PI / surfaceShape.getPeriod());
 				y += c.getCoefficientOfSinus() * Math.sin(n * x * 2 * Math.PI / surfaceShape.getPeriod());

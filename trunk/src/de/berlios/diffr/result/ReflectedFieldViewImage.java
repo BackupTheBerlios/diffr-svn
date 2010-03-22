@@ -8,8 +8,10 @@ import java.awt.*;
 public class ReflectedFieldViewImage extends View {
 	private static final long serialVersionUID = 1L;
 	private ReflectedField field;
-	public ReflectedFieldViewImage(ReflectedField field) {
-		this.field = field;
+	private double energyError;
+	public ReflectedFieldViewImage(Result result) {
+		this.field = result.getReflectedField();
+		this.energyError = result.getEnergyError();
 	}
 	public void paintComponent(Graphics g) {
 		g.setColor(new Color(0, 0, 0));
@@ -69,5 +71,8 @@ public class ReflectedFieldViewImage extends View {
 				g.drawLine(x1, y1, x3, y3);
 			}
 		}
+		String error = String.format("%f%%", energyError*100);
+		g.setColor(Color.white);
+		g.drawString("Energy error: " + error, width/4, height/4*3);
 	}
 }

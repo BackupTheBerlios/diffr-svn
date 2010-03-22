@@ -21,7 +21,7 @@ public class ReflectedFieldViewText extends View {
 		result += "Reflected field consist of " + field.getWaves().length + " waves:\n";
 		for (int a=0;a<field.getWaves().length;a++) {
 			ReflectedPlaneWave wave = field.getWaves()[a];
-			result += "Wave #" + (a + 1) + "\n";
+			result += "Wave #" + wave.getNumber() + "\n";
 			try {
 				result += "  angle        " + wave.getAngle() / Math.PI * 180 + "\n";
 				result += "  amplitude    " + wave.getAmplitude() + "\n";
