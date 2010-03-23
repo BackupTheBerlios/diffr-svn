@@ -10,6 +10,7 @@ public class SurfaceShape extends Model {
 	private static final long serialVersionUID = 1L;
 	public SurfaceShape() {
 		fourierCoefficients.add(new FourierCoefficient(0.1, 0.05));
+		fourierCoefficients.add(new FourierCoefficient(0.03, 0.01));
 	}
 	
 	public SurfaceShape(double period, double shift, ArrayList<FourierCoefficient> fourierCoefficients) {

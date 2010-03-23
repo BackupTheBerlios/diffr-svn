@@ -49,7 +49,7 @@ public class IncidentWaveSeries extends Model {
 	private Complex amplitude = new Complex(1.0, 0.0);
 	private double startWaveLength = 1;
 	private double finalWaveLength = 1;
-	private int pointsNumber = 10;
+	private int pointsNumber = 25;
 
 	public IncidentWave getIncidentWave(int i) {
 		double da = finalAngle - startAngle;

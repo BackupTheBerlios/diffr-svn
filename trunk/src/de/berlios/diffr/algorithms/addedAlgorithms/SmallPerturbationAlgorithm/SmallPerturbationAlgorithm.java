@@ -100,8 +100,8 @@ public class SmallPerturbationAlgorithm extends AbstractAlgorithm {
 	public SmallPerturbationAlgorithm(AlgorithmType type) {
 		super(type);
 		parameters = new DataString[2];
-		parameters[0] = new DataString("Order (1 or 2)", new Integer(1));
-		parameters[1] = new DataString("Number of points for surface current calculation", new Integer(200));
+		parameters[0] = new DataString("Order (1 or 2)", new Integer(2));
+		parameters[1] = new DataString("Number of points for surface current calculation", new Integer(50));
 	}
 	
 	public Result calculate(InputData inputData) throws Exception {

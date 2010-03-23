@@ -66,9 +66,13 @@ public class ReflectedFieldViewImage extends View {
 				y2 = (int) (y1 - 10 * Math.cos(waves[a].getAngle() + Math.PI + 0.3));
 				x3 = (int) (x1 - 10 * Math.sin(waves[a].getAngle() + Math.PI - 0.3));
 				y3 = (int) (y1 - 10 * Math.cos(waves[a].getAngle() + Math.PI - 0.3));
+				int x4 = (int) (x - (waves[a].getAmplitude().abs() * scale + 15) * Math.sin(waves[a].getAngle()));
+				int y4 = (int) (y - (waves[a].getAmplitude().abs() * scale + 15) * Math.cos(waves[a].getAngle()));
 				g.drawLine(x, y, x1, y1);
 				g.drawLine(x1, y1, x2, y2);
 				g.drawLine(x1, y1, x3, y3);
+				g.setColor(Color.blue);
+				g.drawString("#"+waves[a].getNumber(), x4-3, y4+3);
 			}
 		}
 		String error = String.format("%f%%", energyError*100);
