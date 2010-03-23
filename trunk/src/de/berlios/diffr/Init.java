@@ -197,7 +197,23 @@ public class Init {
 		}
 	}
 	
-	private void saveTaskSeries() {}
+	private void saveTaskSeries() {
+		if (isApplet) {
+			JOptionPane.showMessageDialog(mainComponent, "This option is inaccessible in applet");
+			return;
+		}
+		fileChooser.showSaveDialog(mainComponent);
+		File file = fileChooser.getSelectedFile();
+		if (file != null) {
+			try {
+				writeTaskSeries(file.getAbsolutePath(), currentTaskSeries);
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (TaskIsSolvingException e) {
+				JOptionPane.showMessageDialog(mainComponent, "You can`t save task series when it running");
+			}
+		}
+	}
 	
 	private void loadTask() {
 		if (isApplet) {
@@ -216,7 +232,22 @@ public class Init {
 		}
 	}
 	
-	private void loadTaskSeries() {}
+	private void loadTaskSeries() {
+		if (isApplet) {
+			JOptionPane.showMessageDialog(mainComponent, "This option is inaccessible in applet");
+			return;
+		}
+		fileChooser.showOpenDialog(mainComponent);
+		File file = fileChooser.getSelectedFile();
+		if (file != null) {
+			try {
+				setTaskSeries(readTaskSeries(file.getAbsolutePath()));
+			}catch (Exception e) {
+				JOptionPane.showMessageDialog(mainComponent, "Incorrect format of file");
+				e.printStackTrace();
+			}
+		}
+	}
 	
 	private Task readTask(String file) throws IOException, ClassNotFoundException {
 		ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
@@ -232,6 +263,20 @@ public class Init {
 		out.close();
 	}
 	
+	private TaskSeries readTaskSeries(String file) throws IOException, ClassNotFoundException {
+		ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
+		TaskSeries series = (TaskSeries)in.readObject();
+		series.restorationAfterSerialization(algorithmTypes);
+		return series;
+	}
+	
+	private void writeTaskSeries(String file, TaskSeries series) throws IOException, TaskIsSolvingException {
+		if (series.getState() == Task.taskIsSolvingState) throw new TaskIsSolvingException();
+		ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
+		out.writeObject(series);
+		out.close();
+	}
+	
 	private Task loadLastSavedTask() {
 		try {
 			return readTask("autosave.task");
@@ -242,7 +287,12 @@ public class Init {
 	}
 
 	private TaskSeries loadLastSavedTaskSeries() {
-		return makeDefaultTaskSeries();
+		try {
+			return readTaskSeries("autosave.series");
+		} catch (Exception e) {
+			System.out.println("Can`t open autosave task series");
+			return makeDefaultTaskSeries();
+		}
 	}
 	
 	private void saveCurrentTask() {
@@ -258,7 +308,18 @@ public class Init {
 		}
 	}
 	
-	private void saveCurrentTaskSeries() {}
+	private void saveCurrentTaskSeries() {
+		try {
+			writeTaskSeries("autosave.series", currentTaskSeries);
+		} catch (TaskIsSolvingException e) {
+			try {
+				currentTaskSeries.stop();
+				saveCurrentTaskSeries();
+			} catch (TaskIsnotSolvingException e1) {e1.printStackTrace();}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 	private AlgorithmTypes loadAlgorithmTypes() {
 		try {
@@ -519,7 +580,8 @@ public class Init {
 	
 	private void exit() {
 		if (!isApplet) {
-			saveCurrentTask();
+			if (currentTask!=null) saveCurrentTask();
+			if (currentTaskSeries!=null) saveCurrentTaskSeries();
 			saveAlgorithmTypes(algorithmTypes);
 		}
 		System.exit(0);
