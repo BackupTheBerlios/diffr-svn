@@ -39,7 +39,8 @@ public class Init {
 		cont.setLayout(new BorderLayout());
 		initListeners();
 		initMenuBar();
-		setTask(makeDefaultTask());
+		setTask(makeDefaultTask(), false);
+		renewThread.start();
 	}
 	
 	public Init() {
@@ -60,8 +61,22 @@ public class Init {
 		cont.setLayout(new BorderLayout());
 		initListeners();
 		initMenuBar();
-		setTask(loadLastSavedTask());
+		setTask(loadLastSavedTask(), false);
+		renewThread.start();
 	}
+	
+	Thread renewThread = new Thread() {
+		public void run() {
+			while (true) {
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				cont.repaint();
+			}
+		}
+	};
 	
 	private void initListeners() {
 		addAlgorithmListener = new ActionListener() {
@@ -84,13 +99,21 @@ public class Init {
 		}; 
 	}
 	
-	private void setTask(Task newCurrentTask) {
+	private void setTask(Task newCurrentTask, boolean backEnabled) {
 		if (currentTaskSeries != null) currentTaskSeriesView.setActive(false);
 		seriesMode = false;
 		cont.removeAll();
 		if (currentTask != newCurrentTask) {
 			currentTask = newCurrentTask;
-			currentTaskView = new TaskView(currentTask, taskStartItem, taskStopItem);
+			currentTaskView = new TaskView(currentTask, taskStartItem, taskStopItem, backEnabled) {
+				private static final long serialVersionUID = 1L;
+				public void switchMode(TaskSeries series) {
+					setTaskSeries(series);
+				}
+				public void switchMode() {
+					setTaskSeries(currentTaskSeries);
+				}
+			};
 		}
 		currentTaskView.setActive(true);
 		cont.add(currentTaskView);
@@ -105,7 +128,12 @@ public class Init {
 		cont.removeAll();
 		if (currentTaskSeries != newCurrentSeries) {
 			currentTaskSeries = newCurrentSeries;
-			currentTaskSeriesView = new TaskSeriesView(currentTaskSeries, taskStartItem, taskStopItem);
+			currentTaskSeriesView = new TaskSeriesView(currentTaskSeries, taskStartItem, taskStopItem) {
+				private static final long serialVersionUID = 1L;
+				public void switchMode(Task task) {
+					setTask(task, true);
+				}
+			};
 		}
 		currentTaskSeriesView.setActive(true);
 		cont.add(currentTaskSeriesView);
@@ -135,7 +163,7 @@ public class Init {
 				task = makeDefaultTask();
 			else
 				task = loadLastSavedTask();
-		setTask(task);
+		setTask(task, false);
 	}
 	
 	private void seriesMode() {
@@ -170,7 +198,7 @@ public class Init {
 	}
 	
 	private void newTask() {
-		setTask(makeDefaultTask());
+		setTask(makeDefaultTask(), false);
 		cont.validate();
 	}
 	
@@ -224,7 +252,7 @@ public class Init {
 		File file = fileChooser.getSelectedFile();
 		if (file != null) {
 			try {
-				setTask(readTask(file.getAbsolutePath()));
+				setTask(readTask(file.getAbsolutePath()), false);
 			}catch (Exception e) {
 				JOptionPane.showMessageDialog(mainComponent, "Incorrect format of file");
 				e.printStackTrace();

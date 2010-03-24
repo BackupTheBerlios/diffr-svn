@@ -210,10 +210,11 @@ public class IncidentWaveSeriesView extends InputDataPartView {
 		if (i==currentWave) g.setColor(new Color(255, 0, 0));
 		int x1 = (int) (x + length * scale * Math.sin(angle));
 		int y1 = (int) (y - length * scale * Math.cos(angle));
-		int x2 = (int) (x + 10 * Math.sin(angle + 0.2));
-		int y2 = (int) (y - 10 * Math.cos(angle + 0.2));
-		int x3 = (int) (x + 10 * Math.sin(angle - 0.2));
-		int y3 = (int) (y - 10 * Math.cos(angle - 0.2));
+		double arrowLength = length/10*scale;
+		int x2 = (int) (x + arrowLength * Math.sin(angle + 0.2));
+		int y2 = (int) (y - arrowLength * Math.cos(angle + 0.2));
+		int x3 = (int) (x + arrowLength * Math.sin(angle - 0.2));
+		int y3 = (int) (y - arrowLength * Math.cos(angle - 0.2));
 		g.drawLine(x, y, x1, y1);
 		g.drawLine(x, y, x2, y2);
 		g.drawLine(x, y, x3, y3);

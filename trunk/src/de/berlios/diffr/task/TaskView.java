@@ -2,6 +2,7 @@ package de.berlios.diffr.task;
 
 import java.awt.*;
 import java.awt.event.*;
+
 import de.berlios.diffr.*;
 import de.berlios.diffr.inputData.*;
 import de.berlios.diffr.result.*;
@@ -15,6 +16,7 @@ public class TaskView extends View {
 	private Task task = null;
 	private SmallInputDataView smallInputDataView;
 	private JButton[] startButtons = new JButton[3];
+	private Box[] buttonBoxes = new Box[2];
 	private InputDataView inputDataView;
 	private AlgorithmChooser algorithmChooser;
 	private ResultView resultView;
@@ -46,15 +48,44 @@ public class TaskView extends View {
 		}
 	}
 	
-	public TaskView(Task t, JMenuItem startItem, JMenuItem stopItem) {
+	public TaskView(Task t, JMenuItem startItem, JMenuItem stopItem, boolean backEnabled) {
 		this.task = t;
 		this.startItem = startItem;
 		this.stopItem = stopItem;
-		for (int a=0;a<3;a++) startButtons[a] = new JButton();
+		for (int a=0;a<3;++a) startButtons[a] = new JButton();
+		for (int a=0;a<2;++a) {
+			buttonBoxes[a] = Box.createHorizontalBox();
+			JButton toSeries = new JButton("New task series");
+			buttonBoxes[a].add(toSeries);
+			buttonBoxes[a].setMaximumSize(new Dimension(500, 30));
+			buttonBoxes[a].add(Box.createHorizontalStrut(20));
+			if (backEnabled) {
+				JButton backToSeries = new JButton("Back");
+				buttonBoxes[a].add(backToSeries);
+				backToSeries.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						switchMode();
+					}
+				});
+				buttonBoxes[a].add(Box.createHorizontalStrut(20));
+			}
+			buttonBoxes[a].add(startButtons[a]);
+			toSeries.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					Surface surface = task.getInputData().getSurface();
+					IncidentWave wave = task.getInputData().getIncidentWave();
+					IncidentWaveSeries waveSeries =
+						new IncidentWaveSeries(wave.getPolarization(), wave.getAngle(), wave.getLength(), wave.getAmplitude());
+					SeriesInputData input = new SeriesInputData(surface, waveSeries);
+					TaskSeries series = new TaskSeries(task.getAlgorithms(), input, task.getAlgorithm());
+					switchMode(series);
+				}
+			});
+		}
 		task.addModelChangingListener(changingListener);
 		smallInputDataView = new SmallInputDataView(task.getInputData());
-		inputDataView = new InputDataView (task.getInputData(), startButtons[0]);
-		resultView = new ResultView(startButtons[1]);
+		inputDataView = new InputDataView(task.getInputData(), buttonBoxes[0]);
+		resultView = new ResultView(buttonBoxes[1]);
 		algorithmChooser = new AlgorithmChooser(task.getAlgorithms(), task.getAlgorithm(), startButtons[2]);
 		algorithmChooser.addAlgorithmChooserListener(new AlgorithmChooserListener() {
 			public void newAlgorithmWasChoosed(Algorithm algorithm) {
@@ -170,4 +201,6 @@ public class TaskView extends View {
 			break;
 		}
 	}
+	public void switchMode(TaskSeries series) {}
+	public void switchMode() {}
 }

@@ -4,6 +4,7 @@ import de.berlios.diffr.*;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.Map;
 import java.util.Set;
@@ -15,8 +16,8 @@ public class SeriesAmplitudesViewImage extends View {
 	private SeriesResult result;
 	private double mousePos = 0;
 	private int currentPoint = -1;
-	public SeriesAmplitudesViewImage(SeriesResult result) {
-		this.result = result;
+	public SeriesAmplitudesViewImage(SeriesResult res) {
+		this.result = res;
 		this.addMouseMotionListener(new MouseMotionListener() {
 			public void mouseMoved(MouseEvent e) {
 				mousePos = e.getX();
@@ -24,7 +25,16 @@ public class SeriesAmplitudesViewImage extends View {
 			}
 			public void mouseDragged(MouseEvent e) {}
 		});
-		this.setFocusable(true);
+		this.addMouseListener(new MouseListener() {
+			public void mouseReleased(MouseEvent e) {}
+			public void mousePressed(MouseEvent e) {}
+			public void mouseExited(MouseEvent e) {}
+			public void mouseEntered(MouseEvent e) {}
+			public void mouseClicked(MouseEvent e) {
+				if (currentPoint!=-1 && !result.getResult(0).getReflectedField().isOutOfDate())
+					switchToAloneTask(currentPoint);
+			}
+		});
 	}
 	public void paintComponent(Graphics g) {
 		int num = result.getPointsNumber();
@@ -37,10 +47,7 @@ public class SeriesAmplitudesViewImage extends View {
 			max = Math.max(max, result.getResult(a).getReflectedField().getIncidentWave().getAmplitude().abs());
 		
 		boolean outOfDate = result.getResult(0).getReflectedField().isOutOfDate();
-		if (outOfDate)
-			g.setColor(Color.darkGray);
-		else
-			g.setColor(Color.lightGray);
+		
 		int xb = 40;
 		int xe = width - 30;
 		int ye = 50;
@@ -56,7 +63,14 @@ public class SeriesAmplitudesViewImage extends View {
 				currentPoint = x;
 				currentPointChanged(x);
 			}
+		} else {
+			currentPoint = -1;
 		}
+		
+		if (outOfDate)
+			g.setColor(Color.darkGray);
+		else
+			g.setColor(Color.white);
 		
 		g.drawLine(xb, yb, xe, yb);
 		g.drawLine(xb, yb, xb, 0);
@@ -107,7 +121,7 @@ public class SeriesAmplitudesViewImage extends View {
 					g.setColor(Color.lightGray);
 				else
 					g.setColor(new Color(0, 100, 0));
-				g.drawLine(xb + (xe-xb)*(i-1)/(num-1), yb-y1, xb + (xe-xb)*i/(num-1), yb-y2);
+				if (Y1!=null) g.drawLine(xb + (xe-xb)*(i-1)/(num-1), yb-y1, xb + (xe-xb)*i/(num-1), yb-y2);
 				if (i==num-1) {
 					g.setColor(Color.blue);
 					g.drawString("#"+w.getNumber(), xe+5, yb-y2);
@@ -116,16 +130,17 @@ public class SeriesAmplitudesViewImage extends View {
 			for (int j : set) {
 				int y1 = map.get(j);
 				map.remove(j);
-				int y2 = 0;
+			//	int y2 = 0;
 				if (outOfDate)
 					g.setColor(Color.lightGray);
 				else
 					g.setColor(new Color(0, 100, 0));
-				g.drawLine(xb + (xe-xb)*(i-1)/(num-1), yb-y1, xb + (xe-xb)*i/(num-1), yb-y2);
+				//g.drawLine(xb + (xe-xb)*(i-1)/(num-1), yb-y1, xb + (xe-xb)*i/(num-1), yb-y2);
 				g.setColor(Color.blue);
-				g.drawString("#"+j, xb + (xe-xb)*i/(num-1), yb+10);
+				g.drawString("#"+j, xb + (xe-xb)*(i-1)/(num-1), yb-y1);
 			}
 		}
 	}
 	public void currentPointChanged(int point) {}
+	public void switchToAloneTask(int poit) {}
 }

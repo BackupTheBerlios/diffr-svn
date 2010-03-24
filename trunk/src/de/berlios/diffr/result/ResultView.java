@@ -7,10 +7,10 @@ import javax.swing.*;
 public class ResultView extends View {
 	private static final long serialVersionUID = 1L;
 	private JTabbedPane tabbedPane = null;
-	public ResultView(JButton startButton) {
+	public ResultView(Component buttons) {
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.add(Box.createVerticalStrut(10));
-		this.add(startButton);
+		this.add(buttons);
 		this.add(Box.createVerticalStrut(10));
 	}
 	public void setResult(Result newResult) {

@@ -21,10 +21,11 @@ import de.berlios.diffr.algorithms.AlgorithmChooser;
 import de.berlios.diffr.algorithms.AlgorithmChooserListener;
 import de.berlios.diffr.exceptions.TaskIsSolvingException;
 import de.berlios.diffr.exceptions.TaskIsnotSolvingException;
+import de.berlios.diffr.inputData.IncidentWave;
+import de.berlios.diffr.inputData.InputData;
 import de.berlios.diffr.inputData.SeriesInputDataView;
 import de.berlios.diffr.inputData.SmallSeriesInputDataView;
 import de.berlios.diffr.result.ReflectedFieldView;
-import de.berlios.diffr.result.SeriesResult;
 import de.berlios.diffr.result.SeriesResultView;
 
 public class TaskSeriesView extends View {
@@ -66,6 +67,7 @@ public class TaskSeriesView extends View {
 		smallInputDataView = new SmallSeriesInputDataView(series.getInputData());
 		inputDataView = new SeriesInputDataView (series.getInputData(), startButtons[0]);
 		resultView = new SeriesResultView(startButtons[1]) {
+			private static final long serialVersionUID = 1L;
 			public void currentTaskChanged(int point) {
 				smallInputDataView.setCurrentWave(point);
 				if (currentReflectedFieldView!=null)
@@ -75,6 +77,9 @@ public class TaskSeriesView extends View {
 					rightPanel.add(currentReflectedFieldView);
 					rightPanel.validate();
 				}
+			}
+			public void switchMode(int point) {
+				switchToAloneTask(point);
 			}
 		};
 		algorithmChooser = new AlgorithmChooser(series.getAlgorithms(), series.getAlgorithm(), startButtons[2]);
@@ -207,4 +212,13 @@ public class TaskSeriesView extends View {
 			break;
 		}
 	}
+	
+	private void switchToAloneTask(int point) {
+		IncidentWave wave = series.getInputData().getIncidentWaveSeries().getIncidentWave(point);
+		InputData input = new InputData(series.getInputData().getSurface(), wave);
+		Task task = new Task(series.getAlgorithms(), input, series.getAlgorithm());
+		switchMode(task);
+	}
+	
+	public void switchMode(Task task) {}
 }

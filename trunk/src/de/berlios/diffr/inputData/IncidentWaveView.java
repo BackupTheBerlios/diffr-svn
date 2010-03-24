@@ -126,10 +126,11 @@ public class IncidentWaveView extends InputDataPartView {
 		int y = height / 2;
 		int x1 = (int) (x + planeWave.getLength() * scale * Math.sin(planeWave.getAngle()));
 		int y1 = (int) (y - planeWave.getLength() * scale * Math.cos(planeWave.getAngle()));
-		int x2 = (int) (x + 10 * Math.sin(planeWave.getAngle() + 0.3));
-		int y2 = (int) (y - 10 * Math.cos(planeWave.getAngle() + 0.3));
-		int x3 = (int) (x + 10 * Math.sin(planeWave.getAngle() - 0.3));
-		int y3 = (int) (y - 10 * Math.cos(planeWave.getAngle() - 0.3));
+		double arrowLength = planeWave.getLength()/10*scale;
+		int x2 = (int) (x + arrowLength * Math.sin(planeWave.getAngle() + 0.3));
+		int y2 = (int) (y - arrowLength * Math.cos(planeWave.getAngle() + 0.3));
+		int x3 = (int) (x + arrowLength * Math.sin(planeWave.getAngle() - 0.3));
+		int y3 = (int) (y - arrowLength * Math.cos(planeWave.getAngle() - 0.3));
 		g.drawLine(x, y, x1, y1);
 		g.drawLine(x, y, x2, y2);
 		g.drawLine(x, y, x3, y3);

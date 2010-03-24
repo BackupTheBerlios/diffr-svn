@@ -23,7 +23,7 @@ public class SurfaceCurrentViewText extends View {
 	public void paintComponent(Graphics g) {
 		if (result==null) {
 			result = "";
-			result += "calculate " + current.getPointsNumber() + " points:\n";
+			result += "calculated " + current.getPointsNumber() + " points:\n";
 			for (int a = 0; a < current.getPointsNumber(); a++) {
 				Complex c = current.get(a);
 				result += "x: " + a * current.getSurfacePeriod()
