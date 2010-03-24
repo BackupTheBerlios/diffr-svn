@@ -86,7 +86,7 @@ public class TaskSeries extends Model {
 					for (int i=0; i<points; ++i) {
 						IncidentWave wave = inputData.getIncidentWaveSeries().getIncidentWave(i);
 						InputData input = new InputData(inputData.getSurface(), wave);
-						results[i] = algorithm.run(input);
+						results[i] = algorithm.run(input, false);
 					}
 					result = new SeriesResult(results);
 					state = Task.resultIsCalculateState;

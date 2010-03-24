@@ -186,6 +186,12 @@ public class IncidentWaveSeriesView extends InputDataPartView {
 			drawWave(g, scale, x, y, da, dl, points, i);
 		}
 		drawWave(g, scale, x, y, da, dl, points, 0);
+		if (currentWave>=0 && currentWave<points)
+			drawWave(g, scale, x, y, da, dl, points, currentWave);
+	}
+	private int currentWave = -1;
+	public void setCurrentWave(int point) {
+		currentWave = point;
 	}
 	private void drawWave(Graphics g, double scale, int x, int y, double da,
 			double dl, int points, int i) {
@@ -200,7 +206,8 @@ public class IncidentWaveSeriesView extends InputDataPartView {
 		if (i==0 || i==points-1)
 			g.setColor(new Color(100, 0, 0));
 		else
-			g.setColor(new Color(20, 0, 0));
+			g.setColor(new Color(50, 0, 0));
+		if (i==currentWave) g.setColor(new Color(255, 0, 0));
 		int x1 = (int) (x + length * scale * Math.sin(angle));
 		int y1 = (int) (y - length * scale * Math.cos(angle));
 		int x2 = (int) (x + 10 * Math.sin(angle + 0.2));

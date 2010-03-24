@@ -8,7 +8,7 @@ import de.berlios.diffr.inputData.surface.SurfaceView;
 public class SmallSeriesInputDataView extends View {
 	private static final long serialVersionUID = 1L;
 	private InputDataPartView surfaceView;
-	private InputDataPartView incidentWavesView;
+	private IncidentWaveSeriesView incidentWavesView;
 	public SmallSeriesInputDataView(SeriesInputData inputData) {
 		surfaceView = new SurfaceView(inputData.getSurface());
 		incidentWavesView = new IncidentWaveSeriesView(inputData.getIncidentWaveSeries());
@@ -23,6 +23,12 @@ public class SmallSeriesInputDataView extends View {
 			}
 		});
 	}
+	
+	public void setCurrentWave(int point) {
+		incidentWavesView.setCurrentWave(point);
+		repaint();
+	}
+	
 	public void paintComponent(Graphics g) {
 		g.setColor(new Color(0, 0, 0));
 		int width = g.getClipBounds().width;

@@ -6,12 +6,14 @@ import de.berlios.diffr.result.*;
 public abstract class AbstractAlgorithm
 		extends Algorithm {
 	private static final long serialVersionUID = 1L;
-
+	protected boolean surfaceCurrentNeed = false;
+	
 	public AbstractAlgorithm(AlgorithmType algorithmType) {
 		super(algorithmType);
 	}
 
-	public Result run(InputData inputData) throws Exception {
+	public Result run(InputData inputData, boolean surfaceCurrentNeed) throws Exception {
+		this.surfaceCurrentNeed = surfaceCurrentNeed;
 		DimensionData dimensionData = calculateDimensionData(inputData);
 		InputData data = inputData.nonDimensioning(dimensionData);
 		Result result = calculate(data).dimensioning(dimensionData);

@@ -27,10 +27,12 @@ public class Formula {
 		return new Formula(formula, params).result;
 	}
 	
+	private boolean error = false;
 	private Formula(String formula, Object params) {
 		this.params = params;
 		form = formula.toCharArray();
 		result = readTerm();
+		if (error) System.err.println("Error in formula: " + formula);
 	}
 
 	private Complex readTerm() {
@@ -54,10 +56,12 @@ public class Formula {
 				res = res.sub(next);
 				continue;
 			}
-			System.err.println("Error in read term :"+pos);
+			System.err.println("Error in read term :"+pos); error = true;
 		}
-		if (res.isNaN())
+		if (res.isNaN()) {
 			System.err.println("Error in read term (NaN) :"+pos);
+			error = true;
+		}
 		return res;
 	}
 	
@@ -79,10 +83,12 @@ public class Formula {
 				res = res.div(next);
 				continue;
 			}
-			System.err.println("Error in read addend :"+pos);
+			System.err.println("Error in read addend :"+pos); error = true;
 		}
-		if (res.isNaN())
+		if (res.isNaN()) {
 			System.err.println("Error in read addend (NaN) :"+pos);
+			error = true;
+		}
 		return res;
 	}
 	
@@ -91,8 +97,10 @@ public class Formula {
 		String s = nextToken();
 		if (s.equals("-")) {
 			Complex res = readMultiplier().neg();
-			if (res.isNaN())
+			if (res.isNaN()) {
 				System.err.println("Error in read multiplier (neg)");
+				error = true;
+			}
 			return res;
 		}
 		pos = p2;
@@ -101,13 +109,17 @@ public class Formula {
 		s = nextToken();
 		if (s==null || !s.equals("^")) {
 			pos = p2;
-			if (res.isNaN())
+			if (res.isNaN()) {
 				System.err.println("Error in read multiplier");
+				error = true;
+			}
 			return res;
 		}
 		res = res.pow(readSimple());
-		if (res.isNaN())
+		if (res.isNaN()) {
 			System.err.println("Error in read multiplier (pow)");
+			error = true;
+		}
 		return res;
 	}
 	
@@ -116,9 +128,14 @@ public class Formula {
 		if (s.equals("(")) {
 			Complex res = readTerm();
 			s = nextToken();
-			if (!s.equals(")")) System.err.println("Error read simple ()");
-			if (res.isNaN())
+			if (!s.equals(")")) {
+				System.err.println("Error read simple ()");
+				error = true;
+			}
+			if (res.isNaN()) {
 				System.err.println("Error in read simple (NaN)");
+				error = true;
+			}
 			return res;
 		}
 		if (s.equals("i"))
@@ -134,27 +151,38 @@ public class Formula {
 		} catch (Exception e) {}
 		String s2;
 		s2 = nextToken();
-		if (!s2.equals("(")) System.err.println("Error in read simple "+s+"(");
+		if (!s2.equals("(")) {
+			System.err.println("Error in read simple "+s+"(");
+			error = true;
+		}
 		Complex pr = readTerm();
 		s2 = nextToken();
-		if (!s2.equals(")")) System.err.println("Error in read simple )");
+		if (!s2.equals(")")) {
+			System.err.println("Error in read simple )");
+			error = true;
+		}
 		try {
 			Method method = Complex.class.getMethod(s, new Class[0]);
 			Object o = method.invoke(pr);
 			Complex res = makeComplex(o);
-			if (res.isNaN())
+			if (res.isNaN()) {
 				System.err.println("Error in read simple (NaN in method)");
+				error = true;
+			}
 			return res;
 		} catch (Exception e) {}
 		try {
 			Method method = params.getClass().getMethod(s, new Class[]{Complex.class});
 			Object o = method.invoke(params, new Object[]{pr});
 			Complex res = makeComplex(o);
-			if (res.isNaN())
+			if (res.isNaN()) {
 				System.err.println("Error in read simple (NaN in method)");
+				error = true;
+			}
 			return res;
 		} catch (Exception e) {}
 		System.err.println("Error in read simle");
+		error = true;
 		return null;
 	}
 	
@@ -164,6 +192,7 @@ public class Formula {
 		if (Number.class.isInstance(o))
 			return new Complex((Double)o);
 		System.err.println("Error");
+		error = true;
 		return null;
 	}
 	

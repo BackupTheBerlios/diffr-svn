@@ -180,37 +180,40 @@ public class SmallPerturbationAlgorithm extends AbstractAlgorithm {
 		int num = 0;
 		for (ReflectedPlaneWave w : waves) wavesArr[num++] = w;
 		
-		Complex[] points = new Complex[currentPoints];
-		for (int a=0;a<currentPoints;a++) {
-			double x = (2*Math.PI/(currentPoints-1))*a;
-			double der = Fderivative(x);
-			data.y = Fvalue(x);
-			data.ny = 1 / Math.sqrt(1+der*der);
-			data.nx = -der / Math.sqrt(1+der*der);
-			data.lam = lam0;
-			data.gam = gam0;
-			data.x = x;
-			
-			if (polarization == IncidentWave.polarizationE) {
-				points[a] = Formula.calculate("i*exp(i*lam*x+i*gam*y)*(nx*lam+ny*gam)", data);
-				for (int b=minw; b<=maxw;b++) {
-					data.lamb = getLam(b);
-					data.gamb = getGam(b);
-					data.coef = getAns(b);
-					points[a] = points[a].add(Formula.calculate("coef*i*exp(i*lamb*x-i*gamb*y)*(nx*lamb-ny*gamb)", data));
-				}
-				points[a] = points[a].mul(iwave.getAmplitude()).mul(Complex.i).div(k);
-			} else {
-				points[a] = Formula.calculate("exp(i*lam*x+i*gam*y)", data);
-				for (int b=minw; b<=maxw;b++) {
-					data.lamb = getLam(b);
-					data.gamb = getGam(b);
-					data.coef = getAns(b);
-					points[a] = points[a].add(Formula.calculate("coef*exp(i*lamb*x-i*gamb*y)", data));
+		SurfaceCurrent current = null;
+		if (surfaceCurrentNeed) {
+			Complex[] points = new Complex[currentPoints];
+			for (int a=0;a<currentPoints;a++) {
+				double x = (2*Math.PI/(currentPoints-1))*a;
+				double der = Fderivative(x);
+				data.y = Fvalue(x);
+				data.ny = 1 / Math.sqrt(1+der*der);
+				data.nx = -der / Math.sqrt(1+der*der);
+				data.lam = lam0;
+				data.gam = gam0;
+				data.x = x;
+				
+				if (polarization == IncidentWave.polarizationE) {
+					points[a] = Formula.calculate("i*exp(i*lam*x+i*gam*y)*(nx*lam+ny*gam)", data);
+					for (int b=minw; b<=maxw;b++) {
+						data.lamb = getLam(b);
+						data.gamb = getGam(b);
+						data.coef = getAns(b);
+						points[a] = points[a].add(Formula.calculate("coef*i*exp(i*lamb*x-i*gamb*y)*(nx*lamb-ny*gamb)", data));
+					}
+					points[a] = points[a].mul(iwave.getAmplitude()).mul(Complex.i).div(k);
+				} else {
+					points[a] = Formula.calculate("exp(i*lam*x+i*gam*y)", data);
+					for (int b=minw; b<=maxw;b++) {
+						data.lamb = getLam(b);
+						data.gamb = getGam(b);
+						data.coef = getAns(b);
+						points[a] = points[a].add(Formula.calculate("coef*exp(i*lamb*x-i*gamb*y)", data));
+					}
 				}
 			}
+			current = new SurfaceCurrent(points, 2*Math.PI);
 		}
-		SurfaceCurrent current = new SurfaceCurrent(points, 2*Math.PI);
 		return new Result(new ReflectedField(wavesArr, iwave), null, current);
 	}
 

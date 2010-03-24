@@ -33,5 +33,5 @@ public abstract class Algorithm extends Model {
 		}
 	}
 	
-	public abstract Result run(InputData inputData) throws Exception;
+	public abstract Result run(InputData inputData, boolean surfaceCurrentNeed) throws Exception;
 }

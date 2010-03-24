@@ -74,7 +74,7 @@ public class Task extends Model {
 				taskIsSolving = true;
 				algorithm.setEditable(false);
 				try {
-					result = algorithm.run(inputData);
+					result = algorithm.run(inputData, true);
 					state = resultIsCalculateState;
 				} catch (Exception e) {
 					e.printStackTrace();

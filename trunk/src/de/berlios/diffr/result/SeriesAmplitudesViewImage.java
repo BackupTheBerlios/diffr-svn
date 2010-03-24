@@ -3,6 +3,8 @@ package de.berlios.diffr.result;
 import de.berlios.diffr.*;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -11,9 +13,18 @@ import java.util.TreeSet;
 public class SeriesAmplitudesViewImage extends View {
 	private static final long serialVersionUID = 1L;
 	private SeriesResult result;
+	private double mousePos = 0;
+	private int currentPoint = -1;
 	public SeriesAmplitudesViewImage(SeriesResult result) {
 		this.result = result;
-		//amplitude = result.getResult(0).getReflectedField().getIncidentWave().getAmplitude().abs();
+		this.addMouseMotionListener(new MouseMotionListener() {
+			public void mouseMoved(MouseEvent e) {
+				mousePos = e.getX();
+				repaint();
+			}
+			public void mouseDragged(MouseEvent e) {}
+		});
+		this.setFocusable(true);
 	}
 	public void paintComponent(Graphics g) {
 		int num = result.getPointsNumber();
@@ -24,8 +35,6 @@ public class SeriesAmplitudesViewImage extends View {
 		double max = 0;
 		for (int a=0;a<num;a++)
 			max = Math.max(max, result.getResult(a).getReflectedField().getIncidentWave().getAmplitude().abs());
-		//double scaleX = (width - 80) / surfaceCurrent.getSurfacePeriod();
-//		g.setColor(Color.white);
 		
 		boolean outOfDate = result.getResult(0).getReflectedField().isOutOfDate();
 		if (outOfDate)
@@ -37,6 +46,17 @@ public class SeriesAmplitudesViewImage extends View {
 		int ye = 50;
 		int yb = height - 50;
 		double scale = (double)(yb-ye) / max;
+		
+		if (mousePos>=xb && mousePos<=xe) {
+			int x = (int)((mousePos-xb)*(num-1)/(xe-xb)+0.5);
+			int lx = (int)(xb+x*(xe-xb)/(num-1));
+			g.setColor(Color.gray);
+			g.drawLine(lx, yb, lx, 0);
+			if (x!=currentPoint) {
+				currentPoint = x;
+				currentPointChanged(x);
+			}
+		}
 		
 		g.drawLine(xb, yb, xe, yb);
 		g.drawLine(xb, yb, xb, 0);
@@ -107,4 +127,5 @@ public class SeriesAmplitudesViewImage extends View {
 			}
 		}
 	}
+	public void currentPointChanged(int point) {}
 }

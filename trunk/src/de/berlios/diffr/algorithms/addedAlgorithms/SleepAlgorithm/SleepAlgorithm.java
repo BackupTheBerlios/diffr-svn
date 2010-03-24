@@ -12,11 +12,10 @@ public class SleepAlgorithm extends Algorithm {
 		parameters = new DataString[1];
 		parameters[0] = new DataString("delay", new Long(5000));
 	}
-	public Result run(InputData inputData) throws Exception {
+	public Result run(InputData inputData, boolean surfaceCurrentNeed) throws Exception {
 		try {
 			Thread.sleep(( (Long) parameters[0].getValue()).longValue());
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return new Result(null, null, null);
